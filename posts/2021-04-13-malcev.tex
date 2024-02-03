@@ -1,0 +1,77 @@
+---
+title: Malcev Operations
+summary: On equating equivalent objects.
+header-img: /images/algebraheader3.png
+header-img-alt: An illustration of a group and a lattice, showing that only the former obeys the Malcev property.
+tags: math, universal algebra
+---
+
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+Previously: \href{/posts/2021-04-02-congruences.html}{Algebras}
+
+A natural question to ask about any abstract mathematical structure: "is there an interesting way to combine instances of this structure?" Composition is an interesting way to combine congruences on an algebra.
+
+Let $R, S$ be congruences on the algebra $(X, F)$. We compose congruences following the general rule for composing relations: \textbf{for all $x, y, \in X$, $(S \circ R)(x, y)$ iff for some $t \in X$, $R(x, t)$ and $S(t, y)$.}
+
+\begin{figure}
+\includegraphics{/images/export-16.webp}
+\caption{Composing congruences on a lattice $(\{1, a, b, 0\}, \land, \lor)$}
+\end{figure}
+
+\begin{figure}
+\includegraphics{/images/export-15-1.webp}
+\caption{Composing congruences on the group $(\mathbb{Z}, +, 0, -)$, where "2n" means 2 + ... + 2 with 2 repeated n times, and "3m" means 3 + ... + 3 with 3 repeated m times.}
+\end{figure}
+
+Is the composition of two congruences always a congruence? For groups and rings, the answer is yes. Recall that congruences on a groups correspond to normal subgroups, so that $[1]_R = N$, $[1]_S = M$.
+
+$[1]_{S \circ R} =$
+$\{g | S \circ R (1, g)\} =$
+$\{g | \exists h \text{ such that } R(1, h) \text{ and } S(h, g)\} =$
+$\{g | \exists h \text{ such that } h \in N \text{ and } S(h, g)\} =$
+$\{g | \exists h, j \text{ such that } h \in N, j \in M \text{ and } j \ast h = g\} = MN$
+
+\href{https://math.stackexchange.com/questions/991008/showing-the-product-of-two-normal-subgroups-is-normal}{The product of two normal groups is a normal group}, so $MN$ corresponds to a congruence. The proof that composition of congruences on rings corresponds to the product of ideals follows by analogous logic.
+
+The composition of two congruences on a lattice is not always a congruence:
+
+\begin{figure}
+  \includegraphics{/images/export-17.webp}
+  \caption{The composition of $S$ and $R$ is not a congruence relation because it isn't symmetric.}
+  \end{figure}
+
+In fact, \textbf{the composition of congruences is a congruence if and only if the congruences commute.}
+
+First assume that congruences commute: for any congruences $R$, $S$, on  the algebra $(X, F)$, $R \circ S = S \circ R$. Then:
+
+\begin{itemize}
+\item{$R \circ S$ is reflexive: since $R$ and $S$ are congruences, they are reflexive: $\forall x \in X$, $S(x, x)$ and $R(x, x)$. Thus $R \circ S (x, x)$.}
+\item{$R \circ S$ is symmetric: Suppose that we have $R \circ S (x, y)$. This means that for some $t \in X$, $S(x, t)$ and $R(t, y)$. Since $R$ and $S$ are congruences, they are symmetric, and so $S(t, x)$ and $R(y, t)$. Therefore  $S \circ R (x, y)$, and by our assumption that $S \circ R = R \circ S$, $R \circ S (x, y)$.}
+\item{$R \circ S$ is transitive: Suppose that we have $R \circ S (x, y)$ and $R \circ S (y, z)$. Then there exist $t, u \in X$ such that $S(x, t), R(t, y), S(y, u), R(u, z)$. From this we can conclude that $S \circ R (t, u)$, and by our assumption that $S \circ R = R \circ S$, $R \circ S(t, u)$. This in turn implies that there exists $v \in X$ such that $S(t, v), R(v, u)$. Since $S, R$ are congruences and thus transitive, $S(x, v)$ and $R(v, z)$, so $R \circ S(x, z)$.}
+\item{$R \circ S$ preserves operations: Suppose that $R \circ S(x_0, y_0) \dots R \circ S(x_n, y_n)$. Then there exists some $t_0 \dots t_n \in X$ such that $S(x_0, t_0) \dots S(x_n, t_n)$ and $R(t_0, y_0) \dots  S(t_n, y_n)$. Since congruences preserve operations, for any $f \in F$, $S(f(x_0 \dots y_n), f(t_0 \dots t_n))$ and $R(f(t_0 \dots t_n), f(y_0 \dots y_n))$. Thus $R \circ S(f(x_0 \dots x_n), f(y_0 \dots y_n))$.}
+\end{itemize}
+
+Since congruences are reflexive, symmetric, transitive relations that preserve operations, this proves one direction of the proposition. To prove the other direction, begin with the assumption that the composition of congruences is a congruence. Consider the set $\{(x, y) | \text{ such that } R \circ S(x, y)\}$. By the definition of congruence composition, this is equal to the set $\{(x, y) | \text{ such that } \exists t \text{ such that } S(x, t), R(t, x)\}$. Since $R$ and $S$ are congruences, they are symmetric relations, and thus this set is equivalent to $\{(x, y) | \text{ such that } \exists t \text{ such that } R(x, t), S(t, x)\}$, which by definition of congruence equivalence is the set $\{(x, y) | \text{ such that } S \circ R(x, y)\}$.
+
+Interestingly enough, \textbf{congruences on an algebra $(X, F)$ are commutative if the algebra contains an operation $f \in F$ such that $\forall x, y \in X, f(x, x, y) = y, f(x, y, y) = x$.} Such an operation is called a \textbf{Malcev operation}. The group operation $f(x, y, z) = x * y^{-1} * z$ is a Malcev operation for groups and rings. Lattices in general have no such operation, though specific varieties of lattice may.
+
+When I first learned about Malcev operations, I was surprised that the existence of a single type of operation was enough to make or break congruence commutativity. But the requirement that congruences preserve operations means that operations can place heavy restrictions on which kinds of congruences a structure allows.
+
+\href{http://www.math.uwaterloo.ca/~snburris/htdocs/UALG/univ-algebra2012.pdf}{Burris and Sankappanavar's textbook} gives a proof that requires building up more terminology than I'd want to include in a blogpost. For the first time in my life, \href{https://ncatlab.org/nlab/show/Malcev+variety}{I found a more legible proof on nLab}, which also proves some interesting intermediate results. Here it is, rephrased in simpler terms:
+
+\textbf{Proposition: All congruences on $(X, F)$ commute if $F$ contains a Malcev operation.}
+
+(A more general version of the converse proposition also holds, but I won't get further into it in this post.)
+
+\textbf{Lemma 1: Given an algebra $(X, F)$, if there exists a Malcev operation $f \in F$, then any reflexive relation $R$ on $X$ that preserves operations is a congruence.}
+
+Since congruences are reflexive, transitive, symmetric operations that preserve operations, we just need to show that R is transitive and symmetric. R is transitive because if we have $R(x, y)$ and $R(y, z)$, the fact that $R$ is reflexive gives us $R(x, y) \land R(y, y) \land R(y, z)$, and then the fact that $R$ preserves operations gives us $R(f(x, y, y), f(y, y, z)) = R(x, z)$. $R$ is symmetric because if we have $R(x, y)$, the reflexivity of $R$ gives us $R(x, x) \land R(x, y) \land R(y, y)$, and then the fact that $R$ preserves operations gives us $R(f(x, x, y), f(x, y, y)) = R(y, x)$.
+
+\textbf{Lemma 2: If every reflexive relation $R$ on $X$ that preserves operations is a congruence, then the composition of any two congruences is a congruence.}
+
+The composition of two reflexive relations that preserve operations is a reflexive relation that preserves operations, and by hypothesis reflexive relations that preserve operations are congruences.
+
+We've already established that the composition of congruences is a congruence if and only if the congruences commute, so these two lemmas show that the existence of a Malcev operation implies that congruences on $(X, F)$ commute.
+\end{document}

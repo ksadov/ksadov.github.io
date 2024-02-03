@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - How do NFTs work, really?</title>
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>How do NFTs work, really?</h1>
+        <article>
+    <section class="header post-header">
+        
+        <img src="../images/nftcat-1.png" alt="A drawing of a laptop with a screen displaying a cat painting the Mona Lisa" />
+        
+        Published on March 12, 2021
+        
+    </section>
+    <section class="post-body">
+        <p>Opinions on the NFT art market abound, but accessible explanations of the technical details are hard to find. You can try to decide how you feel about NFTs without understanding how NFTs, blockchains and cryptocurrency networks work, but how can you be sure that you’re assessing the subject based on its own merits instead of propaganda by NFT art platforms or the whims of your social circle?</p>
+<h2 id="what-is-an-nft">What is an NFT?</h2>
+<p>In short: “NFT” stands for “non-fungible token”. Here, “token” is a unique identification code assigned to a piece of metadata (the artwork itself, which can be any digital file) and stored on a blockchain. “Fungible” tokens like Bitcoin, Ethereum or USD are identical to each to each other; you can exchange one dollar for another without getting any richer. But the value of a single “non-fungible” token depends on its metadata; an NFT of a work by a popular artist will be in higher demand than an NFT of a work by an unknown artist and can fetch a correspondingly higher price on the market.</p>
+<p>Did you notice the phrase “stored on a blockchain” in the previous paragraph? You’ll see it in most explanations of NFTs, but what does it actually mean?</p>
+<p>A blockchain is a data structure for storing information about digital transactions. It was designed to solve digital currency’s “double-spend problem”: if someone sends you some digital coin, but also sends it to someone else, who actually owns the coin? When you transfer dollars digitally via Paypal or Venmo, the payment processor keeps track of transactions to prevent this kind of tomfoolery. This requires you to reveal information unrelated to the transaction to the payment processor like, for government regulatory reasons, your legal identity. You could switch to some dubiously legit payment processor that doesn’t ask for your legal identity, but then how do you know that they’re keeping accurate records?</p>
+<figure>
+<img src="../images/img_2134-2.png" alt="A traditional digital payment processor" />
+<figcaption aria-hidden="true">A traditional digital payment processor</figcaption>
+</figure>
+<p>Blockchains networks solve this problem by making transactions public. When person X wants to send Y a transaction on the network, they broadcast the information to servers (“nodes”) on the network that consolidate transactions into timestamped “blocks” that also include links to previous transaction-packed blocks. The nodes then broadcast these blocks on the network, creating a “block” “chain”. If anyone doubts the authenticity of the transaction, they can trace the history of transactions on the network as far back as they want, all the way to the root node.</p>
+<figure>
+<img src="../images/img_2134-3.png" alt="Transactions on a blockchain are verified by consensus" />
+<figcaption aria-hidden="true">Transactions on a blockchain are verified by consensus</figcaption>
+</figure>
+<p>How does cryptocurrency tie into blockchain? You need some way to incentivize people to run servers confirming transactions on the network. So when a block is accepted onto the blockchain, the node that “mined” that block gets a fungible digital token as a reward, which can be exchanged on the network, or traded for some other currency on an external market.</p>
+<h2 id="how-are-nfts-related-to-art">How are NFTs related to art?</h2>
+<figure>
+<img src="../images/img_2134-4-1.png" alt="An illustration of a cat selling a dog the Mona Lisa" />
+<figcaption aria-hidden="true">An illustration of a cat selling a dog the Mona Lisa</figcaption>
+</figure>
+<p>Digital art faces a problem similar to double-spend. How do you meaningfully “own” a digital file when anyone can store an identical copy of the file on their machine? The artist can tell you “ok, this file and all associated rights are yours”, but how do you check that they haven’t said the same thing to someone else? In practice, we go on good faith, involving the broader legal system via contracts and intellectual property laws when necessary. Putting the transaction on a public blockchain offers a decentralized solution. The popular NFT market SuperRare suggests some additional <a href="https://superrare.co/about">benefits</a> to using a public blockchain, like allowing digital artists to take a royalty cut of resales, and encouraging the purchase of digital art by giving the act social media clout.</p>
+<h2 id="environmental-impact">Environmental Impact</h2>
+<p>The most common objection to NFTs is that they rely on cryptocurrency networks backed by <a href="https://digiconomist.net/ethereum-energy-consumption/">incredibly energy-intensive mining</a>. But why is cryptocurrency mining so energy-intensive? And how do we measure the individual impact of NFT-related transactions?</p>
+<p>Most NFT-related transactions take place on the Ethereum network, which uses a proof-of-work protocol. To understand proof-of-work, you’ll need to understand how the blockchain maintains a consistent history of transactions.</p>
+<p>Remember how nodes broadcast transaction information to the network? What happens if nodes disagree on which transactions actually occurred?</p>
+<p>The network arrives at consensus as follows: other nodes only accept a block if the transactions aren’t already spent, and choose to incorporate the longest chain of blocks into the next block. The purpose of the first rule is clear: you shouldn’t allow transactions that the sender can’t actually afford. But why do we care about incorporating the longest chain of blocks? Because the longest chain of blocks is the block that requires the most computational effort to create.</p>
+<figure>
+<img src="../images/img_2134-5.png" alt="Nodes choose to incorporate the longest chain of blocks into the next block. Note that the longest chain doesn’t necessarily contain more transactions than shorter chains." />
+<figcaption aria-hidden="true">Nodes choose to incorporate the longest chain of blocks into the next block. Note that the longest chain doesn’t necessarily contain more transactions than shorter chains.</figcaption>
+</figure>
+<p>Popular descriptions of cryptocurrency mining describe miners as <a href="https://twitter.com/wolfejosh/status/1030292330513924097">“producing solved Sudokus”</a> and “tying crytpocurrency value to electricity consumed”, by which they mean that a node has to do some amount of computational work before the network will accept their block. Why require this extra computational work? Because it makes consensus harder to spoof. When miners on the network work honestly, incorporating transactions into blocks as they are broadcast, the cost of building a long chain of blocks is dispersed among all miners on the network. If some malevolent party were to start broadcasting contradictory transaction histories from their nodes, they would have to take all the cost of building a long chain of blocks on to themselves, all while the rest of the network continues to work against them by extending the chain of legitimate transactions.</p>
+<p>Doing this computationally costly work takes energy, but according to the <a href="https://cbeci.org/faq/">Cambridge Bitcoin Electricity Consumption Index</a>, energy consumed doesn’t scale with the number of transactions on the network. I’ve only seen <a href="https://everestpipkin.medium.com/but-the-environmental-issues-with-cryptoart-1128ef72e6a3">one NFT-critical source address this point</a> . Pipkin counters by asserting that NFT-related hype drives the value of Ethereum up, so individual artists who choose to participate in the market are still culpable for emissions. Assuming that the value of Ethereum responds to rational incentives is questionable, but I get the logic here.</p>
+<p>Defenders of NFTs point to <a href="https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/">Ethereum’s coming adoption of the far less energy-intensive proof of stake protocol</a> as evidence that NFTs don’t have to take such a toll on the environment. Pipkin is skeptical that such a change in protocol will actually come to pass. But there are existing blockchain networks that use proof of stake: i. e, <a href="https://tezos.gitlab.io/008/proof_of_stake.html">Tezos</a>. Why hasn’t someone built an energy-efficient digital art NFT app on of those? I have no clue. Maybe someone should get on that.</p>
+<h2 id="what-else">What else?</h2>
+<p>Environmental costs aren’t the only objections raised against NFTs.</p>
+<p>Artists and puchasers inexperienced with cryptocurrency transactions frequently get burned on the volatile market value of cryptocurrency; how do you price your wares when you’re not sure what the dollar value of Ether will be when you decide to cash out?</p>
+<p>Transactions on the Ethereum network also come with a <a href="https://ethereum.org/en/developers/docs/gas/">“gas price”</a>; the sender pays adds some Ethereum as a fee to the miner of the transaction in order to ensure that their transaction is quickly incorporated into the network. The cost of gas frequently blindsides new Ethereum users.</p>
+<p>Additionally, this system nominally created to protect ownership of digital art remains vulnerable to fraud. <a href="https://twitter.com/adamferriss/status/1365708113140047873">Artwork gets minted and sold without the artist’s consent</a>. People seem particularly offended by <a href="https://twitter.com/arvalis/status/1369230566843813891">a bot that tokenizes tweets</a>, but Twitter is a shit website that degrades the quality of public discourse so any action that dicencentivizes tweeting is morally correct.</p>
+<h2 id="summary">Summary</h2>
+<p>Don’t participate in the NFT market unless you’re comfortable with the market volatility of cryptocurrency and understand the fees involved in performing transactions. If you care about artists being compensated for their labor, refrain from participating in an NFT market or use a platform that takes cases of fraudulently minted art seriously. If you care about minimizing electricity burned and expect that your participation in an NFT market will raise the value of cryptocurrency, refrain from participating in an NFT market or use an NFT market based on a crypto network that doesn’t use proof-of-work for confirming transactions, like Tezos or post-proof-of-stake-u</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

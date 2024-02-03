@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - Malcev Operations</title>
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Malcev Operations</h1>
+        <article>
+    <section class="header post-header">
+        
+        <img src="../images/algebraheader3.png" alt="An illustration of a group and a lattice, showing that only the former obeys the Malcev property." />
+        
+        Published on April 13, 2021
+        
+    </section>
+    <section class="post-body">
+        <p>Previously: <a href="../posts/2021-04-02-congruences.html">Algebras</a></p>
+<p>A natural question to ask about any abstract mathematical structure: "is there an interesting way to combine instances of this structure?" Composition is an interesting way to combine congruences on an algebra.</p>
+<p>Let <span class="math inline"><em>R</em>, <em>S</em></span> be congruences on the algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span>. We compose congruences following the general rule for composing relations: <strong>for all <span class="math inline"><em>x</em>, <em>y</em>,  ∈ <em>X</em></span>, <span class="math inline">(<em>S</em>∘<em>R</em>)(<em>x</em>,<em>y</em>)</span> iff for some <span class="math inline"><em>t</em> ∈ <em>X</em></span>, <span class="math inline"><em>R</em>(<em>x</em>,<em>t</em>)</span> and <span class="math inline"><em>S</em>(<em>t</em>,<em>y</em>)</span>.</strong></p>
+<figure>
+<img src="../images/export-16.webp" />
+<figcaption>Composing congruences on a lattice <span class="math inline">({1,<em>a</em>,<em>b</em>,0},∧,∨)</span></figcaption>
+</figure>
+<figure>
+<img src="../images/export-15-1.webp" />
+<figcaption>Composing congruences on the group <span class="math inline">(ℤ,+,0,−)</span>, where "2n" means 2 + ... + 2 with 2 repeated n times, and "3m" means 3 + ... + 3 with 3 repeated m times.</figcaption>
+</figure>
+<p>Is the composition of two congruences always a congruence? For groups and rings, the answer is yes. Recall that congruences on a groups correspond to normal subgroups, so that <span class="math inline">[1]<sub><em>R</em></sub> = <em>N</em></span>, <span class="math inline">[1]<sub><em>S</em></sub> = <em>M</em></span>.</p>
+<p><span class="math inline">[1]<sub><em>S</em> ∘ <em>R</em></sub>=</span>
+<span class="math inline">{<em>g</em>|<em>S</em> ∘ <em>R</em>(1,<em>g</em>)}=</span>
+<span class="math inline">{<em>g</em>|∃<em>h</em> such that <em>R</em>(1,<em>h</em>) and <em>S</em>(<em>h</em>,<em>g</em>)}=</span>
+<span class="math inline">{<em>g</em>|∃<em>h</em> such that <em>h</em> ∈ <em>N</em> and <em>S</em>(<em>h</em>,<em>g</em>)}=</span>
+<span class="math inline">{<em>g</em>|∃<em>h</em>, <em>j</em> such that <em>h</em> ∈ <em>N</em>, <em>j</em> ∈ <em>M</em> and <em>j</em> * <em>h</em> = <em>g</em>} = <em>M</em><em>N</em></span></p>
+<p><a href="https://math.stackexchange.com/questions/991008/showing-the-product-of-two-normal-subgroups-is-normal">The product of two normal groups is a normal group</a>, so <span class="math inline"><em>M</em><em>N</em></span> corresponds to a congruence. The proof that composition of congruences on rings corresponds to the product of ideals follows by analogous logic.</p>
+<p>The composition of two congruences on a lattice is not always a congruence:</p>
+<figure>
+<img src="../images/export-17.webp" />
+<figcaption>The composition of <span class="math inline"><em>S</em></span> and <span class="math inline"><em>R</em></span> is not a congruence relation because it isn’t symmetric.</figcaption>
+</figure>
+<p>In fact, <strong>the composition of congruences is a congruence if and only if the congruences commute.</strong></p>
+<p>First assume that congruences commute: for any congruences <span class="math inline"><em>R</em></span>, <span class="math inline"><em>S</em></span>, on the algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span>, <span class="math inline"><em>R</em> ∘ <em>S</em> = <em>S</em> ∘ <em>R</em></span>. Then:</p>
+<ul>
+<li><p><span><span class="math inline"><em>R</em> ∘ <em>S</em></span> is reflexive: since <span class="math inline"><em>R</em></span> and <span class="math inline"><em>S</em></span> are congruences, they are reflexive: <span class="math inline">∀<em>x</em> ∈ <em>X</em></span>, <span class="math inline"><em>S</em>(<em>x</em>,<em>x</em>)</span> and <span class="math inline"><em>R</em>(<em>x</em>,<em>x</em>)</span>. Thus <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em>,<em>x</em>)</span>.</span></p></li>
+<li><p><span><span class="math inline"><em>R</em> ∘ <em>S</em></span> is symmetric: Suppose that we have <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em>,<em>y</em>)</span>. This means that for some <span class="math inline"><em>t</em> ∈ <em>X</em></span>, <span class="math inline"><em>S</em>(<em>x</em>,<em>t</em>)</span> and <span class="math inline"><em>R</em>(<em>t</em>,<em>y</em>)</span>. Since <span class="math inline"><em>R</em></span> and <span class="math inline"><em>S</em></span> are congruences, they are symmetric, and so <span class="math inline"><em>S</em>(<em>t</em>,<em>x</em>)</span> and <span class="math inline"><em>R</em>(<em>y</em>,<em>t</em>)</span>. Therefore <span class="math inline"><em>S</em> ∘ <em>R</em>(<em>x</em>,<em>y</em>)</span>, and by our assumption that <span class="math inline"><em>S</em> ∘ <em>R</em> = <em>R</em> ∘ <em>S</em></span>, <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em>,<em>y</em>)</span>.</span></p></li>
+<li><p><span><span class="math inline"><em>R</em> ∘ <em>S</em></span> is transitive: Suppose that we have <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em>,<em>y</em>)</span> and <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>y</em>,<em>z</em>)</span>. Then there exist <span class="math inline"><em>t</em>, <em>u</em> ∈ <em>X</em></span> such that <span class="math inline"><em>S</em>(<em>x</em>,<em>t</em>), <em>R</em>(<em>t</em>,<em>y</em>), <em>S</em>(<em>y</em>,<em>u</em>), <em>R</em>(<em>u</em>,<em>z</em>)</span>. From this we can conclude that <span class="math inline"><em>S</em> ∘ <em>R</em>(<em>t</em>,<em>u</em>)</span>, and by our assumption that <span class="math inline"><em>S</em> ∘ <em>R</em> = <em>R</em> ∘ <em>S</em></span>, <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>t</em>,<em>u</em>)</span>. This in turn implies that there exists <span class="math inline"><em>v</em> ∈ <em>X</em></span> such that <span class="math inline"><em>S</em>(<em>t</em>,<em>v</em>), <em>R</em>(<em>v</em>,<em>u</em>)</span>. Since <span class="math inline"><em>S</em>, <em>R</em></span> are congruences and thus transitive, <span class="math inline"><em>S</em>(<em>x</em>,<em>v</em>)</span> and <span class="math inline"><em>R</em>(<em>v</em>,<em>z</em>)</span>, so <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em>,<em>z</em>)</span>.</span></p></li>
+<li><p><span><span class="math inline"><em>R</em> ∘ <em>S</em></span> preserves operations: Suppose that <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>x</em><sub>0</sub>,<em>y</em><sub>0</sub>)…<em>R</em> ∘ <em>S</em>(<em>x</em><sub><em>n</em></sub>,<em>y</em><sub><em>n</em></sub>)</span>. Then there exists some <span class="math inline"><em>t</em><sub>0</sub>…<em>t</em><sub><em>n</em></sub> ∈ <em>X</em></span> such that <span class="math inline"><em>S</em>(<em>x</em><sub>0</sub>,<em>t</em><sub>0</sub>)…<em>S</em>(<em>x</em><sub><em>n</em></sub>,<em>t</em><sub><em>n</em></sub>)</span> and <span class="math inline"><em>R</em>(<em>t</em><sub>0</sub>,<em>y</em><sub>0</sub>)…<em>S</em>(<em>t</em><sub><em>n</em></sub>,<em>y</em><sub><em>n</em></sub>)</span>. Since congruences preserve operations, for any <span class="math inline"><em>f</em> ∈ <em>F</em></span>, <span class="math inline"><em>S</em>(<em>f</em>(<em>x</em><sub>0</sub>…<em>y</em><sub><em>n</em></sub>),<em>f</em>(<em>t</em><sub>0</sub>…<em>t</em><sub><em>n</em></sub>))</span> and <span class="math inline"><em>R</em>(<em>f</em>(<em>t</em><sub>0</sub>…<em>t</em><sub><em>n</em></sub>),<em>f</em>(<em>y</em><sub>0</sub>…<em>y</em><sub><em>n</em></sub>))</span>. Thus <span class="math inline"><em>R</em> ∘ <em>S</em>(<em>f</em>(<em>x</em><sub>0</sub>…<em>x</em><sub><em>n</em></sub>),<em>f</em>(<em>y</em><sub>0</sub>…<em>y</em><sub><em>n</em></sub>))</span>.</span></p></li>
+</ul>
+<p>Since congruences are reflexive, symmetric, transitive relations that preserve operations, this proves one direction of the proposition. To prove the other direction, begin with the assumption that the composition of congruences is a congruence. Consider the set <span class="math inline">{(<em>x</em>,<em>y</em>)| such that <em>R</em> ∘ <em>S</em>(<em>x</em>,<em>y</em>)}</span>. By the definition of congruence composition, this is equal to the set <span class="math inline">{(<em>x</em>,<em>y</em>)| such that ∃<em>t</em> such that <em>S</em>(<em>x</em>,<em>t</em>), <em>R</em>(<em>t</em>,<em>x</em>)}</span>. Since <span class="math inline"><em>R</em></span> and <span class="math inline"><em>S</em></span> are congruences, they are symmetric relations, and thus this set is equivalent to <span class="math inline">{(<em>x</em>,<em>y</em>)| such that ∃<em>t</em> such that <em>R</em>(<em>x</em>,<em>t</em>), <em>S</em>(<em>t</em>,<em>x</em>)}</span>, which by definition of congruence equivalence is the set <span class="math inline">{(<em>x</em>,<em>y</em>)| such that <em>S</em> ∘ <em>R</em>(<em>x</em>,<em>y</em>)}</span>.</p>
+<p>Interestingly enough, <strong>congruences on an algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span> are commutative if the algebra contains an operation <span class="math inline"><em>f</em> ∈ <em>F</em></span> such that <span class="math inline">∀<em>x</em>, <em>y</em> ∈ <em>X</em>, <em>f</em>(<em>x</em>,<em>x</em>,<em>y</em>) = <em>y</em>, <em>f</em>(<em>x</em>,<em>y</em>,<em>y</em>) = <em>x</em></span>.</strong> Such an operation is called a <strong>Malcev operation</strong>. The group operation <span class="math inline"><em>f</em>(<em>x</em>,<em>y</em>,<em>z</em>) = <em>x</em> * <em>y</em><sup>−1</sup> * <em>z</em></span> is a Malcev operation for groups and rings. Lattices in general have no such operation, though specific varieties of lattice may.</p>
+<p>When I first learned about Malcev operations, I was surprised that the existence of a single type of operation was enough to make or break congruence commutativity. But the requirement that congruences preserve operations means that operations can place heavy restrictions on which kinds of congruences a structure allows.</p>
+<p><a href="http://www.math.uwaterloo.ca/~snburris/htdocs/UALG/univ-algebra2012.pdf">Burris and Sankappanavar’s textbook</a> gives a proof that requires building up more terminology than I’d want to include in a blogpost. For the first time in my life, <a href="https://ncatlab.org/nlab/show/Malcev+variety">I found a more legible proof on nLab</a>, which also proves some interesting intermediate results. Here it is, rephrased in simpler terms:</p>
+<p><strong>Proposition: All congruences on <span class="math inline">(<em>X</em>,<em>F</em>)</span> commute if <span class="math inline"><em>F</em></span> contains a Malcev operation.</strong></p>
+<p>(A more general version of the converse proposition also holds, but I won’t get further into it in this post.)</p>
+<p><strong>Lemma 1: Given an algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span>, if there exists a Malcev operation <span class="math inline"><em>f</em> ∈ <em>F</em></span>, then any reflexive relation <span class="math inline"><em>R</em></span> on <span class="math inline"><em>X</em></span> that preserves operations is a congruence.</strong></p>
+<p>Since congruences are reflexive, transitive, symmetric operations that preserve operations, we just need to show that R is transitive and symmetric. R is transitive because if we have <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>)</span> and <span class="math inline"><em>R</em>(<em>y</em>,<em>z</em>)</span>, the fact that <span class="math inline"><em>R</em></span> is reflexive gives us <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>) ∧ <em>R</em>(<em>y</em>,<em>y</em>) ∧ <em>R</em>(<em>y</em>,<em>z</em>)</span>, and then the fact that <span class="math inline"><em>R</em></span> preserves operations gives us <span class="math inline"><em>R</em>(<em>f</em>(<em>x</em>,<em>y</em>,<em>y</em>),<em>f</em>(<em>y</em>,<em>y</em>,<em>z</em>)) = <em>R</em>(<em>x</em>,<em>z</em>)</span>. <span class="math inline"><em>R</em></span> is symmetric because if we have <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>)</span>, the reflexivity of <span class="math inline"><em>R</em></span> gives us <span class="math inline"><em>R</em>(<em>x</em>,<em>x</em>) ∧ <em>R</em>(<em>x</em>,<em>y</em>) ∧ <em>R</em>(<em>y</em>,<em>y</em>)</span>, and then the fact that <span class="math inline"><em>R</em></span> preserves operations gives us <span class="math inline"><em>R</em>(<em>f</em>(<em>x</em>,<em>x</em>,<em>y</em>),<em>f</em>(<em>x</em>,<em>y</em>,<em>y</em>)) = <em>R</em>(<em>y</em>,<em>x</em>)</span>.</p>
+<p><strong>Lemma 2: If every reflexive relation <span class="math inline"><em>R</em></span> on <span class="math inline"><em>X</em></span> that preserves operations is a congruence, then the composition of any two congruences is a congruence.</strong></p>
+<p>The composition of two reflexive relations that preserve operations is a reflexive relation that preserves operations, and by hypothesis reflexive relations that preserve operations are congruences.</p>
+<p>We’ve already established that the composition of congruences is a congruence if and only if the congruences commute, so these two lemmas show that the existence of a Malcev operation implies that congruences on <span class="math inline">(<em>X</em>,<em>F</em>)</span> commute.</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

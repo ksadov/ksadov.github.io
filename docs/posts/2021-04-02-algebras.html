@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - Algebras</title>
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Algebras</h1>
+        <article>
+    <section class="header post-header">
+        
+        <img src="../images/algebraheader.png" alt="An illustration of various types of algebras as fantastic creatures" />
+        
+        Published on April  2, 2021
+        
+    </section>
+    <section class="post-body">
+        <p><strong>An algebraic structure (also called "an algebra") consists of a set and a collection of finitary operations on that set, closed under composition, that satisfy certain identities.</strong> This is an abstract definition, so the following sections of this blog post are dedicated to concrete examples.</p>
+<p>But first– why bother with such an abstract idea at all? An algebra boils down to "a bunch of stuff, plus ways to manipulate that stuff according to a formal system of rules." Computer scientists study algebras because computers operate on "a bunch of stuff" (digital data) according to a formal system of rules, so algebras are useful for designing and modeling aspects of computation. Philosophers study algebras because "a bunch of stuff" (complicated concepts like "truth" and "logical ideas") can be disambiguated and related to each other via formal systems of rules, so algebras are useful for clarifying and suggesting novel discourse about philosophical concepts.</p>
+<p>Computer scientists and philosophers additionally benefit from two important aspects of an algebraic structure’s collection of operations: that the operations are <strong>finitary</strong>, and that the collection is <strong>closed under composition</strong>. "Finitary" means that the operations take a finite number of arguments. "Closed under composition" means that the collection contains every operation defined by feeding the outputs of some operations into the inputs of some other operation. Finite things are easier to reason about than infinite things, but making finitary operations composable allows you to build complex structures out of simple finite primitives. So computer scientists and philosophers can create models that are simple to define, but complex enough to have interesting implications.</p>
+<p>Mathematicians are also interested in algebraic structures. Specific varieties of algebras are central to the fields of see <a href="https://mathworld.wolfram.com/GroupTheory.html">group theory</a>, see <a href="https://mathworld.wolfram.com/Logic.html">mathematical logic</a>, and <a href="https://mathworld.wolfram.com/NumberTheory.html">number theory</a>. The field of mathematics concerned with algebras irrespective of variety is called universal algebra. Universal algebra is useful because it unifies results from more specific fields of mathematics and suggests general results which could be applied to problems in more specific fields. But I like universal algebra for the same reason that I like zoology. There’s something strikingly lifelike about a simple structure giving rise to to complex behavior, like a sequence composed of only 4 types of nucleotides encoding an entire creature.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="lattices">Lattices</h3>
+<p><img src="../images/algebralattice-edited.png" alt="image" /></p>
+<p>Algebras are often given in terms of a signature: a list of symbols that characterize the algebraic structure. In the case of lattices, a signature is <span class="math inline">(<em>X</em>,∧,∨)</span>, where <span class="math inline"><em>X</em></span> is the set of elements of the algebra, and <span class="math inline">∧</span> and <span class="math inline">∨</span> are commutative and associative operations. <span class="math inline">∧</span> and <span class="math inline">∨</span> aren’t the only operations on a lattice, since the collection of operations is closed under composition, but they characterize the structure in the sense than any lattice operation can be written in terms of <span class="math inline">∧</span> and <span class="math inline">∨</span>. For all <span class="math inline"><em>a</em></span>, <span class="math inline"><em>b</em></span> in <span class="math inline"><em>X</em></span>, the following identities hold:</p>
+<ul>
+<li><p><span>L1: <span class="math inline"><em>a</em> ∨ (<em>a</em>∧<em>b</em>) = <em>a</em></span></span></p></li>
+<li><p><span>L2: <span class="math inline"><em>a</em> ∧ (<em>a</em>∨<em>b</em>) = <em>a</em></span></span></p></li>
+</ul>
+<p>But what do <span class="math inline">∧</span> and <span class="math inline">∨</span> mean? That depends on the specific lattice at hand. Consider the case where <span class="math inline"><em>X</em></span> is the set of natural numbers that divide 12: <span class="math inline">{1, 2, 3, 4, 6, 12}</span>. Then define "<span class="math inline"><em>a</em> ∧ <em>b</em></span>" to equal "the largest number in the set that divides both <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span>" and "<span class="math inline"><em>a</em> ∨ <em>b</em></span>" to mean "the smallest number in the set that is a multiple of both <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span>", so that <span class="math inline">3 ∧ 6 = 3</span> and <span class="math inline">4 ∨ 6 = 12</span>.</p>
+<figure>
+<img src="../images/export-4-3.webp" />
+<figcaption>The results of applying <span class="math inline">∧</span> and <span class="math inline">∨</span> to all possible combinations of operands.</figcaption>
+</figure>
+<p>Now take the same set <span class="math inline">{1, 2, 3, 4, 6, 12}</span>, but this time define "<span class="math inline"><em>a</em> ∧ <em>b</em></span>" to equal "the largest element in the set that is less than or equal to both <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span>" and "<span class="math inline"><em>a</em> ∨ <em>b</em></span>" to equal "the smallest element in the set such that <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span> are less than or equal to that element".</p>
+<figure>
+<img src="../images/export-5-edited.webp" />
+<figcaption>The results of applying <span class="math inline">∧</span> and <span class="math inline">∨</span> to all possible combinations of operands.</figcaption>
+</figure>
+<p>These cases hint at another way to define lattices. Let’s take the lattice <span class="math inline">(<em>X</em>,∧,∨)</span> and put a binary relation <span class="math inline">≤</span> on <span class="math inline"><em>X</em></span> that obeys the following conditions for all <span class="math inline"><em>a</em>, <em>b</em>, <em>c</em></span> in <span class="math inline"><em>X</em></span>:</p>
+<p>A binary relation that satisfies the three properties above is called a <a href="https://en.wikipedia.org/wiki/Partially_ordered_set">partial order</a>. It’s "partial" in the sense that there can exist <span class="math inline"><em>a</em>, <em>b</em></span> such that neither <span class="math inline"><em>a</em> ≤ <em>b</em></span> nor <span class="math inline"><em>b</em> ≤ <em>a</em></span>. Now define <span class="math inline"><em>a</em> ∨ <em>b</em> = <em>c</em></span> if <span class="math inline"><em>c</em></span> is the "greatest lower bound" of <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span> (<span class="math inline"><em>c</em> ≤ <em>a</em></span> and <span class="math inline"><em>c</em> ≤ <em>b</em></span>, and for all <span class="math inline"><em>d</em></span> in <span class="math inline"><em>X</em></span> such that <span class="math inline"><em>d</em> ≤ <em>a</em></span> and <span class="math inline"><em>d</em> ≤ <em>b</em></span>, <span class="math inline"><em>d</em> ≤ <em>c</em></span>), and <span class="math inline"><em>a</em> ∧ <em>b</em> = <em>c</em></span> if <span class="math inline"><em>c</em></span> is the "least upper bound" of <span class="math inline"><em>a</em></span> and <span class="math inline"><em>b</em></span> (<span class="math inline"><em>a</em> ≤ <em>c</em></span> and <span class="math inline"><em>b</em> ≤ <em>c</em></span>, and for all <span class="math inline"><em>d</em></span> in <span class="math inline"><em>X</em></span> such that <span class="math inline"><em>a</em> ≤ <em>d</em></span> and <span class="math inline"><em>b</em> ≤ <em>c</em></span>, <span class="math inline"><em>c</em> ≤ <em>d</em></span>.) The two example lattices on <span class="math inline">{1, 2, 3, 4, 5, 12}</span> given above implicitly used this definition. For the first example, <span class="math inline"><em>a</em> ≤ <em>b</em></span> means "<span class="math inline"><em>a</em></span> divides <span class="math inline"><em>b</em></span>", and for the second example, <span class="math inline"><em>a</em> ≤ <em>b</em></span> in the usual sense of "<span class="math inline">≤</span>". In fact, defining <span class="math inline">∧</span> as greatest lower bound and <span class="math inline">∨</span> as least upper bound for any <span class="math inline">≤</span> satisfies L1 and L2, so that all lattices can be defined in terms of a partial order.</p>
+<p>Finite lattices lend themselves well to visual representation via <a href="https://en.wikipedia.org/wiki/Hasse_diagram">Hasse diagrams</a>. For any lattice <span class="math inline">(<em>X</em>,∧,∨)</span> , determine the corresponding partial order <span class="math inline">≤</span> and draw the elements of <span class="math inline"><em>X</em></span> with <span class="math inline"><em>b</em></span> above <span class="math inline"><em>a</em></span> if <span class="math inline"><em>a</em> ≤ <em>b</em></span>. Then, for every distinct <span class="math inline"><em>c</em>, <em>d</em>, <em>e</em></span> such that <span class="math inline"><em>a</em> ∨ <em>c</em> = <em>d</em></span> and <span class="math inline"><em>a</em> ∧ <em>c</em> = <em>e</em></span>, draw lines from d down to a and c and lines from e up to a and c.</p>
+<figure>
+<img src="../images/export-2.webp" />
+<figcaption>Hasse diagrams of the lattices of divisors of 12 under two partial orders: "a divides b" and "a is less than or equal to b"</figcaption>
+</figure>
+<p>A number theorist might be satisfied just to consider lattices of divisors of some number, but what are the rest of us to do with them? Computer scientists utilize lattices to model <a href="https://en.wikipedia.org/wiki/Knaster%E2%80%93Tarski_theorem">programming language semantics</a>, design <a href="http://www.diva-portal.org/smash/get/diva2:1268459/FULLTEXT01.pdf">concurrent systems</a>, and <a href="https://cs.stackexchange.com/questions/12493/what-are-lattices-used-for">more</a>. Philosophers concern themselves with a specific variety of lattice that we’ll get to shortly.</p>
+<p>Examples in universal algebra texts frequently refer to lattices or groups (more on those in a bit). Groups and associated structures are familiar to most people with a background in mathematics, so lattice properties often provide counter-examples to properties that a novice mathematician would naively expect to hold for algebras.</p>
+<h3 id="groups">Groups</h3>
+<p><img src="../images/algebragroup-1-edited-1.png" alt="image" /></p>
+<p>Anyone studying contemporary mathematics will eventually run into these guys. A group signature is <span class="math inline">(<em>X</em>,*,<em>i</em>,<sup>−1</sup>)</span> where <span class="math inline">*</span> is an associative operation that takes two arguments and <span class="math inline"><em>i</em></span> is an operation that takes 0 arguments, which means that it picks out some constant element in <span class="math inline"><em>X</em></span>. Allowing 0-argument operations is standard practice in universal algebra because it allows one to define distinguished elements of <span class="math inline"><em>X</em></span> without complicating the definition of an algebra by adding an extra set of "distinguished elements". The result of 0-argument operation never depends on input: it always produces a single unique element.</p>
+<p><span class="math inline">*</span> and <span class="math inline"><em>i</em></span> follow these equivalences (where "<span class="math inline"><em>i</em></span> " stands for "the element of <span class="math inline"><em>X</em></span> picked out by the operation <span class="math inline"><em>i</em></span> "):</p>
+<ul>
+<li><p><span>G1: <span class="math inline"><em>a</em> * <em>i</em> = <em>a</em></span></span></p></li>
+<li><p><span>G2: <span class="math inline"><em>a</em> * <em>a</em><sup>−1</sup> = <em>i</em></span></span></p></li>
+</ul>
+<p>The element <span class="math inline"><em>i</em></span> is generally called the "identity", and "<span class="math inline"><em>a</em><sup>−1</sup></span>" the "inverse of <span class="math inline"><em>a</em></span>". Now for some examples of groups:</p>
+<p>How does this relate to thought? Let <span class="math inline">0</span> mean "false", 1 mean "true", <span class="math inline">∧</span> mean "and", <span class="math inline">∨</span> mean "or", <span class="math inline">¬</span> mean "not", and the members of <span class="math inline"><em>X</em></span> be logical propositions. A logical proposition is a statement that are either true or false: "<span class="math inline">(<em>X</em>,∧,∨)</span> is a lattice", "Paris is the capital of France" and "London is the capital of France" are propositions, "Paris", "is the capital", "hello!" and "this statement is false" are not. We can use this Boolean algebra to build bigger propositions out of smaller ones: if <span class="math inline"><em>p</em></span> represents "Paris is the capital of France" and <span class="math inline"><em>l</em></span> represents "London is the capital of France", <span class="math inline"><em>l</em> ∧ ¬<em>p</em></span> represents "London is the capital of France and it is not the case that Paris is the capital of France". If we were to recall some basic facts about the geography of France, we would determine that <span class="math inline"><em>l</em></span> is false (<span class="math inline"><em>l</em> = 0</span>), so by B1, <span class="math inline"><em>l</em> ∧ ¬<em>p</em></span> is false.</p>
+<p>The boolean algebra <span class="math inline">({0,1},∧,∨,¬,0,1)</span> is essential to computer science. <a href="https://www.bbc.co.uk/bitesize/guides/zwsbwmn/revision/1">Modern computers encode information as sequences of 0s and 1s stored as electric charge in transistors.</a> Computer hardware implements physical logic gates that act like the <span class="math inline">∧</span>, <span class="math inline">∨</span> and <span class="math inline">¬</span> operations to evaluate and modify data.</p>
+<p>For any set <span class="math inline"><em>X</em></span>, the set of all subsets of <span class="math inline"><em>X</em></span> forms a boolean algebra. Let <span class="math inline">2<sup><em>X</em></sup></span> represent "the set of all subsets of <span class="math inline"><em>X</em></span>", <span class="math inline">∧</span> represent set intersection (<span class="math inline"><em>a</em> ∧ <em>b</em></span> is "the set of all elements in a and b"), <span class="math inline">∨</span> represent set union (<span class="math inline"><em>a</em> ∨ <em>b</em></span> is "the set of all elements in a or b"), <span class="math inline">¬</span> represent set negation (<span class="math inline">¬<em>a</em></span> is "the set of all elements not in <span class="math inline"><em>a</em></span>), <span class="math inline">0</span> represent the empty set (the set that contains no elements) and <span class="math inline">1</span> represents the whole set <span class="math inline"><em>X</em></span>.</p>
+<h3 id="boolean-rings">Boolean rings</h3>
+<p><img src="../images/algebrabooleanring-edited.png" alt="image" /></p>
+<p>In the 1930’s, mathematician Marshall H. Stone demonstrated that Boolean algebras can be converted to a type of ring called a Boolean ring, and vice versa. Examining Boolean algebras from the perspective of rings is a powerful tool within <a href="https://plato.stanford.edu/entries/model-theory/">model theory</a>, the study of which mathematical structures satisfy given collections of consistent logical sentences.</p>
+<p>A Boolean ring is an algebra <span class="math inline">(<em>X</em>,+,−,*,0,1)</span> such that <span class="math inline">(<em>X</em>,+,0,−,*)</span> is a ring with identity and for all <span class="math inline"><em>x</em></span> in <span class="math inline"><em>X</em></span>:</p>
+<ul>
+<li><p><span>BR1: <span class="math inline"><em>x</em> * <em>x</em> = <em>x</em></span></span></p></li>
+</ul>
+<p>Given a Boolean algebra <span class="math inline">(<em>X</em>,∧,∨,¬,0,1)</span>, define the corresponding Boolean ring <span class="math inline">(<em>X</em>,+,<em>i</em>,−,*,0,1)</span> by setting:</p>
+<ul>
+<li><p><span><span class="math inline"><em>a</em> + <em>b</em> = (<em>a</em>∧¬<em>b</em>) ∨ (¬<em>a</em>∧<em>b</em>)</span></span></p></li>
+<li><p><span><span class="math inline"><em>a</em> * <em>b</em> = <em>a</em> ∧ <em>b</em></span></span></p></li>
+<li><p><span><span class="math inline"> − <em>a</em> = <em>a</em></span></span></p></li>
+</ul>
+<p>To go from the Boolean ring <span class="math inline">(<em>X</em>,+,−,*,0,1)</span> to the Boolean algebra <span class="math inline">(<em>X</em>,∧,∨,¬,0,1)</span>, set:</p>
+<ul>
+<li><p><span><span class="math inline"><em>a</em> ∨ <em>b</em> = <em>a</em> + <em>b</em> + <em>a</em> * <em>b</em></span></span></p></li>
+<li><p><span><span class="math inline"><em>a</em> ∧ <em>b</em> = <em>a</em> * <em>b</em></span></span></p></li>
+<li><p><span><span class="math inline">¬<em>a</em> = 1 + <em>a</em></span></span></p></li>
+</ul>
+<p>The Boolean ring derived from the Boolean algebra <span class="math inline">({0,1},∧,∨,¬,0,1)</span> has <span class="math inline">*</span> and <span class="math inline">+</span> operations that look like a computer’s one-bit multiplication and addition operations: adding <span class="math inline">1 + 1</span> "overflows" the bit, wrapping it back around to <span class="math inline">0</span>. In general, you can think of <span class="math inline">+</span> as an "exclusive or" operation. For <span class="math inline"><em>a</em></span>, <span class="math inline"><em>b</em></span> in <span class="math inline">{0, 1}</span>, <span class="math inline"><em>a</em> + <em>b</em></span> is <span class="math inline">0</span> if <span class="math inline"><em>a</em> = <em>b</em></span>, and <span class="math inline">1</span> if <span class="math inline"><em>a</em> ≠ <em>b</em></span>. For the Boolean ring derived from the Boolean algebra of subsets <span class="math inline">(2<sup><em>X</em></sup>,∧,∨,¬,0,1)</span>, <span class="math inline"><em>a</em> + <em>b</em></span> is the set of all elements either in set <span class="math inline"><em>a</em></span> or in set <span class="math inline"><em>b</em></span>, but not both.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Hopefully I’ve imparted some intuitive sense for what an algebra is and why someone would care. While I’ve tried to keep this post light on prerequisite knowledge, I suggest that anyone who wants to look further into universal algebra first study the basics of abstract algebra (at least enough to explain what an ideal is and why it’s interesting). Many theorems in universal algebra are generalized forms of results from elementary abstract algebra, and these theorems become more comprehensible and exciting when one recognizes what they’re generalizing.</p>
+<p>While I was researching sources for this post, Google Books gave me <a href="https://books.google.com/books?hl=en&amp;lr=&amp;id=Dm96CwAAQBAJ&amp;oi=fnd&amp;pg=PA32&amp;dq=Birkhoff+1933+algebra&amp;ots=lKPw4NEOsO&amp;sig=RhxpWlZ2jFsrgtYamoTZmFkuD2M#v=onepage&amp;q=Birkhoff%201933%20algebra&amp;f=false">a mathematician’s 1989 appraisal of universal algebra:</a></p>
+<blockquote>
+<p>"The universal algebraist has a peculiar vision and point of view that set him apart from specialists in logic and category theory or any other field of mathematics [...] he is not committed to any traditional approach. In fact, he hopes to find completely new kinds of algebras; interesting types of structures in these algebras that is absent or not clearly revealed in groups, rings and modules; and completely new techniques for revealing the structures […] He is likely to be especially interested in finite algebras, and passionately committed to the investigations of certain types of questions concerning his "algebras" that, to a category theorist, a logician, or classically trained algebraist, would appear to be either obscure, misguided, uninteresting or just hopefully intractable."</p>
+</blockquote>
+<p>But on a more flattering note:</p>
+<blockquote>
+<p>"An incredible diversity of complex systems is implicitly admitted for consideration and the only actual limitation on the generality of results obtained is the natural desire to achieve results of some depth. This emphasis on examining an almost unlimited spectrum of diverse complex systems is, perhaps unintentionally, in conformance with an obvious quality of the world we live in; and it is, I think, a virtue which will help these disciplines to survive into the twenty-first century and beyond."</p>
+</blockquote>
+<h2 id="references">References</h2>
+<p>Burris, S., &amp; Sankappanavar, H. P. (2011). <em>A Course in Universal Algebra (Graduate Texts in Mathematics, 78)</em> http://www.math.uwaterloo.ca/ snburris/htdocs/ualg.html</p>
+<p>Dummit, D. S., &amp; Foote, R. M. (2003). <em>Abstract Algebra, 3rd Edition</em> (3rd ed.)</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

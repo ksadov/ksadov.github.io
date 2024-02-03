@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - Congruences and Quotient Algebras</title>
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Congruences and Quotient Algebras</h1>
+        <article>
+    <section class="header post-header">
+        
+        <img src="../images/congruences.png" alt="An illustration of a quotient algebra hatching from an egg" />
+        
+        Published on April  7, 2021
+        
+    </section>
+    <section class="post-body">
+        <p>Previously: <a href="../posts/2021-04-02-algebras.html">Algebras</a></p>
+<p>Suppose we have an algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span> where <span class="math inline"><em>X</em></span> is a set of elements and <span class="math inline"><em>F</em></span> is a set of operations. We would like to construct a smaller algebra from <span class="math inline">(<em>X</em>,<em>F</em>)</span> that still "preserves the operations in <span class="math inline"><em>F</em></span>" in some sense.</p>
+<p>Why would anyone do this? Think of this smaller algebra as the original algebra with some information abstracted away. In my previous post, I demonstrated how you can use certain algebras to model the integers under addition or logical propositions. You may want to examine relationships not between individual elements, but collections of elements that behave similarly under the algebra’s operations, like the relationship between even and odd integers, or logical propositions that become logically equivalent if some statement is assumed to be true. If you collapse each collection of similar elements to a single element in the new algebra, you can ignore intra-collection differences and focus on inter-collection differences.</p>
+<p>A reasonable starting point is to consider the image of <span class="math inline">(<em>X</em>,<em>F</em>)</span> under a homomorphism. Homomorphisms are functions between the element sets of algebras of the same type that preserve operations: for any <span class="math inline"><em>m</em> : (<em>X</em>,<em>F</em>) → (<em>X</em>′,<em>F</em>)</span> and any <span class="math inline"><em>f</em></span> in <span class="math inline"><em>F</em></span>, <span class="math inline"><em>m</em>(<em>f</em>(<em>x</em><sub>0</sub>,<em>x</em><sub>1</sub>…<em>x</em><sub><em>n</em></sub>)) = <em>f</em>(<em>m</em>(<em>x</em><sub>0</sub>),<em>m</em>(<em>x</em><sub>1</sub>)…<em>m</em>(<em>x</em><sub><em>n</em></sub>))</span> (since <span class="math inline">(<em>X</em>,<em>F</em>)</span> and <span class="math inline">(<em>X</em>′,<em>F</em>)</span> are of the same type, <span class="math inline"><em>f</em></span> is an operation on both <span class="math inline"><em>X</em></span> and <span class="math inline"><em>X</em>′</span>). <span class="math inline"><em>m</em></span> can map two elements of <span class="math inline"><em>X</em></span> to the same output, but can never map one element to more than one distinct output. So the image of <span class="math inline">(<em>X</em>,<em>F</em>)</span> under <span class="math inline"><em>m</em></span> looks like <span class="math inline">(<em>X</em>,<em>F</em>)</span> with 0 or more its points identified. Let’s describe the image in terms of a relation on <span class="math inline">(<em>X</em>,<em>F</em>)</span>: <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>)</span> if and only if <span class="math inline"><em>m</em>(<em>x</em>) = <em>m</em>(<em>y</em>)</span>.</p>
+<figure>
+<img src="../images/export-6-1.webp" />
+<figcaption>The image of a finite lattice under a homomorphism.</figcaption>
+</figure>
+<figure>
+<img src="../images/export-7.webp" />
+<figcaption>The image of the group <span class="math inline">(ℤ,+,0,1)</span> under a homomorphism.</figcaption>
+</figure>
+<p>Can we identify any points we want, i. e, can we find a homomorphism m whose image corresponds to any arbitrary relation <span class="math inline"><em>R</em></span>? Not if we want equality to make sense:</p>
+<ul>
+<li><p><span>if R isn’t reflexive, then <span class="math inline">¬<em>R</em>(<em>x</em>,<em>x</em>)</span> implies <span class="math inline"><em>m</em>(<em>x</em>) ≠ <em>m</em>(<em>x</em>)</span></span></p></li>
+<li><p><span>if R isn’t symmetric, then <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>)</span> and <span class="math inline">¬<em>R</em>(<em>y</em>,<em>x</em>)</span> implies <span class="math inline"><em>m</em>(<em>x</em>) = <em>m</em>(<em>y</em>)</span>, but <span class="math inline"><em>m</em>(<em>y</em>) ≠ <em>m</em>(<em>x</em>)</span></span></p></li>
+<li><p><span>if R isn’t transitive, then <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>), <em>R</em>(<em>y</em>,<em>z</em>)</span> and <span class="math inline">¬<em>R</em>(<em>x</em>,<em>z</em>)</span> implies <span class="math inline"><em>m</em>(<em>x</em>) = <em>m</em>(<em>y</em>)</span> and <span class="math inline"><em>m</em>(<em>y</em>) = <em>m</em>(<em>x</em>)</span>, but <span class="math inline"><em>m</em>(<em>x</em>) ≠ <em>m</em>(<em>z</em>)</span></span></p></li>
+</ul>
+<p>So <span class="math inline"><em>R</em></span> has to be an <a href="https://mathworld.wolfram.com/EquivalenceRelation.html">equivalence relation</a>. Moreover:</p>
+<p>if <span class="math inline"><em>R</em>(<em>x</em><sub>0</sub>,<em>y</em><sub>0</sub>), <em>R</em>(<em>x</em><sub>1</sub>,<em>y</em><sub>1</sub>)…<em>R</em>(<em>x</em><sub><em>n</em></sub>,<em>y</em><sub><em>n</em></sub>)</span></p>
+<p>and</p>
+<p><span class="math inline">¬<em>R</em>(<em>f</em>(<em>x</em><sub>0</sub>,<em>x</em><sub>1</sub>…<em>x</em><sub><em>n</em></sub>),<em>f</em>(<em>y</em><sub>0</sub>,<em>y</em><sub>1</sub>,…<em>y</em><sub><em>n</em></sub>))</span>, then</p>
+<p><span class="math inline"><em>m</em>(<em>f</em>(<em>x</em><sub>0</sub>,<em>x</em><sub>1</sub>…<em>x</em><sub><em>n</em></sub>)) ≠ <em>m</em>(<em>f</em>(<em>y</em><sub>0</sub>,<em>y</em><sub>1</sub>…<em>y</em><sub><em>n</em></sub>))</span></p>
+<p>which contradicts the fact that the homomorphism <span class="math inline"><em>m</em></span> preserves operations, since</p>
+<p><span class="math inline"><em>m</em>(<em>x</em><sub>0</sub>) = <em>m</em>(<em>y</em><sub>0</sub>), …, <em>m</em>(<em>x</em><sub><em>n</em></sub>) = <em>m</em>(<em>y</em><sub><em>n</em></sub>)</span></p>
+<p>implies that</p>
+<p><span class="math inline"><em>f</em>(<em>m</em>(<em>x</em><sub>1</sub>),…,<em>m</em>(<em>x</em><sub><em>n</em></sub>)) = <em>f</em>(<em>m</em>(<em>y</em><sub>1</sub>),…,<em>m</em>(<em>y</em><sub><em>n</em></sub>)) = <em>m</em>(<em>f</em>(<em>x</em><sub>1</sub>,<em>x</em><sub>2</sub>,…,<em>x</em><sub><em>n</em></sub>)) = <em>m</em>(<em>f</em>(<em>y</em><sub>1</sub>,<em>y</em><sub>2</sub>,…,<em>y</em><sub><em>n</em></sub>))</span></p>
+<p>So <span class="math inline"><em>R</em></span> must also "preserve operations".</p>
+<figure>
+<img src="../images/export-8.webp" />
+<figcaption>Any relation on this finite lattice <span class="math inline">$(\{a, b, c, d, e\}, \land, \lor\)$</span> such that <span class="math inline"><em>R</em>(<em>c</em>,<em>e</em>)</span> but not <span class="math inline"><em>R</em>(<em>c</em>,<em>d</em>)</span> and <span class="math inline"><em>R</em>(<em>d</em>,<em>e</em>)</span> is not a congruence relation.</figcaption>
+</figure>
+<figure>
+<img src="../images/export-9.webp" />
+<figcaption>Any relation on the group <span class="math inline">(ℤ,+,0,−)</span> such that <span class="math inline"><em>R</em>(−1,1)</span> but <span class="math inline">¬<em>R</em>(−<em>n</em>,<em>n</em>)</span> for some <span class="math inline"><em>n</em> ∈ ℤ</span> is not a congruence relation.</figcaption>
+</figure>
+<p>This gives us the <strong>definition of a congruence: an equivalence relation on the elements of an algebra that preserves operations.</strong> Given a congruence <span class="math inline"><em>R</em></span> on an algebra <span class="math inline">(<em>X</em>,<em>R</em>)</span>, <strong>we form the quotient algebra <span class="math inline">(<em>X</em>,<em>F</em>)/<em>R</em></span> where the set of elements is the set of equivalence classes of <span class="math inline"><em>R</em></span>, and the operations are the operations of <span class="math inline"><em>F</em></span> applied to equivalence classes</strong>. The equivalence class <span class="math inline">[<em>b</em>]<sub><em>R</em></sub></span> is the set of all elements <span class="math inline"><em>x</em> ∈ <em>X</em></span> such that <span class="math inline"><em>R</em>(<em>b</em>,<em>x</em>)</span>. The operations of <span class="math inline"><em>F</em></span> are well-defined on equivalence classes of <span class="math inline"><em>R</em></span> because <span class="math inline"><em>R</em></span> preserves operations: if <span class="math inline"><em>R</em>(<em>x</em><sub>0</sub>,<em>y</em><sub>0</sub>)…<em>R</em>(<em>x</em><sub><em>n</em></sub>,<em>y</em><sub><em>n</em></sub>)</span> and <span class="math inline"><em>f</em>(<em>x</em><sub>0</sub>…<em>x</em><sub><em>n</em></sub>) = <em>x</em></span>, <span class="math inline"><em>f</em>(<em>y</em><sub>0</sub>…<em>y</em><sub><em>n</em></sub>) = <em>y</em></span>, then <span class="math inline"><em>R</em>(<em>x</em>,<em>y</em>)</span>, so:</p>
+<p><span class="math inline"><em>f</em>([<em>x</em><sub>0</sub>]<sub><em>R</em></sub>…[<em>x</em><sub><em>n</em></sub>]<sub><em>R</em></sub>) = <em>f</em>([<em>y</em><sub>0</sub>]<sub><em>R</em></sub>…[<em>y</em><sub><em>n</em></sub>]<sub><em>R</em></sub>) = [<em>x</em>]<sub><em>R</em></sub> = [<em>y</em>]<sub><em>R</em></sub>.</span></p>
+<figure>
+<img src="../images/export-11.png" />
+<figcaption>An intuitive representation of a quotient algebra, where the dotted lines represent the congruence <span class="math inline"><em>R</em></span> on the algebra <span class="math inline">(<em>X</em>,<em>F</em>)</span>. </figcaption>
+</figure>
+<p>The fact that you can only form a quotient algebra over a congruence relation may remind you of the fact that <a href="https://mathworld.wolfram.com/QuotientGroup.html">you can only form a quotient group over a normal subgroup</a>. In fact, <strong>congruences on groups are isomorphic to normal subgroups</strong>: for any group <span class="math inline">(<em>X</em>,*,<em>i</em>,<sup>−1</sup>)</span> and congruence <span class="math inline"><em>R</em></span>, the set of all <span class="math inline"><em>a</em></span> in <span class="math inline"><em>X</em></span> such that <span class="math inline"><em>R</em>(<em>a</em>,1)</span> forms a normal subgroup of <span class="math inline">(<em>X</em>,*,<em>i</em>,<sup>−1</sup>)</span>.</p>
+<p>To see this, recall that a normal subgroup <span class="math inline"><em>N</em> ⊆ <em>X</em></span> is defined by the fact that for all <span class="math inline"><em>b</em> ∈ <em>X</em></span>, <span class="math inline"><em>b</em><em>N</em><em>b</em><sup>−1</sup> = {<em>b</em> * <em>n</em> * <em>b</em><sup>−1</sup>|<em>n</em> ∈ <em>N</em>} = <em>N</em></span>. Let <span class="math inline"><em>H</em> = {<em>a</em>|<em>R</em>(<em>a</em>,1)}</span>. For any <span class="math inline"><em>b</em> ∈ <em>X</em></span>, reflexivity of <span class="math inline"><em>R</em></span> implies that <span class="math inline"><em>R</em>(<em>b</em>,<em>b</em>)</span> and <span class="math inline"><em>R</em>(<em>b</em><sup>−1</sup>,<em>b</em><sup>−1</sup>)</span>. The fact that <span class="math inline"><em>R</em></span> preserves operations implies that for any <span class="math inline"><em>a</em></span> such that <span class="math inline"><em>R</em>(<em>a</em>,1)</span>, <span class="math inline"><em>R</em>(<em>b</em><em>a</em><em>b</em><sup>−1</sup>,<em>b</em>1<em>b</em><sup>−1</sup>) = <em>R</em>(<em>b</em><em>a</em><em>b</em><sup>−1</sup>,1)</span>, which in turn implies that <span class="math inline"><em>b</em><em>H</em><em>b</em><sup>−1</sup> = <em>H</em></span>, satisfying the definition of a normal group.</p>
+<p>Conversely, if <span class="math inline"><em>N</em></span> is a normal subgroup of <span class="math inline">(<em>X</em>,*,<em>i</em>,<sup>−1</sup>)</span>, then the relation <span class="math inline"><em>R</em></span> where <span class="math inline"><em>R</em>(<em>a</em>,<em>b</em>)</span> if and only if <span class="math inline"><em>a</em> * <em>b</em><sup>−1</sup></span> in <span class="math inline"><em>N</em></span> is a congruence relation. Reflexivity holds because all normal subgroups must contain <span class="math inline"><em>b</em> * <em>b</em><sup>−1</sup> = 1</span>. Symmetry holds because normal subgroups must be closed under inverse, and <span class="math inline">(<em>a</em>*<em>b</em><sup>−1</sup>)<sup>−1</sup> = <em>b</em> * <em>a</em><sup>−1</sup>)</span>. Transitivity holds because all subgroups must be closed under <span class="math inline">*</span>, and <span class="math inline">(<em>a</em>*<em>b</em><sup>−1</sup>) * (<em>b</em>*<em>c</em><sup>−1</sup>) = <em>a</em> * <em>c</em><sup>−</sup>1.</span> Preservation of operation holds because normal subgroups contain the identity, are closed under inverse, and are closed under multiplication.</p>
+<p>Congruences on lattices lack an analogue as exciting as normal subgroups. R is a lattice congruence on <span class="math inline">(<em>X</em>,∧,<em>l</em><em>o</em><em>r</em>)</span> if and only if for all <span class="math inline"><em>a</em>, <em>b</em>, <em>c</em>, <em>d</em> ∈ <em>X</em></span>, <span class="math inline"><em>R</em>(<em>a</em>,<em>b</em>)</span> and <span class="math inline"><em>R</em>(<em>c</em>,<em>d</em>)</span> imply that <span class="math inline"><em>R</em>(<em>a</em>∧<em>c</em>,<em>b</em>∧<em>d</em>)</span> and <span class="math inline"><em>R</em>(<em>a</em>∨<em>c</em>,<em>b</em>∨<em>d</em>)</span>, which is just a straightforward application of the definition of a congruence.</p>
+<h2 id="references">References</h2>
+<p>Burris, S., &amp; Sankappanavar, H. P. (2011). <em>A Course in Universal Algebra (Graduate Texts in Mathematics, 78)</em> http://www.math.uwaterloo.ca/ snburris/htdocs/ualg.html</p>
+<p>Dummit, D. S., &amp; Foote, R. M. (2003). <em>Abstract Algebra, 3rd Edition</em> (3rd ed).</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>

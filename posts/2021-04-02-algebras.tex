@@ -1,0 +1,192 @@
+---
+title: Algebras
+header-img: /images/algebraheader.png
+header-img-alt: An illustration of various types of algebras as fantastic creatures
+tags: computer science, math, philosophy
+---
+% This is a simple sample document.  For more complicated documents take a look in the exercise tab. Note that everything that comes after a % symbol is treated as comment and ignored when the code is compiled.
+
+\documentclass{article} % \documentclass{} is the first command in any LaTeX code.  It is used to define what kind of document you are creating such as an article or a book, and begins the document preamble
+
+\usepackage{amsmath} % \usepackage is a command that allows you to add functionality to your LaTeX code
+
+\title{Simple Sample} % Sets article title
+\author{My Name} % Sets authors name
+\date{\today} % Sets date for date compiled
+
+% The preamble ends with the command \begin{document}
+\begin{document} % All begin commands must be paired with an end command somewhere
+\textbf{An algebraic structure (also called "an algebra") consists of a set and a collection of finitary operations on that set, closed under composition, that satisfy certain identities.} This is an abstract definition, so the following sections of this blog post are dedicated to concrete examples.
+
+But first-- why bother with such an abstract idea at all? An algebra boils down to "a bunch of stuff, plus ways to manipulate that stuff according to a formal system of rules." Computer scientists study algebras because computers operate on "a bunch of stuff" (digital data) according to a formal system of rules, so algebras are useful for designing and modeling aspects of computation. Philosophers study algebras because "a bunch of stuff" (complicated concepts like "truth" and "logical ideas") can be disambiguated and related to each other via formal systems of rules, so algebras are useful for clarifying and suggesting novel discourse about philosophical concepts.
+
+Computer scientists and philosophers additionally benefit from two important aspects of an algebraic structure's collection of operations: that the operations are \textbf{finitary}, and that the collection is \textbf{closed under composition}. "Finitary" means that the operations take a finite number of arguments. "Closed under composition" means that the collection contains every operation defined by feeding the outputs of some operations into the inputs of some other operation. Finite things are easier to reason about than infinite things, but making finitary operations composable allows you to build complex structures out of simple finite primitives. So computer scientists and philosophers can create models that are simple to define, but complex enough to have interesting implications.
+
+Mathematicians are also interested in algebraic structures. Specific varieties of algebras are central to the fields of see \href{https://mathworld.wolfram.com/GroupTheory.html}{group theory}, see \href{https://mathworld.wolfram.com/Logic.html}{mathematical logic}, and \href{https://mathworld.wolfram.com/NumberTheory.html}{number theory}. The field of mathematics concerned with algebras irrespective of variety is called universal algebra. Universal algebra is useful because it unifies results from more specific fields of mathematics and suggests general results which could be applied to problems in more specific fields. But I like universal algebra for the same reason that I like zoology. There's something strikingly lifelike about a simple structure giving rise to to complex behavior, like a sequence composed of only 4 types of nucleotides encoding an entire creature.
+
+\subsection{Examples}
+
+\subsubsection{Lattices}
+
+\includegraphics{/images/algebralattice-edited.png}
+
+Algebras are often given in terms of a signature: a list of symbols that characterize the algebraic structure. In the case of lattices, a signature is $ (X, \land, \lor) $, where $ X $ is the set of elements of the algebra, and $ \land$ and $ \lor $ are commutative and associative operations. $ \land $ and $ \lor $ aren't the only operations on a lattice, since the collection of operations is closed under composition, but they characterize the structure in the sense than any lattice operation can be written in terms of $ \land $  and $ \lor$. For all $ a$, $ b$ in $ X$, the following identities hold:
+
+\begin{itemize}
+\item{L1: $ a \lor (a \land b) = a$}
+\item{L2: $ a\land(a\lor b) = a$}
+\end{itemize}
+
+But what do $ \land$ and $ \lor$ mean? That depends on the specific lattice at hand. Consider the case where $ X$ is the set of natural numbers that divide 12: $ \{1, 2, 3, 4, 6, 12\}$. Then define "$ a \land b$" to equal "the largest number in the set that divides both $ a$ and $ b$" and "$ a \lor b$" to mean "the smallest number in the set that is a multiple of both $ a$ and $ b$", so that $ 3 \land 6 = 3$ and $ 4 \lor 6 = 12$.
+
+\begin{figure}
+\includegraphics{/images/export-4-3.webp}
+\caption{The results of applying $ \land$ and $ \lor$ to all possible combinations of operands.}
+\end{figure}
+
+Now take the same set $ \{1, 2, 3, 4, 6, 12\}$, but this time define "$ a \land b$" to equal "the largest element in the set that is less than or equal to both $ a$ and $ b$" and "$ a \lor b$" to equal "the smallest element in the set such that $ a$ and $ b$ are less than or equal to that element".
+
+\begin{figure}
+\includegraphics{/images/export-5-edited.webp}
+\caption{The results of applying $ \land$ and $ \lor$ to all possible combinations of operands.}
+\end{figure}
+
+These cases hint at another way to define lattices. Let's take the lattice $ (X, \land, \lor)$ and put a binary relation $ \leq$ on $ X$ that obeys the following conditions for all $ a, b, c$ in $ X$:
+
+\begin{itemize}
+\item{reflexivity: $ a \leq a$
+\item{antisymmetry: $ a \leq b$ and $ b \leq a$ imply $ a = b$}
+\item{transitivity: $ a \leq b$ and $ b \leq c$ imply $ a \leq c$}
+\end{itemize}
+
+A binary relation that satisfies the three properties above is called a \href{https://en.wikipedia.org/wiki/Partially_ordered_set}{partial order}. It's "partial" in the sense that there can exist $ a, b$ such that neither $ a \leq b$ nor $ b \leq a$. Now define $ a\lor b = c$ if $ c$ is the "greatest lower bound" of $ a$ and $ b$ ($ c \leq a$ and $ c \leq b$, and for all $ d$ in $ X$ such that $ d \leq a$ and $ d \leq b$, $ d \leq c$), and $ a \land b = c$ if $ c$ is the "least upper bound" of $ a$ and $ b$ ($ a \leq c$ and $ b \leq c$, and for all $ d$ in $ X$ such that $ a \leq d$ and $ b \leq c$, $ c \leq d$.) The two example lattices on $ \{1, 2, 3, 4, 5, 12\}$ given above implicitly used this definition. For the first example, $ a \leq b$ means "$ a$ divides $ b$", and for the second example, $ a \leq b$ in the usual sense of "$ \leq $". In fact, defining $ \land $ as greatest lower bound and $ \lor $ as least upper bound for any $ \leq $ satisfies L1 and L2, so that all lattices can be defined in terms of a partial order.
+
+Finite lattices lend themselves well to visual representation via \href{https://en.wikipedia.org/wiki/Hasse_diagram}{Hasse diagrams}. For any lattice $ (X, \land, \lor)$ , determine the corresponding partial order $ \leq $ and draw the elements of $ X$ with $ b$ above $ a$ if $ a \leq b$. Then, for every distinct $ c, d, e$ such that $ a \lor c = d$ and $ a \land c = e$, draw lines from d down to a and c and lines from e up to a and c.
+
+\begin{figure}
+\includegraphics{/images/export-2.webp}
+\caption{Hasse diagrams of the lattices of divisors of 12 under two partial orders: "a divides b" and "a is less than or equal to b"}
+\end{figure}
+
+A number theorist might be satisfied just to consider lattices of divisors of some number, but what are the rest of us to do with them? Computer scientists utilize lattices to model \href{https://en.wikipedia.org/wiki/Knaster%E2%80%93Tarski_theorem}{programming language semantics}, design \href{http://www.diva-portal.org/smash/get/diva2:1268459/FULLTEXT01.pdf}{concurrent systems}, and \href{https://cs.stackexchange.com/questions/12493/what-are-lattices-used-for}{more}. Philosophers concern themselves with a specific variety of lattice that we'll get to shortly.
+
+Examples in universal algebra texts frequently refer to lattices or groups (more on those in a bit). Groups and associated structures are familiar to most people with a background in mathematics, so lattice properties often provide counter-examples to properties that a novice mathematician would naively expect to hold for algebras.
+
+\subsubsection{Groups}
+
+\includegraphics{/images/algebragroup-1-edited-1.png}
+
+Anyone studying contemporary mathematics will eventually run into these guys. A group signature is $ (X, \ast, i, ^{-1})$ where $ \ast$ is an associative operation that takes two arguments and $ i$ is an operation that takes 0 arguments, which means that it picks out some constant element in $ X$. Allowing 0-argument operations is standard practice in universal algebra because it allows one to define distinguished elements of $ X$ without complicating the definition of an algebra by adding an extra set of "distinguished elements". The result of 0-argument operation never depends on input: it always produces a single unique element.
+
+$ \ast$ and $i$ follow these equivalences (where "$ i$ " stands for "the element of $ X$ picked out by the operation $ i$ "):
+
+\begin{itemize}
+\item{G1: $ a \ast i = a$}
+\item{G2: $ a \ast a^{-1} = i$}
+\end{itemize}
+
+The element $ i$ is generally called the "identity", and "$ a^{-1}$" the "inverse of $ a$". Now for some examples of groups:
+
+\begin{itemize}
+\item{$ (\{i\}, \ast, i, ^{-1})$: the one element "trivial group"}
+\item{$ (\mathbb{Z}, +, 0, -)$: the set of all \href{https://en.wikipedia.org/wiki/Integer}{integers under addition}
+\item{$ (\mathbb{R} - \{0\}, \ast, 1, ^{-1})$: the set of all real numbers excluding 0 under multiplication}
+\item{$ (\{\text{the set of all sequences of  } r, s, i\}, \ast, i, ^{-1})$: the \href{https://en.wikipedia.org/wiki/Dihedral_group}{group of rotations of a regular n-gon}. Let $ v_1 \ldots v_n$ represent the vertices of a regular n-gon. Let $ r$ represent the rotation of all vertices counterclockwise, sending $ v_1$ to $ vn$, $ v_2$ to $ v_1$, etc. Let $ s$ represent "flipping" the polygon accross the line of symmetry passing through $ v_1$. And let $ i$ represent doing nothing.}
+
+\begin{figure}
+\includegraphics{/images/export-1.webp}
+\caption{Transformations of a regular pentagon under $ r, s, i$}
+\end{figure}
+
+You can form a group by setting $ X$ to be the set of all sequences of rotations and flips that you can perform on the n-gon(note that multiple sequences can give you the same result, for example: rotating counterclockwise once is the same as rotating counterclockwise n + 1 times is the same as flipping twice and then rotating counterclockwise) and letting $ a \ast b$ represent "the sequence $ b$ followed by the sequence $ a$".
+
+\begin{figure}
+\includegraphics{/images/export-3-1.webp}
+\caption{A member of the dihedral group D5 and its inverse. Note that $ rissr = rr$}
+\end{figure}
+
+\subsubsection{Rings}
+
+\includegraphics{/images/algebraring-edited-1.png}
+
+Rings are groups with some extra structure. A ring signature is $ (X, +, i, -, \ast)$, where $ (X, +, i, -)$ form a group, $ +$ is commutative, and $ \ast$ is a binary operation that obeys the following rule (called the distributive property):
+
+\begin{itemize}
+\item{R1: $ a \ast (b + c) = a \ast b + a \ast c$}
+
+Some examples of rings:
+
+\begin{itemize}
+\item{$ (\{i\}, +, i, -, \ast)$: The one element trivial ring. Looks a lot like the trivial group.}
+\item{$ (\mathbb{Z}, +, 0, -, \ast)$: the integers numbers under addition and multiplication}
+\item{$ (\mathbb{R}, +, 0, -, \ast)$: the real numbers under addition and multiplication}
+
+You can continue putting constraints on rings in order to generate even more complex structures (the real numbers are not only a ring, but a ring with \href{https://mathworld.wolfram.com/MultiplicativeIdentity.html}{multiplicative identity} and \href{https://mathworld.wolfram.com/MultiplicativeInverse.html}{multiplicative inverses}) but standard rings still give us a lot to consider. They're foundational in number theory, which is in turn indispensable to \href{https://www.math.utk.edu/~finotti/papers/grad.pdf}{modern cryptography}.
+
+\subsubsection{Boolean algebras}
+
+\includegraphics{/images/algebraboolean-edited-1.png}
+
+The 19th century English mathematician and philosopher George Boole sought to codify the laws of thought via systems of equations. Subsequent philosophers, mathematicians and engineers built on his work to produce what we now call Boolean algebras. A boolean algebra signature is $ (X, \land, \lor, \neg, 0, 1)$, where $ (X, \land, \lor)$ is a lattice, and for all $ a, b, c$ in $ X$:
+
+\begin{itemize}
+\item{B1: $ a \land 0 = 0$, $ a \lor 1 = 1$}
+\item{2: $ a \land \neg a = 0$, $ a \lor \neg a = 1$}
+\item{B3: $ a \land (b \lor c) = (a \land b) \lor (a \land c)$}
+\item{B4: $ a \lor (b \land c) = (a \lor b) \land (a \lor c)$}
+\end{itemize}
+
+How does this relate to thought? Let $ 0$ mean "false", 1 mean "true", $ \land$ mean "and", $ \lor$ mean "or", $ \neg$ mean "not", and the members of $ X$ be logical propositions. A logical proposition is a statement that are either true or false: "$ (X, \land, \lor)$ is a lattice", "Paris is the capital of France" and "London is the capital of France" are propositions, "Paris", "is the capital", "hello!" and "this statement is false" are not.  We can use this Boolean algebra to build bigger propositions out of smaller ones: if $ p$ represents "Paris is the capital of France" and $ l$ represents "London is the capital of France", $ l \land \neg p$ represents "London is the capital of France and it is not the case that Paris is the capital of France". If we were to recall some basic facts about the geography of France, we would determine that $ l$ is false ($ l = 0$), so by B1, $ l \land \neg p$ is false.
+
+The boolean algebra $ (\{0, 1\}, \land, \lor, \neg, 0, 1)$ is essential to computer science. \href{https://www.bbc.co.uk/bitesize/guides/zwsbwmn/revision/1}{Modern computers encode information as sequences of 0s and 1s stored as electric charge in transistors.} Computer hardware implements physical logic gates that act like the $ \land$, $ \lor$ and $ \neg$ operations to evaluate and modify data. 
+
+For any set $ X$, the set of all subsets of $ X$ forms a boolean algebra. Let $ 2^X$ represent "the set of all subsets of $ X$", $ \land$ represent set intersection ($ a\land b$ is "the set of all elements in a and b"), $ \lor$ represent set union ($ a \lor b$ is "the set of all elements in a or b"), $ \neg$ represent set negation ($ \neg a$ is "the set of all elements not in $ a$), $ 0$ represent the empty set (the set that contains no elements) and $ 1$ represents the whole set $ X$. 
+
+\subsubsection{Boolean rings}
+
+\includegraphics{/images/algebrabooleanring-edited.png}
+
+In the 1930's, mathematician Marshall H. Stone demonstrated that Boolean algebras can be converted to a type of ring called a Boolean ring, and vice versa. Examining Boolean algebras from the perspective of rings is a powerful tool within \href{https://plato.stanford.edu/entries/model-theory/}{model theory}, the study of which mathematical structures satisfy given collections of consistent logical sentences.
+
+A Boolean ring is an algebra $ (X, +, -, \ast, 0, 1)$ such that $ (X, +, 0, -, \ast)$ is a ring with identity and for all $ x$ in $ X$:
+
+\begin{itemize}
+\item{BR1: $ x \ast x = x$}
+\end{itemize}
+
+Given a Boolean algebra $ (X, \land, \lor, \neg, 0, 1)$, define the corresponding Boolean ring $ (X, +, i, -, \ast, 0, 1)$ by setting:
+
+\begin{itemize}
+\item{$ a + b = (a \land \neg b) \lor (\neg a \land b)$}
+\item{$ a \ast b = a \land b$}
+\item{$  -a = a$}
+\end{itemize}
+
+To go from the Boolean ring $ (X, +, -, \ast, 0, 1)$ to the Boolean algebra $ (X, \land, \lor, \neg, 0, 1)$, set:
+
+\begin{itemize}
+\item{$ a \lor b = a + b + a \ast b$}
+\item{$ a \land b = a \ast b$}
+\item{$ \neg a = 1 + a$}
+\end{itemize}
+
+The Boolean ring derived from the Boolean algebra $ (\{0, 1\}, \land, \lor, \neg, 0, 1)$ has $ \ast$ and $ +$ operations that look like a computer's one-bit multiplication and addition operations: adding $ 1 + 1$ "overflows" the bit, wrapping it back around to $ 0$. In general, you can think of $ +$ as an "exclusive or" operation. For $ a$, $ b$ in $ \{0, 1\}$, $ a + b$ is $ 0$ if $ a = b$, and $ 1$ if $ a \neq b$. For the Boolean ring derived from the Boolean algebra of subsets $ (2^X, \land, \lor, \neg, 0, 1)$, $ a + b$ is the set of all elements either in set $ a$ or in set $ b$, but not both.
+
+\subsection{Conclusion}
+
+Hopefully I've imparted some intuitive sense for what an algebra is and why someone would care. While I've tried to keep this post light on prerequisite knowledge, I suggest that anyone who wants to look further into universal algebra first study the basics of abstract algebra (at least enough to explain what an ideal is and why it's interesting). Many theorems in universal algebra are generalized forms of results from elementary abstract algebra, and these theorems become more comprehensible and exciting when one recognizes what they're generalizing. 
+
+While I was researching sources for this post, Google Books gave me \href{https://books.google.com/books?hl=en&lr=&id=Dm96CwAAQBAJ&oi=fnd&pg=PA32&dq=Birkhoff+1933+algebra&ots=lKPw4NEOsO&sig=RhxpWlZ2jFsrgtYamoTZmFkuD2M#v=onepage&q=Birkhoff%201933%20algebra&f=false}{a mathematician's 1989 appraisal of universal algebra:}
+\begin{quotation}
+    "The universal algebraist has a peculiar vision and point of view that set him apart from specialists in logic and category theory or any other field of mathematics [...] he is not committed to any traditional approach. In fact, he hopes to find completely new kinds of algebras; interesting types of structures in these algebras that is absent or not clearly revealed in groups, rings and modules; and completely new techniques for revealing the structures […] He is likely to be especially interested in finite algebras, and passionately committed to the investigations of certain types of questions concerning his "algebras" that, to a category theorist, a logician, or classically trained algebraist, would appear to be either obscure, misguided, uninteresting or just hopefully intractable."
+\end{quotation}
+But on a more flattering note:
+\begin{quotation}
+    "An incredible diversity of complex systems is implicitly admitted for consideration and the only actual limitation on the generality of results obtained is the natural desire to achieve results of some depth. This emphasis on examining an almost unlimited spectrum of diverse complex systems is, perhaps unintentionally, in conformance with an obvious quality of the world we live in; and it is, I think, a virtue which will help these disciplines to survive into the twenty-first century and beyond."
+\end{quotation}
+\subsection{References}
+Burris, S., & Sankappanavar, H. P. (2011). \textit{A Course in Universal Algebra (Graduate Texts in Mathematics, 78)} http://www.math.uwaterloo.ca/~snburris/htdocs/ualg.html
+
+Dummit, D. S., & Foote, R. M. (2003). \textit{Abstract Algebra, 3rd Edition} (3rd ed.)
+\end{document} % This is the end of the document
+

@@ -1,0 +1,14 @@
+<article>
+    <section class="header post-header">
+        $if(header-img)$
+        <img src="$header-img$" alt="$header-img-alt$" />
+        $endif$
+        Published on $date$
+        $if(author)$
+        by $author$
+        $endif$
+    </section>
+    <section class="post-body">
+        $body$
+    </section>
+</article>
