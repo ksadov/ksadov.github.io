@@ -2,7 +2,7 @@
 title: How do NFTs work, really?
 header-img: /images/nftcat-1.png
 header-img-alt: A drawing of a laptop with a screen displaying a cat painting the Mona Lisa
-tags: art, blockchain, nft, computer science
+tags: art, computer science
 ---
 Opinions on the NFT art market abound, but accessible explanations of the technical details are hard to find. You can try to decide how you feel about NFTs without understanding how NFTs, blockchains and cryptocurrency networks work, but how can you be sure that you're assessing the subject based on its own merits instead of propaganda by NFT art platforms or the whims of your social circle?
 

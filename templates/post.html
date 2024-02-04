@@ -3,10 +3,17 @@
         $if(header-img)$
         <img src="$header-img$" alt="$header-img-alt$" />
         $endif$
-        Published on $date$
-        $if(author)$
-        by $author$
-        $endif$
+        <section class="info">
+            Published on $date$
+            $if(author)$
+            by $author$
+            $endif$
+        </section>
+        <section class="info">
+            $if(tags)$
+            Tags: $tags$
+            $endif$
+        </section>
     </section>
     <section class="post-body">
         $body$

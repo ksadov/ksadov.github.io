@@ -2,20 +2,13 @@
 title: Algebras
 header-img: /images/algebraheader.png
 header-img-alt: An illustration of various types of algebras as fantastic creatures
-tags: computer science, math, philosophy
+tags: computer science, math, philosophy, universal algebra
 ---
-% This is a simple sample document.  For more complicated documents take a look in the exercise tab. Note that everything that comes after a % symbol is treated as comment and ignored when the code is compiled.
 
-\documentclass{article} % \documentclass{} is the first command in any LaTeX code.  It is used to define what kind of document you are creating such as an article or a book, and begins the document preamble
+\documentclass{article}
+\usepackage{amsmath}
 
-\usepackage{amsmath} % \usepackage is a command that allows you to add functionality to your LaTeX code
-
-\title{Simple Sample} % Sets article title
-\author{My Name} % Sets authors name
-\date{\today} % Sets date for date compiled
-
-% The preamble ends with the command \begin{document}
-\begin{document} % All begin commands must be paired with an end command somewhere
+\begin{document}
 \textbf{An algebraic structure (also called "an algebra") consists of a set and a collection of finitary operations on that set, closed under composition, that satisfy certain identities.} This is an abstract definition, so the following sections of this blog post are dedicated to concrete examples.
 
 But first-- why bother with such an abstract idea at all? An algebra boils down to "a bunch of stuff, plus ways to manipulate that stuff according to a formal system of rules." Computer scientists study algebras because computers operate on "a bunch of stuff" (digital data) according to a formal system of rules, so algebras are useful for designing and modeling aspects of computation. Philosophers study algebras because "a bunch of stuff" (complicated concepts like "truth" and "logical ideas") can be disambiguated and related to each other via formal systems of rules, so algebras are useful for clarifying and suggesting novel discourse about philosophical concepts.
@@ -188,5 +181,5 @@ But on a more flattering note:
 Burris, S., & Sankappanavar, H. P. (2011). \textit{A Course in Universal Algebra (Graduate Texts in Mathematics, 78)} http://www.math.uwaterloo.ca/~snburris/htdocs/ualg.html
 
 Dummit, D. S., & Foote, R. M. (2003). \textit{Abstract Algebra, 3rd Edition} (3rd ed.)
-\end{document} % This is the end of the document
+\end{document}
 
