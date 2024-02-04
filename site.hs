@@ -1,10 +1,15 @@
 --------------------------------------------------------------------------------
-{-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend)
-import           Hakyll
-import           Data.List                       (intersperse)
-import           Control.Applicative             (empty)
-
+{-# LANGUAGE OverloadedStrings, TupleSections #-}
+import Data.Monoid (mappend)
+import Hakyll
+import Data.List (intersperse)
+import Control.Applicative (empty)
+import Control.Monad (void, (>>=), liftM)
+import Data.Ord (comparing)
+import Data.List(sortOn, sortBy)
+import Data.Maybe(fromMaybe)
+import Text.Read(readMaybe)
+import Data.Foldable (toList)
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -47,7 +52,7 @@ main = hakyllWith config $ do
         let title = "Posts in the series \"" ++ sr ++ "\""
         route idRoute
         compile $ do
-            posts <- chronological =<< loadAll pattern
+            posts <- bySeriesIdx =<< loadAll pattern
             let ctx = constField "title" title
                       `mappend` listField "posts" (postCtxWithSeries series) (return posts)
                       `mappend` defaultContext
@@ -143,3 +148,16 @@ postCtxWithMeta tags series =
     tagsField "tags" tags `mappend`
     seriesField "series" series `mappend`
     postCtx
+
+-- this parses the series-idx out of an item
+seriesIdx :: MonadMetadata m => Item a -> m Int
+seriesIdx i = do 
+    mStr <- getMetadataField (itemIdentifier i) "series-idx"
+    return $ (fromMaybe 0 $ mStr >>= readMaybe)
+
+bySeriesIdx :: MonadMetadata m => [Item a] -> m [Item a]
+bySeriesIdx = sortByM seriesIdx
+  where
+    sortByM :: (Monad m, Ord k) => (a -> m k) -> [a] -> m [a]
+    sortByM f xs = liftM (map fst . sortBy (comparing snd)) $
+                   mapM (\x -> liftM (x,) (f x)) xs
