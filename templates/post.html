@@ -11,7 +11,9 @@
         </section>
         <section class="info">
             $if(series)$
-            Series: $series$
+            $if(series-idx)$
+            Part $series-idx$ of $series$
+            $endif$
             $endif$
         </section>
         <section class="info">

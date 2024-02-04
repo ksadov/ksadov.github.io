@@ -2,7 +2,7 @@
 title: Ludum Dare 47
 header-img: /images/ludum47screenshot.webp
 header-img-alt: A screenshot of my submission to Ludum Dare 47
-tags: game dev, art, programming, project
+tags: gamedev, art, programming, project
 ---
 
 [Digital Friendship Adventure, aka Delightful Feline Acquaintance, aka Dependable Female Attention, aka DFA](https://ksadov.github.io/ludumdare47/), is a minimalist dating simulator implemented as a deterministic finite automaton. Deterministic finite automata (henceforth denoted DFAs) are simple abstract models of computers. DFAs are defined by 5 elements:

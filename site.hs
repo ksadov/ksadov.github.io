@@ -3,6 +3,7 @@
 import           Data.Monoid (mappend)
 import           Hakyll
 import           Data.List                       (intersperse)
+import           Control.Applicative             (empty)
 
 
 --------------------------------------------------------------------------------
@@ -97,8 +98,21 @@ main = hakyllWith config $ do
 --------------------------------------------------------------------------------
 postCtx :: Context String
 postCtx =
+    transformedMetadataField "series-idx" "series-idx" (id) `mappend`
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+-- | Creates a new field based on the item's metadata. If the metadata
+-- field is not present then no field will actually be created.
+-- Otherwise, the value will be passed to the given function and the
+-- result of that function will be used as the field's value.
+transformedMetadataField :: String -> String -> (String -> String) -> Context a
+transformedMetadataField newKey originalKey f = Context $ \k _ i -> do
+    if k == newKey
+       then do
+           value <- getMetadataField (itemIdentifier i) originalKey
+           maybe empty (return . StringField . f) value
+       else empty
 
 config :: Configuration
 config = defaultConfiguration
