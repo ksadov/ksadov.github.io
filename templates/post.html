@@ -1,24 +1,24 @@
 <article>
     <section class="header post-header">
-        $if(header-img)$
-        <img src="$header-img$" alt="$header-img-alt$" />
-        $endif$
         <section class="info">
             Published on $date$
             $if(author)$
             by $author$
             $endif$
         </section>
+        $if(header-img)$
+        <img src="$header-img$" alt="$header-img-alt$" />
+        $endif$
         <section class="info">
+            $if(tags)$
+            Tags: $tags$
+            $endif$
+        </section>
+        <section class="info" id="series-info">
             $if(series)$
             $if(series-idx)$
             Part $series-idx$ of $series$
             $endif$
-            $endif$
-        </section>
-        <section class="info">
-            $if(tags)$
-            Tags: $tags$
             $endif$
         </section>
     </section>
