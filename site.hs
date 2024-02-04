@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend)
 import           Hakyll
+import           Data.List                       (intersperse)
 
 
 --------------------------------------------------------------------------------
@@ -38,11 +39,28 @@ main = hakyllWith config $ do
                 >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= relativizeUrls
 
+    -- build up series
+    series <- buildSeries "posts/*" (fromCapture "series/*.html")
+    
+    tagsRules series $ \sr pattern -> do
+        let title = "Posts in the series \"" ++ sr ++ "\""
+        route idRoute
+        compile $ do
+            posts <- chronological =<< loadAll pattern
+            let ctx = constField "title" title
+                      `mappend` listField "posts" (postCtxWithSeries series) (return posts)
+                      `mappend` defaultContext
+
+            makeItem ""
+                >>= loadAndApplyTemplate "templates/series.html" ctx
+                >>= loadAndApplyTemplate "templates/default.html" ctx
+                >>= relativizeUrls
+
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithTags tags)
-            >>= loadAndApplyTemplate "templates/default.html" (postCtxWithTags tags)
+            >>= loadAndApplyTemplate "templates/post.html"    (postCtxWithMeta tags series)
+            >>= loadAndApplyTemplate "templates/default.html" (postCtxWithMeta tags series)
             >>= relativizeUrls
 
     create ["archive.html"] $ do
@@ -90,3 +108,24 @@ config = defaultConfiguration
 
 postCtxWithTags :: Tags -> Context String
 postCtxWithTags tags = tagsField "tags" tags `mappend` postCtx
+
+getSeries :: MonadMetadata m => Identifier -> m [String]
+getSeries = getTagsByField "series"
+
+buildSeries :: Pattern -> (String -> Identifier) -> Rules Tags
+buildSeries pattern makeId =
+    buildTagsWith getSeries pattern makeId
+    
+seriesField :: String     -- ^ Destination key
+          -> Tags       -- ^ Tags
+          -> Context a  -- ^ Context
+seriesField = tagsFieldWith getSeries simpleRenderLink (mconcat . intersperse ", ")
+
+postCtxWithSeries :: Tags -> Context String
+postCtxWithSeries tags = tagsField "series" tags `mappend` postCtx
+
+postCtxWithMeta :: Tags -> Tags -> Context String
+postCtxWithMeta tags series = 
+    tagsField "tags" tags `mappend`
+    seriesField "series" series `mappend`
+    postCtx
