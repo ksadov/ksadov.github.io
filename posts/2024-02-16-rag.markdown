@@ -13,7 +13,7 @@ Since it's 2024 and all text generation tasks are solved, I just need to set my 
 1. style: does the simulation write like the Zef?
 2. factual recall: does the simulation know what Zef knows?
 
-You can see the code that I used [here](https://github.com/ksadov/chatbot-cloning). If you want to bring your own data, just provide a new config json file and maybe tweak the document-loading function to your needs.
+You can see the code that I used [here](https://github.com/ksadov/chatbot-cloning/tree/rag1). If you want to bring your own data, just provide a new config json file and maybe tweak the document-loading function to your needs.
 
 ## Preliminary efforts
 Last year, I attempted this task on a [fairly small language model (2.7B parameters)](https://twitter.com/cherrvak/status/1623151519733276673). The model had came pretrained on Reddit discussion threads, so all I did was reformat transcripts of Zef's digital conversations into the format used for pre-training and then resumed the training on the Zef-exclusive dataset.

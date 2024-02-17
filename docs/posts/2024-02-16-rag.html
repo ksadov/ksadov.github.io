@@ -49,7 +49,7 @@
 <li>style: does the simulation write like the Zef?</li>
 <li>factual recall: does the simulation know what Zef knows?</li>
 </ol>
-<p>You can see the code that I used <a href="https://github.com/ksadov/chatbot-cloning">here</a>. If you want to bring your own data, just provide a new config json file and maybe tweak the document-loading function to your needs.</p>
+<p>You can see the code that I used <a href="https://github.com/ksadov/chatbot-cloning/tree/rag1">here</a>. If you want to bring your own data, just provide a new config json file and maybe tweak the document-loading function to your needs.</p>
 <h2 id="preliminary-efforts">Preliminary efforts</h2>
 <p>Last year, I attempted this task on a <a href="https://twitter.com/cherrvak/status/1623151519733276673">fairly small language model (2.7B parameters)</a>. The model had came pretrained on Reddit discussion threads, so all I did was reformat transcripts of Zef’s digital conversations into the format used for pre-training and then resumed the training on the Zef-exclusive dataset.</p>
 <p>The results, as you can see in the linked thread, were underwhelming. Even in the cherrypicked examples I posted to twitter, the model output is repetitive and far lower-entropy than the real Zef. On the upside, while I expected factual recall to be about zero, but it actually managed to memorize a few facts about Zef, and could accurately recall his name, favorite animal (gerbil) and the name of his best friend (me, duh).</p>
