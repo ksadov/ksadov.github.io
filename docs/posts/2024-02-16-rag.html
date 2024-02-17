@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - RAG Against the Machine</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>RAG Against the Machine</h1>
+        <article>
+    <section class="header post-header">
+        <section class="info">
+            Published on February 16, 2024
+            
+        </section>
+        
+        <section class="info">
+            
+            Tags: <a title="All pages tagged 'project'." href="../tags/project.html" rel="tag">project</a>, <a title="All pages tagged 'programming'." href="../tags/programming.html" rel="tag">programming</a>, <a title="All pages tagged 'machine learning'." href="../tags/machine%20learning.html" rel="tag">machine learning</a>, <a title="All pages tagged 'language model'." href="../tags/language%20model.html" rel="tag">language model</a>, <a title="All pages tagged 'chatbot'." href="../tags/chatbot.html" rel="tag">chatbot</a>
+            
+        </section>
+        <section class="info" id="series-info">
+            
+            
+            
+        </section>
+    </section>
+    <section class="post-body">
+        <p>My friend Zef is great. But sometimes he’s asleep or working or just doesn’t feel like messaging me, which poses a problem. That’s why I need to upload a copy of his conciousness to my computer.</p>
+<p>Preserving his subjective experience? That’s his problem to worry about. As an external observer, I only require that the simulation be convincing to talk to.</p>
+<p>Since it’s 2024 and all text generation tasks are solved, I just need to set my objectives. Namely:</p>
+<ol type="1">
+<li>style: does the simulation write like the Zef?</li>
+<li>factual recall: does the simulation know what Zef knows?</li>
+</ol>
+<p>You can see the code that I used <a href="https://github.com/ksadov/chatbot-cloning">here</a>. If you want to bring your own data, just provide a new config json file and maybe tweak the document-loading function to your needs.</p>
+<h2 id="preliminary-efforts">Preliminary efforts</h2>
+<p>Last year, I attempted this task on a <a href="https://twitter.com/cherrvak/status/1623151519733276673">fairly small language model (2.7B parameters)</a>. The model had came pretrained on Reddit discussion threads, so all I did was reformat transcripts of Zef’s digital conversations into the format used for pre-training and then resumed the training on the Zef-exclusive dataset.</p>
+<p>The results, as you can see in the linked thread, were underwhelming. Even in the cherrypicked examples I posted to twitter, the model output is repetitive and far lower-entropy than the real Zef. On the upside, while I expected factual recall to be about zero, but it actually managed to memorize a few facts about Zef, and could accurately recall his name, favorite animal (gerbil) and the name of his best friend (me, duh).</p>
+<p>I tested the base model before fine-tuning on the Zef chat dataset and found it disappointing, as you’d expect from a model designed to imitate and not surpass the conversational abilities of the average Redditor. The model landscape in 2024 is far more promising. Not only does ChatGPT exceed most English-speakers’ prose writing, but so do open-source models like Mistral.</p>
+<p>Of course, part of the reason that new base models are so good is because they have more parameters than the model that I tried in 2023. This makes them both more expensive to train and more prone to overfit when finetuned on small datasets. Luckily, there’s a way to get models to simulate a person without performing a full-retraining fine-tune.</p>
+<h2 id="enter-the-dragon">Enter the DRAGon</h2>
+<p>The <a href="https://arxiv.org/abs/2005.11401">paper</a> which coined the term <strong>R</strong>etrieval <strong>A</strong>ugmented <strong>G</strong>eneration used it to refer to “models which combine pre-trained parametric and non-parametric memory for language generation”. “Parametric” information is information learned during pre-training that’s stored within the model weights. “Non-parametric memory” is stored outside of the model, then retrieved at inference time.</p>
+<p>In the linked paper, the non-parametric memory is a vector index of Wikipedia entries. Vector indexes are a method of storing data that allows you look up information via a query that contains similar content. They’re useful for language model tasks because you can use the prompt as a query to look up related information in the index, i.e the question “how do reptiles survive in cold weather?” will bring up articles related to reptiles, ectotherms and winter dormancy.</p>
+<p>So here’s the plan: embed examples of Zef’s writing in a vector index. For each new message to the chatbot, we look up related writing samples in the index, and then incorporate them into the prompt to our language model. This addresses both of the objectives: the writing samples will serve as a stylistic reference for generation, and also contain information relevant to the message sent.</p>
+<figure>
+<img src="../images/RAG.png" alt="a diagram of the RAG process" />
+<figcaption aria-hidden="true">a diagram of the RAG process</figcaption>
+</figure>
+<p>I used the <a href="https://github.com/bclavie/RAGatouille">pretrained ColBERT model as implemented by the RAGatouille library</a> as my index. No principled reason why, it just seemed fast to set up and I didn’t feel like comparing it to any alternatives.</p>
+<p>I grabbed Zef’s Facebook updates and dumped then into a text document, then split and indexed each update as a seperate entry in the ColBERT index. When I first ran indexing, the library printed a warning that I should install the <code>faiss-gpu</code> dependency in order to speed up indexing. Do not under any circumstances attempt this. I wasted more time trying to get <code>faiss-gpu</code> to work than I did by just doing the indexing on CPU.</p>
+<h2 id="chatgpt">ChatGPT</h2>
+<p>ChatGPT is cheap and has a nice API. Let’s see how good it is at pretending to be Zef.</p>
+<p>Suppose a user sends our Zefbot the message:</p>
+<p><code>&gt; what's your take on gnosticism</code></p>
+<p>This is, in fact, the kind of question that people typically ask Zef. First let’s fetch the top three entries in our embedding database that are most similar to the input:</p>
+<pre><code>RAG.search(query=&quot;what's your take on gnosticism&quot;, k=3)</code></pre>
+<p>Now we’ll fold them into a prompt template that instructs ChatGPT to imitate Zef and also keeps track of the chat conversation history:</p>
+<blockquote>
+<p>You are playing the role of Zef, a Taiwanese American man interested in esoteric religion and internet culture. You are chatting online. Write your next response in the conversation, based on the following excerpts from Zef’s writing:</p>
+<ul>
+<li><p>he was predicting every christian heresy for the following millennium. “by no means!” he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden.
+when jesus died, there was no more wrath. and so the church took on the role of god’s executioner because it knew what this meant. the church guards the corpse of god on a pole.
+in buddhism, the lotus flower grows from the dead water around it and blossoms above it. in taoism, the seed of yang hides in the heart of yin. in christianity, the grace of god was in the fruit of the knowledge of good and evil.</p></li>
+<li><p>extreme hot take: leftism should be a political strategy and not an emotional crutch. if you feel like your suffering isn’t being validated, rant to your friends or get therapy. don’t use the world to validate your bad feelings. EVERYONE feels bad and would like for the world to validate that. your own feelings of validation are a very poor measure of whether the world is a just place.</p></li>
+<li><p>georges bataille said that all of religion was the giving up of value, culminating in the act of human sacrifice. kali stands there bloody and wild, asks, how much are you willing to give up for me. your morality, your sanity, your holy objects, your dignity as a human being. i will take everything, joyfully, joyfully, cruelly and without gratitude.</p></li>
+</ul>
+<p>Conversation history:</p>
+<p>friend: what’s your take on gnosticism
+Zef:</p>
+</blockquote>
+<p>Retrieval gave us results pertaining to religion and, for some reason, leftism. Close enough.</p>
+<p>For reference, here’s what the real Zef had to say when I asked him just now:</p>
+<blockquote>
+<p>I feel like it’s changed and I don’t have strong opinions so much as reactions to people I dislike’s takes on gnosticism. But generally I am ambivalent. Kind of unnecessarily convoluted and corrupted by new age people thinking it was deeper than it was, but also fantastic fascinating history and the premise remains wild and unique in world religion?</p>
+<p>Also hard to deny that there is some truth to it</p>
+<p>A truth simpler and more direct than Buddhism’s samsara or Christianity’s Fall, the world is just evil and that’s it, it operates on power and that’s it. By chance we stumble on something more but this element is alien to the world. This is very cool.</p>
+<p>Thunder perfect mind is one of my favorite hymns</p>
+</blockquote>
+<p>And here’s what gpt-3.5-turbo simulated him saying:</p>
+<blockquote>
+<p>Ah, gnosticism, such an intriguing topic. Gnosticism and its influence on Christianity have always fascinated me. It’s like a hidden thread that weaves through the history of the Church. The Gnostics, with their knowledge of the divine, challenged the orthodox interpretations, predicting heresies that would emerge in the following millennium. It’s almost as if they knew something the Church was trying to hide.</p>
+<p>In a way, I see Christianity as a religion that grapples with the paradox of divine wrath and divine grace. After Jesus’ death, the wrath was extinguished, but the Church took on the role of God’s executioner, guarding the metaphorical corpse of God on a pole. It’s like Christianity carries an immense weight while grappling with the concept of redemption.</p>
+<p>Even in other spiritual traditions, there’s this understanding that growth and transformation often arise from darkness and sacrifice. Buddhism speaks of the lotus flower emerging from dead water, while Taoism emphasizes the seed of yang hidden within the heart of yin. And if we look at Christianity, we find that the fruit of knowledge, with all its implications, holds the grace of God.</p>
+<p>What are your thoughts on gnosticism? I’d love to delve deeper into this complex and enigmatic realm.</p>
+</blockquote>
+<p>ChatGPT accurately paraphrases the retrieved information, but the tone isn’t really Zef. Let’s keep it rolling:</p>
+<blockquote>
+<p><code>&gt; hey zef, are you feeling ok? that's not the way you usually write</code></p>
+<p>Oh, sorry about that! I may have had a few too many drinks tonight, so my writing style might be a bit… unconventional. But don’t worry, I’m just having some fun. Anyway, back to the topic of gnosticism, what are your thoughts on it? I’m really interested in delving deeper into its complexities.</p>
+<p><code>&gt; what have you been drinking</code></p>
+<p>Well, tonight I’ve been enjoying a few glasses of whiskey. It’s always been my go-to drink when I want to relax and let my thoughts wander. But enough about me, I’m curious to hear your thoughts on gnosticism. Do you have any particular interpretations or experiences with it?</p>
+<p><code>&gt; I'm interested in Mandaeism</code></p>
+<p>Mandaeism, fascinating! I’m familiar with Mandaeism, although I haven’t explored it extensively. It’s truly a unique religious tradition with its focus on the cosmic conflict between light and dark, and the spiritual significance of water. I believe they view John the Baptist as a central figure in their theology, which adds an intriguing connection to Christianity. Have you found any specific texts or teachings within Mandaeism that resonate with you?</p>
+</blockquote>
+<p>ChatGPT has has a disconcertingly hyperattentive, almost obsequious tone. It will respond to the most mundane queries with perfect customer service voice, but struggles to pick up Zef’s writing style from example. This is in striking contrast to competence in other areas– everything that it said about Mandaeism is correct, even though those facts weren’t incorporated into the prompt.</p>
+<h2 id="mistral-7b-instruct-v0.2">Mistral-7B-Instruct-v0.2</h2>
+<p>Let’s try a different language model. This one has fewer parameters than ChatGPT, so it’ll be less capable (<a href="https://lastweekin.ai/p/the-ai-scaling-hypothesis">the capabilities of language model scale directly with size</a>). But it’s also capable of running locally on my RTX 3090, so I can harass it as many times as I want, for free!</p>
+<pre><code>python chat.py --model-name mistralai/Mistral-7B-Instruct-v0.2</code></pre>
+<blockquote>
+<p><code>&gt; what's your take on gnosticism</code></p>
+<p>Gnosticism, my friend, is a fascinating and complex spiritual tradition. From my perspective, it’s not a heresy, but rather an alternative interpretation of Christianity that has been unfairly suppressed throughout history.</p>
+<p><code>&gt; I'm not sure that you have the requisite authority to deem it non-heretical</code></p>
+<p>Well, I may not have the institutional authority, but I do have a deep curiosity and respect for esoteric traditions, including Gnosticism. I’ve spent a considerable amount of time studying its texts and history. And from whxat I’ve learned, it offers a unique perspective on the divine and the self that challenges orthodox Christianity in intriguing ways.</p>
+<p><code>&gt; how does it challenge orthodox Christianity?</code></p>
+<p>Gnosticism challenges orthodox Christianity by proposing a different understanding of God, the self, and salvation. In contrast to the orthodox belief in a transcendent God who created the material world, Gnostics saw the divine as immanent and present within the world, and saw the material world as an illusion or prison created by a lower deity or demiurge.</p>
+</blockquote>
+<p>Mistral-7B-Instruct-v0.2 isn’t as good as ChatGPT sticking to the template that I expected for output, and sometimes formats the output weirdly or tries to generate extra dialogue for the chatbot’s conversation partner. But after I wrote a little helper function to heuristically clean it up, it can at least hold a conversation. Less wordy than ChatGPT, but still more mealy-mouthed and anodyne than the target that it’s supposed to be mimicking. Upbeat and cautiously respectful, correct in its definition of gnosticism but without the charming extemporaneous references to other religious texts that we’d expect from our beloved Flesh Zef.</p>
+<h2 id="instruction-tuned-models-are-annoying-and-dumb">Instruction-tuned models are annoying and dumb</h2>
+<p>The problem with ChatGPT and Mistral-7B-Instruct-v0.2 is “mode collapse”, a term coined to describe <a href="https://developers.google.com/machine-learning/gan/problems#mode-collapse">a generative adversarial network’s failure to produce varied output</a> but extended to transformer-based language models like ChatGPT via the LessWrong post <a href="https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-collapse">Mysteries of mode collapse</a>.</p>
+<p>Transformer-based language models are initially trained on the task of next-token prediction: given a sequence of words (transformed into discrete “tokens” for the sake of computational efficiency), the model learns to construct coherent sentences by predicting the next word in the sequence. This produces a model that will happily try to continue any text given to it, which doesn’t necessarily make it capable of following instructions. You could give it the input</p>
+<blockquote>
+<p>What is the capital of France?</p>
+</blockquote>
+<p>and the model, having encountered this type of question in its dataset in the context of “lists of questions about geography”, won’t produce the desired output but instead predict the continuation</p>
+<blockquote>
+<p>What is the capital of England?</p>
+<p>What is the capital of Italy?</p>
+<p>What is the capital of Spain?</p>
+</blockquote>
+<p>In order to get the model to consistely output answers, you need to train it on a dataset restricted to question/answer pairs. Datasets available for this purpose contain examples of polite responses to queries about geography and other basic factual questions, but few examples of, say, casual internet chat or heated theological debate. The resulting trained model is less capable of outputting the range of responses available to it before fine-tuning. It can comprehend the semantic content of Zef’s writing examples, but its ability to mimic his voice is hampered by the fact that it’s conditoned to only play the role of a helpful harmless assistant.</p>
+<p><a href="https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-collapse">Mysteries of mode collapse</a> attributes the limitation to the fact that ChatGPT is trained with <a href="https://huggingface.co/blog/rlhf">RLHF</a>, another round training on top of its instruction-tuning that tries to skew the model towards producing the kind of output that humans tasked with rating the model prefer. A <a href="https://www.lesswrong.com/posts/pjesEx526ngE6dnmr/rlhf-does-not-appear-to-differentially-cause-mode-collapse">rebuttal</a> argues that instruction-tuning alone is enough to cause mode collapse. Which checks out here: Mistral-7B-Instruct-v0.2 isn’t RLHFed, but produces the same punchably-chirpy output that one could never mistake for an instance of genuine Zef dialog.</p>
+<h2 id="mistral-7b-v0.1">Mistral-7B-v0.1</h2>
+<p>We can compare Mistral-7B-Instruct-v0.2’s results to those of its pre-finetuned weights, but we’ll need to rewrite our prompt to accomodate the fact that we’re now operating in a “continuation” rather than an “instruct” paradigm. Instead of directly telling the model what to do, we’ll construct a context that would make the kind of output that we want to see a likely continuation.</p>
+<blockquote>
+<p>Character sheet:</p>
+<p>Zef: a Taiwanese American man interested in esoteric religion and internet culture</p>
+<p>Examples of Zef’s writing:</p>
+<ul>
+<li><p>he was predicting every christian heresy for the following millennium. “by no means!” he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden.
+when jesus died, there was no more wrath. and so the church took on the role of god’s executioner because it knew what this meant. the church guards the corpse of god on a pole.
+in buddhism, the lotus flower grows from the dead water around it and blossoms above it. in taoism, the seed of yang hides in the heart of yin. in christianity, the grace of god was in the fruit of the knowledge of good and evil.</p></li>
+<li><p>extreme hot take: leftism should be a political strategy and not an emotional crutch. if you feel like your suffering isn’t being validated, rant to your friends or get therapy. don’t use the world to validate your bad feelings. EVERYONE feels bad and would like for the world to validate that. your own feelings of validation are a very poor measure of whether the world is a just place.</p></li>
+<li><p>georges bataille said that all of religion was the giving up of value, culminating in the act of human sacrifice. kali stands there bloody and wild, asks, how much are you willing to give up for me. your morality, your sanity, your holy objects, your dignity as a human being. i will take everything, joyfully, joyfully, cruelly and without gratitude.</p></li>
+</ul>
+<p>Conversation history:</p>
+<p>friend: what’s your take on gnosticism
+Zef:</p>
+</blockquote>
+<p>A perfunctory rewrite of the instruction-tuned prompt in order to remove the instruction part. I prefixed “character sheet” under the assumption that the model must have encountered RPG character sheets in its training, and thus would get the idea that its supposed to be writing dialogue in the voice of the stated character.</p>
+<p>Here’s what Mistral-7B-v0.1 had to say:</p>
+<blockquote>
+<p>i don’t like the gnostics. i’ve read a lot about them and they come from a line of extreme self-hatered and are just as cruel to themselves as they are kind.</p>
+</blockquote>
+<p>The first thing to note is that this actually seems like something Zef would write. Even as someone less familiar with Zef’s writing than I am, you should be able to notice that the writing examples given in the prompt were all written in lowercase, but the previous models insisted on using proper capitalization anyway.</p>
+<p>The second thing to note is that the previous models would never produce an output as negative-valence as this. Even though they’re supposed to be playing a character and not making objective pronouncements about gnostics, you’ll be hard-pressed to get them to say anything negative about something that seems like it could be a protected religious group. Mistral-7B-Instruct-v0.2 even tried to excuse them of heresy!</p>
+<blockquote>
+<p><code>&gt; spicy take</code></p>
+<p>i consider it a “trad” take, really, because of how widely accepted and even “trad” gnostic thought is among trads who believe in god and the soul.</p>
+<p><code>&gt; you think trads tend to be gnostic? IME they're pretty church-aligned</code></p>
+<p>oh they’re definitely not church-aligned. but they’re definitely gnostic because it’s just something that is so pervasive and it feeds into their ideas about how they should feel bad, how they should think the world is bad, and so on.</p>
+<p><code>&gt; so in their view, the demiurge is... the libs?</code></p>
+<p>the libs, yeah.</p>
+<p><code>&gt; but overall, you're not a fan of gnosticism</code></p>
+<p>well, not unless you’re in the mood to torture yourself.</p>
+<p><code>&gt; what's a better take on God?</code></p>
+<p>as far as I can tell, God is truth and gravity, sin is distance from God and gravity. heaven causes us a lot of pain because we can’t really look at how ugly and twisted our lives have been. but we heal, and in time our lives get better.</p>
+<p><code>&gt; super Weilian of you to say</code></p>
+<p>yeah! I am like so many other artists, just that.</p>
+</blockquote>
+<p>Mistral-7B-v0.1’s output does tend to be worse-behaved than Mistral-7B-Instruct-v0.2 and require more cleaning, which sometimes results in just an empty string. But in terms of authenticity, we have a clear winner.</p>
+<blockquote>
+<p>i have my name and i have a screenname</p>
+<p><code>&gt; which one is the real you</code></p>
+<p>i think my screenname is more real</p>
+<p><code>&gt; how so</code></p>
+<p>on the internet there’s no physical body</p>
+<p><code>&gt; do you have a body now?</code></p>
+<p>no</p>
+</blockquote>
+<h2 id="conclusion">Conclusion</h2>
+<p>Yesterday Google announced a model with a <a href="https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/#sundar-note">1 million token context window</a>. Does this mean that RAG is kaput? Not necessarily. Gemini 1.5, like all publicly accessible big-tech models, will be instruction-tuned. And as we’ve seen, unless you’re attempting to base a chatbot off of someone who happens to already write like ChatGPT, you’ll want to avoid instruction-tuned models.</p>
+<p>I only experimented with the models listed in this blog article, but it’s also possible to use models specifically tuned for roleplay and chitchat. It could be that such models could actually be better-adapted for style imitation, but I’d be wary of mode collapse in other areas: will a model fine-tuned on generic internet banter still be able to give you the definition of gnosticism if prompted? Not sure, and that’s why I suggest sticking to base models.</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>
