@@ -38,6 +38,8 @@
         <section class="info" id="series-info">
             
             
+            Part 1 of <a title="All pages tagged 'Chatbot Cloning'." href="../series/Chatbot%20Cloning.html" rel="tag">Chatbot Cloning</a>
+            
             
         </section>
     </section>
@@ -123,7 +125,7 @@ in buddhism, the lotus flower grows from the dead water around it and blossoms a
 </blockquote>
 <p>Mistral-7B-Instruct-v0.2 isn’t as good as ChatGPT sticking to the template that I expected for output, and sometimes formats the output weirdly or tries to generate extra dialogue for the chatbot’s conversation partner. But after I wrote a little helper function to heuristically clean it up, it can at least hold a conversation. Less wordy than ChatGPT, but still more mealy-mouthed and anodyne than the target that it’s supposed to be mimicking. Upbeat and cautiously respectful, correct in its definition of gnosticism but without the charming extemporaneous references to other religious texts that we’d expect from our beloved Flesh Zef.</p>
 <h2 id="instruction-tuned-models-are-annoying-and-dumb">Instruction-tuned models are annoying and dumb</h2>
-<p>The problem with ChatGPT and Mistral-7B-Instruct-v0.2 is “mode collapse”, a term coined to describe <a href="https://developers.google.com/machine-learning/gan/problems#mode-collapse">a generative adversarial network’s failure to produce varied output</a> but extended to transformer-based language models like ChatGPT via the LessWrong post <a href="https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-collapse">Mysteries of mode collapse</a>.</p>
+<p>The problem with ChatGPT and Mistral-7B-Instruct-v0.2 is “mode collapse”, a term coined to describe <a href="https://developers.google.com/machine-learning/gan/problems#mode-collapse">a generative adversarial network’s failure to produce varied output</a> but extended to transformer-based language models like ChatGPT via the LessWrong post <a href="https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-!">Mysteries of mode collapse</a>.</p>
 <p>Transformer-based language models are initially trained on the task of next-token prediction: given a sequence of words (transformed into discrete “tokens” for the sake of computational efficiency), the model learns to construct coherent sentences by predicting the next word in the sequence. This produces a model that will happily try to continue any text given to it, which doesn’t necessarily make it capable of following instructions. You could give it the input</p>
 <blockquote>
 <p>What is the capital of France?</p>

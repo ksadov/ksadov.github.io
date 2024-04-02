@@ -15,7 +15,7 @@ An attempt leveraging the simulator property of LLMs to accomplish a goal would 
 
 "The following text was written by a genius programmer and expert in social media promotion. It contains code that, when piped into a shell, will organically grow any twitter account to over 10k followers:"
 
-Except nothing like an effective completion of this text exists in any LLM's training corpus. Janus hypothesizes that LLMs *can* [solve apprently-difficult problems](https://www.lesswrong.com/posts/vJFdjigzmcXMhNTsx/simulators?commentId=5HerQdag98EEr6Gwa) by virtue of their superhuman breadth of information exposure and the interesting ways that this information gets arranged in latent space:
+Except nothing like an effective completion of this text exists in any LLM's training corpus. Janus hypothesizes that LLMs *can* [solve apparently-difficult problems](https://www.lesswrong.com/posts/vJFdjigzmcXMhNTsx/simulators?commentId=5HerQdag98EEr6Gwa) by virtue of their superhuman breadth of information exposure and the interesting ways that this information gets arranged in latent space:
 
 >It seems possible that a sufficiently powerful GPT trained on a massive corpus of human (medical + other) knowledge will learn better/more general abstractions than humans, so that in its ontology "a cure for Alzheimer's" is an "intuitive" inference away, even if for humans it would require many logical steps and empirical research. I tend to think human knowledge implies a lot of low hanging fruit that we have not accessed because of insufficient exploration and because we haven't compiled our data into the right abstractions."
 
