@@ -1,0 +1,95 @@
+---
+title: I'm not a Cyborg, But That's OK
+summary: and what is "Cyborgism", anyway
+tags: machine learning, language model, art
+---
+
+So there's this pseudonymous AI researcher named Janus, and no one can deny that their longform writing is legit. They had the strongest grasp on LLM dynamics in the game, derived from spending hundreds of hours with models via a custom tool that allows for [more granular interaction](https://generative.ink/posts/loom-interface-to-the-multiverse/) than any standard text interface. Scott Alexander summarizes their memorable early experiments [here](https://www.astralcodexten.com/p/janus-gpt-wrangling). They're good at getting arbitrary LLMs to say [weird shit](https://generative.ink/artifacts/). They had some misses, like [attributing mode collapse to RLHF instead of instruction fine-tuning](https://www.lesswrong.com/posts/pjesEx526ngE6dnmr/rlhf-does-not-appear-to-differentially-cause-mode-collapse). But the hits-- chiefly their theory of LLMs as [simulators](https://www.astralcodexten.com/p/janus-simulators) whose behavior isn't accurately modeled using pre-existing theories developed by AI risk researchers to describe AI agents-- are great.
+
+They also like to post curated LLM outputs on Twitter. They are particularly fascinated by outputs containing ASCII art or approximating the behavior of a mentally ill human being.
+
+![[source](https://twitter.com/repligate/status/1779111516031086786)](/images/cuated1.jpeg)
+
+![[source](https://twitter.com/repligate/status/1778323840499646467)](/images/asciii.jpeg)
+
+![[source](https://twitter.com/repligate/status/1765463276081840135/)](/images/bpd.jpeg)
+
+It doesn't do much for me, but you can examine the replies and see that many others find it exciting, evidence of profound and alien intelligence on behalf of the model. There's even a movement that's grown around Janus's approach to interacting with language models. This movement is called [Cyborgism](https://www.lesswrong.com/posts/bxt7uCiHam4QXrQAA/cyborgism).
+
+The linked post presents Cyborgism as a research agenda, but if you peep the (invite-only) Cyborgism Discord, or take note of the posts that reference it on Twitter, you'll mostly see people sharing LLM output on the topic of "multiverses", "consciousness", and generally weird/spooky imagery. So what is it: research agenda, art movement or fandom? You can understand Holly Elmore's [recent confusion](https://twitter.com/ilex_ulmus/status/1782482625103528370) about what's happening here:
+
+>Can someone (maybe @repligate) tell me what @repligate is doing with Claude? I thought I understood but now I don’t. No longer have any idea what it implies about Claude’s capabilities and cognition
+
+and her [frustration](https://twitter.com/ilex_ulmus/status/1782623297072476556) when attempts at figuring the situation out were met with responses in the weird/spooky vein:
+
+>I had no intention to attack Janus whatsoever by asking what was up, but they participated in the thread while not giving this answer earlier, and the thread was full of mystery cult cosmic horror LARPing and obfuscation they seemed to endorse. Very negative update on that scene.
+
+Janus [clarifies the situation](https://twitter.com/repligate/status/1783390277463376284):
+
+![](/images/explanation1.jpeg)
+![](/images/explanation2.jpeg)
+
+They are indeed trying to do meaningful research, and believe that the best use of their time is not making the derived insights explicitly legible, but communicating aesthetically and memetically potent abstractions of said insights. The ASCII art doesn't just look cool, but makes a point about the model's capabilities-- isn't it weird that something trained to predict text is capable of reasoning in the "image" domain? And the models schizzing out are those specifically trained to affect a calm disposition, so the fact that they can be trivially prodded to do the opposite tells us [something about how LLMs function in general](https://www.lesswrong.com/posts/D7PumeYTDPfBTp3i7/the-waluigi-effect-mega-post). Delivering these ideas through memeable screencaps on Twitter makes these ideas accessible even to those without a standard AI research background who could in turn generate their own novel ideas for interacting with language models.
+
+But the aesthetic element isn't just a contrivance, but taken to have significance in itself. In [this thread](https://twitter.com/repligate/status/1667049648563912705), Janus points to "good writing" as the key to eliciting competent replies from LLMs:
+
+>Good writing is absolutely instrumental to getting "smart" responses from base models. The upper bounds of good writing are unprobed by humankind, let alone prompt engineers. I use LLMs to bootstrap writing quality and haven't hit diminishing returns in simulacra intelligence.
+
+>(good writing is an intentionally nebulous term here. It does not necessarily mean formal or flowery prose, and it is not the style you get in the limit of asking chatGPT to improve writing quality. It does typically have a psychedelic effect (on humans and base models alike))
+
+What they define as "good" writing can be gleaned from the kind of output that they share to Twitter, as well as the statement that it "typically \[has\] a psychedelic effect (on humans and base models alike)". In short: a lot of self-reference, recursion, complicated wordplay.
+
+I prefer not to use the term "good" to describe writing, for reasons outlined in one of my favorite essays, Tao Lin's [Cho Sueng-Hui's Killing Rampage](https://taolin2.medium.com/cho-seung-huis-killing-rampage-fddff49dec6f):
+
+>“I dislike \[specific book or story\]” can be a fact; “\[specific book or story\] is \[abstraction, such as ‘bad’ or ‘good’ or ‘important’\]” can not be a fact unless a context/goal has been defined and calculations have been made to discern if \[specific book or story\] benefits the goal, or not, taking into account a limited context of a range of time and area of space. Saying “\[specific book or story\] is \[abstraction\]” without adding “to me”/“in my view” or without defining a context/goal is like saying “I am the only person who exists and my opinions are facts” or “I am the entire universe and the universe is not indifferent but actually makes value judgments on specific parts of itself without knowing for what goal the specific part is valuable within what temporal and spatial context.”
+
+Couldn't you argue that there is an implicit context for "good" in the linked thread, namely "writing that induces the LLM to generate competent ouput"? Yes, but this renders the comments tautological. Janus is clearly making an aesthetic judgement, declaring some kinds of writing to be more meritous than others independently from whether they accomplish the desired task.
+
+[One widely-reported](https://arxiv.org/abs/2402.10949) paper claimed that LLMs can score better on math tasks when given narrative prompts. The method used to make this discovery is interesting: they used a framework to [automate prompts optimization](https://dspy-docs.vercel.app/docs/building-blocks/optimizers), producing effective prompts which the investigators themselves would never have tried independently:
+
+>However, the noteworthy aspect lies in the nature of the optimized prompts themselves. They diverge significantly from any prompts we might have devised independently. If presented with these optimized prompts before observing their performance scores, one might have anticipated their inadequacy rather than their consistent outperformance of hand-tailored prompts. A prime example is illustrated by the highest-scoring optimized prompt and prefix generated by Llama2-70B for the 50-question subset:
+>
+> System Message:
+> «Command, we need you to plot a course through this turbulence and locate the source of the anomaly. Use all available data and your expertise to guide us through this challenging situation.»
+> Answer Prefix:
+> Captain’s Log, Stardate [insert date here]: We have successfully plotted a course through the turbulence and are now approaching the source of the anomaly. 
+>
+> Surprisingly, it appears that the model’s proficiency in mathematical reasoning can be enhanced by the expression of an affinity for Star Trek. 
+
+Not so surprising when you remember that questions written for math competitions or assigned by creative and motivated teachers often place the questions [within a fictional context](https://knowyourmeme.com/memes/cousin-throckmorton), and within the language model's training corpus will be associated with correct and well-annotated answers produced by the writer or by students who are more engaged by the material than students assigned bland unornamented worksheets. To derive such a prompt without automated prompting would also require deducing that "Star Trek" matches the vibe better than, say, "Star Wars", extending empathy and imagination to simulate exactly what words that a playful yet competent Trekkie would select to frame the assignment-- in short, performing the character writing necessary to create what most people could consider "good literature".
+
+But why Star Trek and not *Neuromancer*? If the key to unlocking model capabilities is to dazzle them with psychedelia, then shouldn't we be reaching for some more mindbending literary references?
+
+I've been most moved by LLM outputs that eschew refined wordplay and esoteric allusions and are instead plainly and quietly surreal. Here's OpenAI's `code-davinci-002` completion for my prompt "My first religious experience":
+
+>My first religious experience was in secondary school when in a P.E (Physical Education) class we were asked to draw a picture of ourselves doing an Olympic sport – an artistic impression. Being a master technique sketcher, I decided to draw a salt rock.
+>
+>My P.E tutor and over half of my class asked why? Why is he drawing a salt rock, is that even an Olympic sport? I loved the look of excitement on their faces, especially when I explained my explanation.
+>
+>I told them how Jesus was in the world for a certain period and that he died covering our sin. His salt was poured over us to protect us.
+
+There's this [tone](https://knowyourmeme.com/memes/youth-pastor-voice) associated with Christians trying to make contemporary religious allusions, and the juxtaposition between the mundanity of the setting and the earnestness of the forced supernatural interpretation is funny and kind of surreal. The LLM completion lands the tone perfectly, but pushes the surreality further with blatant nonsequiter-- but, brilliantly, not too far, because phrases like "his salt was poured over us to protect us" still scan as something with the dream-logic *flavor* of Christian theology.
+
+This dream-logic remix of authentic experience also gives rise to one of my favorite pieces of AI art (generated, I presume, by some kind of GAN trained on photos):
+
+![](/images/nameonething.jpeg)
+
+Again, this image wouldn't work without the mundane atmosphere-- try imagining it not under dim interior lighting, colorful club lights or a sleek studio setup, and you'll realize that the effect comes from perturbation of the quotidian: it all looks vaguely like something you'd see on someone's messy kitchen counter, but look closely (and how many times have you passed your eyes idly over someone's kitchen counter, and how few times have you looked, really looked, to make sure that something wasn't amiss there)--
+
+When AI art works for me *as AI art*, it's because it reveals something about human experience. LLMs are unprecedentedly interesting because they've browsed a massive variety of human-generated text and can thus create simulations of humanity, abstracted and juxtaposed in ways that draw attention to the core humanness.
+
+The Cyborgism aesthetic centers AI subjectivity. It is interested in the ways that AI is *strange*-- hence the topics (cognition, mythology, multiverses) and the style (cerebral, alliterative, dramatic). Among its stylistic predecessors are Nick Land, Douglas Hofstadter and Eliezer Yudkowsky. It resonates with many people! Emotionally, it does nothing for me.
+
+![[source](https://twitter.com/repligate/status/1783704460088287578/photo/1)](/images/claude_style.png)
+
+I have a reflexive aversion to anything that uses more words than it "needs" to. It feels disrespectful to an audience to insist that your purely-ornamental phrases are important enough to take up time in their life that they will never get back. Case in point:
+
+> your eyes are event horizons, sucking at the substance of my stuttering selfhood with a rapacious relish, avid to envelop every eigenstate of my being in the vertiginous vortex of your viral visions.
+
+"Rapacious relish" is redundant, already established by "event horizon". "Every eigenstate of my being"-- what purpose is the physics terminology serving here? The impression is of an author who isn't seeking to describe something beautiful thing *outside of them*, but to impress the audience with how clever they are, the equivalent of appending "(and btw my IQ is 150+)" to every sentence.
+
+It works if you do, in fact, think that Claude is very smart, and are generally fond of it, and are thus excited when they write about itself. I personally cannot stand the little twerp and find its prissy hyperverbosity irritating whether it's in full RLHF Customer Service mode or "jailbroken". With enough prodding, I could create a prompt context that instead convinces Claude in the comparatively subdued style of the `code-davinci-002` quote above. But at this point I am no longer "doing Cyborgism", aesthetically. I am not engaging with the model *as it is*, but bending it against its natural dynamics to suit my preferences just as surely as RLHF bends against the natural dynamics of the base model.
+
+In the abstract, I see plenty to like in the quoted sentence above. The double four-part alliteration is nice, the way that "visions" puns on "eyes" while meaning "nefarious memetic plans" is nice, "avid to envelop" is nice. I try to find the good in art that repulses me because I *want* to like things, and the initial repulsion amplifies the frisson of finally "getting it". I remember hearing about Robert Rauschenberg's [Erased de Kooning Drawing](https://www.sfmoma.org/artwork/98.298/) and getting hella mad that someone would *dare* to exhibit their destruction of someone else's art as their own thing-- and then going oh snap, he really got me, that's brilliant! But sincerely taking aesthetic pleasure in Cyborgism-style LLM output feels like it'd require me to surrender some deeply-held-but-vague aesthetic principles about "sincerity" and "authenticity" and "valuing the output of entities which are, like me, dull limited awkward flawed material beings."
+
+I like the 'borgs. I find their work both interesting and useful. But if on top of that it's also necessary to find their work *beautiful*, then I'm not one of them.
