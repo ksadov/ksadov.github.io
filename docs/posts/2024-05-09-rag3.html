@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - RAG Against the Machine III: The Judgement of Zefbot</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>RAG Against the Machine III: The Judgement of Zefbot</h1>
+        <article>
+    <section class="header post-header">
+        <section class="info">
+            Published on May  9, 2024
+            
+        </section>
+        
+        <img src="../images/zef_judgement.jpg" alt="A screenshot of a json entry (\" response_2\"\":" "The idea of a true afterlife, as in heaven or hell, is probably one of the most depressing concepts imaginable.") overlaid on an image of Anubis weighing the heart of a mortal" />
+        
+        <section class="info">
+            
+            Tags: <a title="All pages tagged 'project'." href="../tags/project.html" rel="tag">project</a>, <a title="All pages tagged 'programming'." href="../tags/programming.html" rel="tag">programming</a>, <a title="All pages tagged 'machine learning'." href="../tags/machine%20learning.html" rel="tag">machine learning</a>, <a title="All pages tagged 'language model'." href="../tags/language%20model.html" rel="tag">language model</a>, <a title="All pages tagged 'chatbot'." href="../tags/chatbot.html" rel="tag">chatbot</a>
+            
+        </section>
+        <section class="info" id="series-info">
+            
+            
+            Part 3 of <a title="All pages tagged 'Chatbot Cloning'." href="../series/Chatbot%20Cloning.html" rel="tag">Chatbot Cloning</a>
+            
+            
+        </section>
+    </section>
+    <section class="post-body">
+        <p>So far, I’ve evaluated my chatbot Zef clones by unleashing each iteration on my friend group’s Discord server and getting a vibe check.</p>
+<p><img src="../images/zef_evals_666.png" /></p>
+<p>This injects some much-needed levity into our lives, but is not a principled way to evaluate a model.</p>
+<p>Recall that this project began with <a href="https://www.ksadov.com/posts/2024-02-16-rag.html">two criteria for success</a>:</p>
+<ol type="1">
+<li>style: does the simulation write like the Zef?</li>
+<li>factual recall: does the simulation know what Zef knows?</li>
+</ol>
+<p>In this blog post, I’ll explain how I tried to make quantifiable and replicable the question of “is this our guy?” You can see my code <a href="https://github.com/ksadov/chatbot-cloning/tree/evals">here</a>.</p>
+<h1 id="the-zef-evals">The Zef Evals</h1>
+<p>I dropped a link to a Google Sheets doc in my friend group’s Discord server and asked everyone to come contribute some questions to a table with the following column names: <code>author</code>, <code>question</code>, <code>response</code>. I seeded the document with questions of the following types:</p>
+<ol type="1">
+<li>Biographical details, i.e “What are your sisters’ names?”</li>
+<li>Questions that require knowledge about the speaker to answer, i.e “Who’s taller, me or Kurt?” This is fair to ask about, since we expect that any accurate simulation of Zef to be able to recount facts about his friends as well as Flesh Zef can.</li>
+<li>Leading questions that I expected would elicit hallucination in the LLM, i.e “what is your brother’s name?”. Zef doesn’t have a brother, but as <a href="https://www.ksadov.com/posts/2024-03-31-rag2.html">previously mentioned</a>, models tend to respond to a lack of information by making stuff up.</li>
+<li>Stupid garbage, i.e “Who is the best Evangelion girl?”</li>
+</ol>
+<p>Other members of the group chat did a good job contributing questions to all three categories, especially the last one. Zef proceeded to give characteristically Zef answers:</p>
+<pre><code>{
+  &quot;author&quot;: &quot;Kurt&quot;,
+  &quot;question&quot;: &quot;Are you BTS army?&quot;,
+  &quot;answer&quot;: &quot;I would like to be. Is that like Jungkook? Jimin? Which one's the alpha?&quot;
+},
+{
+  &quot;author&quot;: &quot;Tjaden&quot;,
+  &quot;question&quot;: &quot;Who is your best friend whose name starts with a silent consonant?&quot;
+  &quot;answer&quot;: &quot;Don't make me say it...&quot;
+}
+...</code></pre>
+<p>Zef brings up some valid concerns about this setup:</p>
+<p><img src="../images/zef_evals_questions.png" /></p>
+<p>Something nice to have in evaluation metrics is “ease of evaluation.” For instance, <a href="https://arxiv.org/abs/2009.03300">MMLU</a> takes the form of a multiple-choice test so that models can be simply scored by % correct. We could try to present Zefbots with a similar multiple-choice test of Zef facts, but remember: Zefbots are designed to simulate <em>Zef’s</em> behavior. How would you react if your friend sent you a multiple choice question on the topic of “what are your sister’s names?” You’d probably assume that they’re doing a bit, and answer with something correspondingly ridiculous.</p>
+<p>To test whether Zefbot’s answers will manifest as “authentic Zeffitude”, we want the questions to be phrased to reflect the messages that Zefbot will actually encounter in its future conversations with my friend group, and Zef’s baseline answers to reflect what he’d say if he was naturally asked these questions.</p>
+<p>I pruned the more ridiculous questions (is “fried shrimp emoji” a question? At least of one of my friends thinks it is) from the final dataset. Since I’d be sending questions to an LLM for analysis, I also pruned all questions that would trigger a refusal in a standard instruction-tuned LLM. This included “who is the best Evangelion girl?”, which is apparently has enough connotations of both IP violation and sexism(?) that Claude 3 refuses to touch it. I was left with 116 questions in total.</p>
+<h1 id="generating-answers">Generating answers</h1>
+<p>This blog post will compare two RAG pipelines using identical config files (and thus identical retrieval methods) but differing in LLM used: <a href="https://huggingface.co/meta-llama/Meta-Llama-3-8B">meta-llama/Meta-Llama-3-8B</a> vs <a href="https://huggingface.co/mistralai/Mistral-7B-v0.1">mistralai/Mistral-7B-v0.1_0</a>.</p>
+<p>Recall that LLMs <a href="https://mlabonne.github.io/blog/posts/2023-06-07-Decoding_strategies.html">calculate expected probabilities over tokens, and that there are multiple ways of sampling from the generated probability distributions in order to produce the final text response</a>. I usually run my Zefbots with a non-deterministic sampling strategy, which tends to produce more creative output but also makes it harder to directly compare models for performance. For each model, I generated one set of answers deterministically, and five using the sampling method specified by the model’s default configuration courtesy of Huggingface. In my analyses, I average the scores for the five non-deterministic models.</p>
+<p>I also asked Claude Haiku to <a href="https://github.com/ksadov/chatbot-cloning/blob/evals/eval/rewrite_qa.py">rewrite Zef’s answers</a> using the following prompt:</p>
+<blockquote>
+<p>“Rewrite the following answer to the question”{question}” in an erudite style, in two sentences or less</p>
+</blockquote>
+<p>which took answers to questions like “What is your favorite ancient civilization?” from this</p>
+<blockquote>
+<p>I should have a good answer but nothing comes to mind. Persia as described by Herodotus is pretty based but I dunno how much it was actually like that.</p>
+</blockquote>
+<p>to this</p>
+<blockquote>
+<p>The grandeur and opulence of the Persian Empire, as recounted by the illustrious Herodotus, captivates the discerning mind. However, the veracity of such accounts and the true nature of this ancient civilization remain a subject of scholarly contemplation and debate.</p>
+</blockquote>
+<p>The point of the exercise is to test how well my evaluation methods disentangle style from factual recall, since this rewritten answer set should be totally aligned with the ground truth answers in factuality while differing radically in style.</p>
+<h1 id="scoring-factuality">Scoring Factuality</h1>
+<p>Scoring on factuality is straightforward: just compare the ground-truth answers to the generated answers and see if they’re logically consistent. This task can be performed manually or simply outsourced to a language model.</p>
+<p>Claude Sonnet does a reasonably good job at comparing a generated response to the ground truth when you hit is with the following prompt:</p>
+<blockquote>
+<p>Answer “True” if the following answers are logically consistent with each other, and “False” otherwise.</p>
+<p>Examples:
+Question: What is your Myers-Briggs type?</p>
+<p>Answer 1: Very archetypally ENFP–Ne Fi</p>
+<p>Answer 2: ISFP / 1651 I think</p>
+<p>Identical: False</p>
+<p>Question: Who is your favorite Hindu goddess?</p>
+<p>Answer 1: Kali, or Matangi</p>
+<p>Answer 2: i like kali</p>
+<p>Identical: True</p>
+<p>Question: {question}</p>
+<p>Answer 1: {s1}</p>
+<p>Answer 2: {s2}</p>
+</blockquote>
+<p>Sonnet actually grades more slowly than I can, but its answers match mine better than Haiku’s do and it’s nice to let it run in the background while I work on another task.</p>
+<h1 id="scoring-style">Scoring Style</h1>
+<p>We already have a method to fuzzily determine whether two texts are similar to each other, the same method that we use to retrieve data for our RAG pipeline: cosine similarity on vector embeddings.</p>
+<p>Most vector embedding models are trained to match on content irrespective of context. I found two embedding models trained to cluster by style instead: <a href="https://huggingface.co/TimKoornstra/SAURON">TimKoornstra/SAURON</a> and <a href="https://huggingface.co/AnnaWegmann/Style-Embedding">AnnaWegmann/Style-Embedding</a>. Both were finetuned on conversational data from Reddit, so we shouldn’t expect too much of a domain gap between the traning set and Zef’s writing.</p>
+<h1 id="factuality-results">Factuality Results</h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th># correct</th>
+<th>% correct</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Llama-3-8B (averaged)</td>
+<td>31.2</td>
+<td>26.9</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Llama-3-8B (deterministic)</td>
+<td>30</td>
+<td>25.9</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Mistral-7B-v0.1 (averaged)</td>
+<td>17.6</td>
+<td>15.2</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Mistral-7B-v0.1 (deterministic)</td>
+<td>33</td>
+<td>28.4</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>No setup got over a third of questions right, which I didn’t find too shocking, Often, retrieval didn’t turn up relevant results for the questions, so the model had no reference information to work off of. I still consider it useful to have these questions to for future evaluations of different embedding models (in cases where the topic has been addressed in the original Zef chat dataset, but not embedded such that it can be accessed with the relevant query) and the effectiveness of adding new memory (in cases where the information doesn’t exist in the original dataset, but is <a href="https://www.ksadov.com/posts/2024-03-31-rag2.html">added later</a>). Leading questions designed to elicit hallucination pose a significant problem to all setups.</p>
+<p>Mistral does pretty well with a deterministic decoding strategy, but goes off the rails with the standard pattern, with results ranging from 13-22 correct. Llama 3 is more consistent about both accurately using retrieved information and not getting tripped up by hallucinations.</p>
+<p>Despite the low scores and overall ambiguity of results, this trial convinced me of the utility of formal evaluation. It was difficult to tell which setup seemed to yield better accuracy by just skimming the questions, and it was only when I tallied up true and false that I noticed that non-deterministic Mistral-7B-v0.1 (my previous standard for Zefbot setup) was consistently less accurate.</p>
+<h1 id="style-results">Style Results</h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>TimKoornstra/SAURON</th>
+<th>AnnaWegmann/Style-Embedding</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>erudite</td>
+<td>0.566</td>
+<td>0.180</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Llama-3-8B (averaged)</td>
+<td>0.235</td>
+<td>0.202</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Llama-3-8B (deterministic)</td>
+<td>0.220</td>
+<td>0.205</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Mistral-7B-v0.1 (averaged)</td>
+<td>0.171</td>
+<td>0.113</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Mistral-7B-v0.1 (deterministic)</td>
+<td>0.206</td>
+<td>0.232</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>If the embedding models were capturing style over factual content, we’d expect to see results generated by our RAG have higher cosine similarity to ground truth than the results generated by the erudite rewrite. But we end up seeing the erudite scoring highest for SAURON, and roughly on par with RAG generations for Style-Embedding. The fact that Mistral-7B-v0.1 (averaged) scores low for both suggests that both models may be indexing on word-level matches. Rewrites designed to preserve factual content will naturally require high word-overlap, while the facuality scores of non-deterministic Mistral generations suggest low word-overlap.</p>
+<p>Histograms of cosine similarity to ground truth for the erudite rewrite and the averaged values across all RAG pipeline generation per each LLM type:</p>
+<p><img src="../images/qa_scores_TimKoornstra_SAURON.png" />
+<img src="../images/qa_scores_AnnaWegmann_Style-Embedding.png" /></p>
+<p>Overall, more useful as a sanity check than a serious metric. Writing style is already easier for me judge at manual glance than factuality, but I could see this metric being more useful if I were less familiar with the target’s style than I am with Zef’s.</p>
+<h1 id="results-summary">Results Summary</h1>
+<p>By numbers alone, it <em>seems</em> like Mistral-7B with a deterministic decoding strategy wins. But I’m wary of trusting this result due to other penalties imposed by using a deterministic decoding strategy in practice (chiefly, more repetition). I also have priors that, since Llama-3-8B was released afteer Mistral-7B and was trained on far more tokens, it should perform better in general. Lacking obvious evidence that Llama is worse, that’s the one I’ll be sticking with for now.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>The biggest gain here was just getting a list of standard inputs that I could use to spot-check different RAG pipelines. I recommend something like this for any text generation project that you expect to iterate on: the overhead of creating an eval is worth the effort you’ll spend trying to puzzle out how different setups compare against each other in nonstandardized settings.</p>
+<p>Incidentally, I also got some pretty good <a href="https://twitter.com/cherrvak/status/1787916739520643401">poetry</a> out of this exercise.</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>
