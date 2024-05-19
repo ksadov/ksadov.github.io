@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - Pi is not equal to four</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Pi is not equal to four</h1>
+        <article>
+    <section class="header post-header">
+        <section class="info">
+            Published on May 19, 2024
+            
+        </section>
+        
+        <img src="../images/pi_troll.png" alt="A meme purporting to prove that pi is equal to four" />
+        
+        <section class="info">
+            
+            Tags: <a title="All pages tagged 'math'." href="../tags/math.html" rel="tag">math</a>, <a title="All pages tagged 'geometry'." href="../tags/geometry.html" rel="tag">geometry</a>
+            
+        </section>
+        <section class="info" id="series-info">
+            
+            
+            
+        </section>
+    </section>
+    <section class="post-body">
+        <p>I see this meme pop up occasionally, and have yet to see a good explanation for <em>why</em> it’s false. Here’s my attempt, which builds on everything that has dissatisfied me about the explanations I’ve seen so far. You can find the code that I used to generate visualizations <a href="https://github.com/ksadov/circle_approx">here</a>.</p>
+<h1 id="approximating-a-circle">Approximating a circle</h1>
+<p>If you follow the method suggested in the graphic, you will indeed see the “square with corners removed” appear to converge to a circle. To make calculations easier, we’ll approximate a circle of radius 1 with its center at the origin. We begin with a square of side length 2:</p>
+<p><img src="../images/rad_4_circle_depth_0.png" /></p>
+<p>We take each corner of the square and fold it onto the circle. This keeps overall perimeter the same while creating a new square with corners removed, as shown in the graphic. Yet in the process of “removing” the corners, we’ve actually created eight new corners.</p>
+<p><img src="../images/rad_4_circle_depth_1.png" /></p>
+<p>Repeating the “folding” procedure with the new corners:</p>
+<p><img src="../images/rad_4_circle_depth_2.png" /></p>
+<p>After 15 steps:</p>
+<p><img src="../images/rad_4_circle_depth_15.png" /></p>
+<p>At each step, the new corners created by the folding procedure are “closer” to the circle than the original points. It seems like we should be able to continue this procedure indefinitely, the perimeter unchanging as the distance between the new corners and the circle converges to zero, and arrive at a miraculous circle with diameter 2 and perimeter 8.</p>
+<h1 id="why-it-doesnt-work">Why it doesn’t work</h1>
+<p>A key property of circles is that they’re composed of a single “smooth” curve. But no matter how far we go in this process, the “circle” we’ve constructed will always have corners. In the images above, some segments almost appear smooth, but if you zoom in far enough, you’ll see that they’re actually hiding a bunch of “extra perimeter” in little zig-zags, just like a <a href="https://en.wikipedia.org/wiki/Coastline_paradox">coastline</a> reveals more length the more finely you measure it.</p>
+<p>So maybe we should just conclude that you can never approximate a circle using a shape composed of straight lines. This would be an inconvenient conclusion, since that’s exactly the method that the Greeks used to accurately approximate pi for centuries.</p>
+<h1 id="the-greek-method">The Greek method</h1>
+<p>The more sides that you add to a regular polygon, the more it looks like a circle. Four sides:</p>
+<p><img src="../images/polygon_4.png" /></p>
+<p>Ten sides:</p>
+<p><img src="../images/polygon_10.png" /></p>
+<p>Twenty sides:</p>
+<p><img src="../images/polygon_20.png" /></p>
+<p>If you follow this process, the perimeter will change at every step, eventually converging to the expected value of 2*pi. But what makes this method of approximating a circle with straight lines different from the one in the meme?</p>
+<h1 id="what-is-smooth-anyway">What is “smooth”, anyway?</h1>
+<p>Suppose I gave you a straightedge and asked you to measure this curve:</p>
+<p><img src="../images/squiggle_1.jpg" /></p>
+<p>You’d probably break the curve up into a bunch of straight segments and measure the length of each one. The smaller the segments, the more your closely you’d approximate the shape of the curve, and the more accurate your measurement would be.</p>
+<p><img src="../images/squiggle_2.jpg" /></p>
+<p>It would not occur to you to instead alternate between holding the straightedge vertically and horizontally, measuring the length of the curve in a series of zig-zags. But why not? If the zig-zags were small enough, they would also appear to approximate the curve.</p>
+<p><img src="../images/squiggle_3.png" /></p>
+<p>The first method is what the Greeks had in mind when they approximated the circle with a regular polygon. It’s also the basis for measuring the length of curves in calculus.</p>
+<p>Each point on a curve can be approximated by a straight line tangent to the curve at that point, in the sense that, if you zoom in closely around that point, the curve appears almost “flat” in a way that coincides with the tangent line:</p>
+<figure>
+<img src="../images/Tangent-of-a-Circle.jpg" alt="source" />
+<figcaption aria-hidden="true"><a href="https://mathmonks.com/circle/tangent-of-a-circle">source</a></figcaption>
+</figure>
+<p>As the length of the segments that we use to calculate the perimeter of the curve approaches zero, the individual segments also start to coincide more closely with tangent lines. That’s one way of defining what it means for a curve to be “smooth”.</p>
+<p>At every individual step in the Greek method, the polygon will have corners, but the shape is getting “smoother” in the sense that the segments comprising the perimeter are getting closer to the tangent lines of the circle. The method in the meme, on the other hand, will create zig-zagged contours that never get “smoother” in this sense, no matter how many steps you take.</p>
+<h1 id="why-i-wrote-this">Why I wrote this</h1>
+<p>I saw many attempts at explanation that stopped at the first “why it doesn’t work” explanation. Someone unfamiliar with the Greek method may have been satisfied with this answer and thus departed with damaged intuition about the feasibility of approximating curves with lines.</p>
+<p>Other explanations invoked the phrases of “derivatives” and “arc length” without explaining how those notions came about. This is the method by which I learned math in school too: math words as incantations to invoke to make teachers leave you alone. Limit, cosine, function. I just wanted to doodle comics at my desk, but they wouldn’t let me do that unless I recited the correct formulas first.</p>
+<p>But “math words as incantations” isn’t too far off from how the Greeks conceived of math either. Leaving aside the influence of <a href="https://en.wikipedia.org/wiki/Pythagoreanism">Pythagorean mystics</a>, literal worshippers of numbers, on Classical Greek philosophy, deductive proof-based mathematics served more of a cultural than practical role for educated Greeks.</p>
+<p>The Egyptians were happy to use an <a href="https://numberwarrior.wordpress.com/2008/03/05/on-the-egyptian-value-for-pi/">empirical estimate of pi</a> that was incorrect past the first decimal place, and <a href="https://en.wikipedia.org/wiki/Rhind_Mathematical_Papyrus_2/n_table#Comparison_to_other_table_texts">reference fractional representations from tables</a> instead of disseminating simpler methods to represent and independently calculate fractions. Empirical approximation and reference tables is all that’s required for construction and manufacturing before the invention of high-precision machining techniques. So why did the Greeks bother with rigorous mathematics if they didn’t expect it to have practical application?</p>
+<p>Morris Kline offers the following explanation in <em>Mathematical Thought from Ancient to Modern Times</em>:</p>
+<blockquote>
+<p>Why did the Greeks insist on deductive proof? Since induction, observation, and experimentation were and still are vital sources of knowledge heavily and advantageously employed by the sciences, why did the Greeks prefer in mathematics deductive reasoning to the exclusion of all other methods? We know that the Greeks, the philosophical geometers as they were called, liked reasoning and speculation, as evidenced by their great contributions to philosophy, logic, and theoretical science. Moreover, philosophers are interested in obtaining truths. Whereas induction, experimentation, and generalizations based on experience yield only probable knowledge, deduction gives absolutely certain results if the premises are correct. Mathematics in the classical Greek world was part of the body of truths philosophers sought and accordingly had to be deductive.</p>
+<p>Still another reason for the Greek preference for deduction may be found in the contempt shown by the educated class of the classical Greek period toward practical affairs. Though Athens was a commercial center, business as well as such professions as medicine were carried on by the slave class. Plato contended that the engagement of freemen in trade should be punished as a crime, and Aristotle said that in the perfect state no citizen (as opposed to slaves) should practice any mechanical art. To thinkers in such a society, experimentation and observation would be alien. Hence no results, scientific or mathematical would be derived from such sources.</p>
+</blockquote>
+<p>The lack of practical application was the <em>point</em>– this was what distinguished the educated, aristocratic pursuit of mathematics from the quotidian calculations of laborers. Even today, there’s a certain status accorded to “pure” over “applied” mathematics– just ask any university math major what they think of the introductory linear algebra course tailored to engineering students vs their own introductory linear algebra course.</p>
+<p>It’s difficult to explain proofs to laymen from such a perspective. One failure mode is over-reliance on abstract phrases like “derivative” that the layman will struggle to connect to the actual image in front of them. Taxing the reader’s attention with overly-rigorous detail is another failure of explanation– inserting a block of equations establishes that you are doing the prestigious work of Real Math, but no layman will be as excited to read it as you were to write it. The most egregious failure is over-simplifying to the point that the reader draws false conclusions based on the explanation’s most intuitive interpretation.</p>
+<p>The best explanations are grounded in the concrete: visual examples, descriptions of the process by which results were historically derived. It’s more efficient to refer to mathematical abstractions like “derivative”, and more glamorous since it signals to interested parties (school teachers, Greek aristocrats, fellow posters on r/mathematics) that you are a <em>mathematician</em>. And it’s easier to say something simple that only falls apart under scrutiny that whoever you’re giving the explanation to probably won’t apply. But with some intellectual effort and willingness to incorporate the usual features of “good writing” (individual authorial voice, humor, cool facts about ancient Greece), your explanation will hopefully end up as something not just edifying for laymen, but entertaining for other mathematicians to read.</p>
+<p>After all, the ancient Greek decision to tie social status to the ability to produce deductive proof has major advantages over other status signals. A genuine Rolex is expensive and easily confused with a sophisticated fake, but anyone willing to put in the mental effort can construct or verify a deductive proof. And then you can write a blog post about it.</p>
+<p><img src="../images/best_thing_about_math.jpeg" /></p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>
