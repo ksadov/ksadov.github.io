@@ -6,14 +6,18 @@ summary: Automating chess streamers for fun and no profit
 tags: project, programming, machine learning, language model, chess, Unity
 ---
 
-VTuber (**V**irtual You**Tuber**) is a catch-all term for an online entertainer who uses a digital avatar. A year ago, I built a [fully automated setup in which two AI VTubers would play chess against each other, comment on the game and respond to Twitch stream comments](https://twitter.com/cherrvak/status/1677459876992241668). I streamed a few times and then gave up on the project. This blog post is about how I built it, and why I gave up.
+VTuber (**V**irtual You**Tuber**) is a catch-all term for an online entertainer who uses a digital avatar. A year ago, I built a fully automated setup in which two AI VTubers would play chess against each other, comment on the game and respond to Twitch stream comments:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I have automated the game of chess, for your amusement.<a href="https://t.co/mzHSZg1EQI">https://t.co/mzHSZg1EQI</a> <a href="https://t.co/hw3cZVRg7r">pic.twitter.com/hw3cZVRg7r</a></p>&mdash; K Sadov (@cherrvak) <a href="https://twitter.com/cherrvak/status/1677459876992241668?ref_src=twsrc%5Etfw">July 7, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+I streamed a few times and then gave up on the project. This blog post is about how I built it, and why I gave up.
 
 # Neuro-sama
 In 2018, a [programmer](https://virtualyoutuber.fandom.com/wiki/Vedal) started streaming videos of a neural network playing the rhythm game *osu!*. In 2022, he added a digital avatar of an anime girl that would converse with stream viewers while the neural network played the game in the background.
 
 ![A screenshot from [this](https://www.youtube.com/watch?v=GDZ6tc8kkNI) stream recording](/images/vtuber_osu.png)
 
-The technical stack appears to be stitched together from calls to several different interfaces: an LLM to provide dialogue, a text-to-speech service to generate audio, and now a speech-to-text service to allow the system to interact with other (human) VTubers during collaboration streams. But the modularity of the setup allowed Neuro-sama's creator to easily bridge from *osu!* streams to other formats, including aforementioned collaborations and streams of the creator working on coding projects (which from Neuro-sama's perspective must be something like being permitted a glance over the shoulder of the Demiurge). 
+The technical stack appears to be stitched together from calls to several different interfaces: an LLM to provide dialogue, a text-to-speech service to generate audio, and now a speech-to-text service to allow the system to interact with other (human) VTubers during collaboration streams. But the modularity of the setup allowed Neuro-sama's creator to easily bridge from *osu!* streams to other formats, including aforementioned collaborations and streams of the creator working on coding projects (which from Neuro-sama's perspective must be something like being permitted a glance over the shoulder of the Demiurge).
 
 As you can tell from that last parenthetical, it's easy to view Neuro-sama not as a collection of ML scripts, but as an  entertaining individual in her own right. Despite inconsistencies in the character's statements (she will sometimes claim not to be an AI, or hallucinate events that couldn't possibly have happened to her, like getting hit by a truck), Neuro-sama's Twitch channel has over 500,000 subscribers whose fan-lore fills in for gaps produced by technical limits.
 
@@ -56,7 +60,7 @@ I settled on the following prompt:
 >Shiro plays White. She is anxious and modest. She is generally reserved, but sometimes enjoys teasing her sister Kuro.
 >
 >
->Kuro plays Black. She is mischievous and confident. She is easily flustered by her sister's teasing. 
+>Kuro plays Black. She is mischievous and confident. She is easily flustered by her sister's teasing.
 >
 >
 >Generate one sentence of dialog for the requested speaker.
@@ -106,7 +110,7 @@ VTubers are most commonly rendered in [Live2D, a 2.5D animation technique where 
 
 Apart from being easier to commission, I consider 3D avatars strictly superior to Live2D avatars:
 
-* 3D avatars can be viewed from a greater variety of angles, and thus be given more diverse animations. 
+* 3D avatars can be viewed from a greater variety of angles, and thus be given more diverse animations.
 * 3D avatars have greater platform interoperability: you can use the same 3D avatar for streaming and VR applications, while Live2D avatars are confined to programs that support that specific style of rigging and only allow you to view the avatar from the front.
 
 When I brought the topic up with VTuber-loving friends, I heard multiple claims that Live2D avatars just look better than 3D ones. There's a specific "Live2D look" with soft, painterly rendering and slow "bouncy" animation that's become synonymous with VTubers. But this style can be replicated in 3D, given a modeler willing to hand-paint textures and rig animations to match the desired style.
@@ -145,7 +149,7 @@ if not ignore_audience:
 ![Prompt: 2girls, white hair, black hair, long hair, red eyes, looking at viewer, school uniform, blazer, dutch angle, smiling_0](/images/293641058_2girls,%20white%20hair,%20black%20hair,%20long%20hair,%20red%20eyes,%20looking%20at%20viewer,%20school%20uniform,%20blazer,%20dutch%20angle,%20smiling_0.png)
 
 # Putting it all together
-I was handling avatar animation in Unity, but wanted to keep as much of the program logic in Python as possible, since every moment spent working with Unity subjected me to horrors. For example: since we're only going to be looking at our girls from the front, it makes sense to set the camera to "Orthographic", in order to minimize distortions to the models from rendering perspective. For some reason this caused part of the dress texture to glitch in a distracting way which went away when I set the camera to "Perspective" and did some fiddly things with camera distance and cropping to approximate an orthographic view. 
+I was handling avatar animation in Unity, but wanted to keep as much of the program logic in Python as possible, since every moment spent working with Unity subjected me to horrors. For example: since we're only going to be looking at our girls from the front, it makes sense to set the camera to "Orthographic", in order to minimize distortions to the models from rendering perspective. For some reason this caused part of the dress texture to glitch in a distracting way which went away when I set the camera to "Perspective" and did some fiddly things with camera distance and cropping to approximate an orthographic view.
 
 So: Unity would be responsible for displaying character animations and generated assets (voice clips, the image of the chessboard), while Python would be responsible for all the logic requires to generate those assets. Originally I even had Python generate the chessboard in a separate window and then composited the VTubers and chessboard together in the streaming app by setting the VTuber background to a flat greenscreen, but it turned out to be easier to just send Unity a png image of the board and then use it as a texture for a flat panel object rendered behind the VTubers.
 
@@ -167,7 +171,7 @@ You know how if you make something cool people will find out about it and reward
 
 It turns out that you have to put in some effort to make this happen. After I got my pipeline working, I DMed [@yacineMTB](https://twitter.com/yacineMTB) on Twitter to ask for advice. He made the reasonable suggestion of sharing clips from streams on [4chan's worksafe gif board](https://boards.4chan.org/wsg/). Another friend of mine suggested promoting the stream on [r/AnarchyChess](https://www.reddit.com/r/AnarchyChess/), a subreddit dedicated to chess memes. I didn't do this, because it turns out that the energy needed to spend hours writing code is not fungible for spending hours writing offbeat-yet-broadly-appealing-hooks to convince strangers to check out my channel.
 
-I have a great deal of practice in trying-and-failing to write code. The appearance of an error message in my console no longer feels like a message that I, personally, am not fit to operate a computer. Not so for trying-and-failing to promote my work. Every time I bring up one of my projects and get shot down, it's an existential threat. Exile from my tribe, rejection by some Jungian Ur-Father in the form of a derisive comment on an anonymous imageboard. 
+I have a great deal of practice in trying-and-failing to write code. The appearance of an error message in my console no longer feels like a message that I, personally, am not fit to operate a computer. Not so for trying-and-failing to promote my work. Every time I bring up one of my projects and get shot down, it's an existential threat. Exile from my tribe, rejection by some Jungian Ur-Father in the form of a derisive comment on an anonymous imageboard.
 
 The way to overcome this is to have a dependable source of ego-reassurance independent from whatever it is that you're currently failing at. A single error message can't convince me of worthlessness as a programmer because I'm confident in the quality of work that I've done elsewhere. But I didn't have a dependable source of "hype" for my VTuber project.
 
