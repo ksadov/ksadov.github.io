@@ -9,7 +9,18 @@ series-idx: 3
 ---
 So far, I've evaluated my chatbot Zef clones by unleashing each iteration on my friend group's Discord server and getting a vibe check.
 
-![](/images/zef_evals_666.png)
+<img
+src="/images/zef_evals_666.png"
+alt="a transcript of a Discord conversation log:
+Konstantine: aight, I don't expect this Zefbot to be an improvement, but let's try leaving him up anyway
+zefbot: 666, aight, let's do it
+SKUNCC: 666
+Konstantine: 666?
+SKUNCC: 666
+zefbot: 666
+zefbot: hehe
+zefbot: 666"
+/>
 
 This injects some much-needed levity into our lives, but is not a principled way to evaluate a model.
 
@@ -46,7 +57,13 @@ Other members of the group chat did a good job contributing questions to all thr
 
 Zef brings up some valid concerns about this setup:
 
-![](/images/zef_evals_questions.png)
+<img
+src="/images/zef_evals_questions.png"
+alt="a screenshot of two Signal messages:
+will these questions be asked in order? i wonder if the way i respond changes as i continue to answer
+or what if i answer differently in a different mental state?
+"
+/>
 
 Something nice to have in evaluation metrics is "ease of evaluation." For instance, [MMLU](https://arxiv.org/abs/2009.03300) takes the form of a multiple-choice test so that models can be simply scored by % correct. We could try to present Zefbots with a similar multiple-choice test of Zef facts, but remember: Zefbots are designed to simulate *Zef's* behavior. How would you react if your friend sent you a multiple choice question on the topic of "what are your sister's names?" You'd probably assume that they're doing a bit, and answer with something correspondingly ridiculous.
 
@@ -152,4 +169,53 @@ By numbers alone, it *seems* like Mistral-7B with a deterministic decoding strat
 # Conclusion
 The biggest gain here was just getting a list of standard inputs that I could use to spot-check different RAG pipelines. I recommend something like this for any text generation project that you expect to iterate on: the overhead of creating an eval is worth the effort you'll spend trying to puzzle out how different setups compare against each other in nonstandardized settings.
 
-Incidentally, I also got some pretty good [poetry](https://twitter.com/cherrvak/status/1787916739520643401) out of this exercise.
+Incidentally, I also got some pretty good poetry out of this exercise:
+
+<img
+src="/images/zefbot_eval_poetry_0.jpeg"
+alt="screenshot of a json entry:
+&quot;response_2&quot;: &quot;I think it&#039;s a world that&#039;s been hollowed out by the gods, and the gods are trying to fill it back up&quot;,"
+/>
+
+<img
+  src="/images/zefbot_eval_poetry_1.jpeg"
+  alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I think I&#039;d prefer to live forever in a human form, but with no access to heaven. I would be forced to live forever in a human form, and in that time I&#039;d get really wise. And if I find out that life isn&#039;t worth living or something and wanna die really bad then that&#039;s worth the risk, I think. I could still keep living for the sake of others. Even if I don&#039;t want to.&quot;,&quot;"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_2.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I&#039;m a determinist. I don&#039;t believe in free will, so it&#039;s all just a question of how much you believe you&#039;re in control of your life. I&#039;m not. I can&#039;t even control myself. I&#039;m a bundle of reflexes and impulses, and I can&#039;t even control my impulses. I can&#039;t even control my body. I&#039;m just a thing that does things. I&#039;m a robot. I&#039;m a puppet. I&#039;m a meat puppet.&quot;"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_3.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I don&#039;t know, I guess I&#039;m still Christian. I don&#039;t believe in the historical Jesus, but I believe in the Christ.&quot;"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_4.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;i think it&#039;s possible to create a just world, but i think it&#039;s impossible to create a world where everyone is happy.&quot;,"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_5.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;i think it&#039;s hard to live a mundane life because it&#039;s hard to live a life.&quot;"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_6.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;The idea of a true afterlife, as in heaven or hell, is probably one of the most depressing concepts imaginable.&quot;"
+/>
+
+<img
+src="/images/zefbot_eval_poetry_7.jpeg"
+alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I feel like I&#039;m a planet and the sun is my girlfriend and the moon is my mom and the asteroids are my friends and the stars are my god and the comets are my demons and the black holes are my void and the dark matter is my soul and the quasars are my wisdom and the supernovas are my death and the meteors are my dreams and the nebulae are my thoughts and the galaxies are my universe and the multiverse is my everything and the omn&quot;,
+"
+/>

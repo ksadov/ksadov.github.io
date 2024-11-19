@@ -47,7 +47,15 @@
     </section>
     <section class="post-body">
         <p>So far, I’ve evaluated my chatbot Zef clones by unleashing each iteration on my friend group’s Discord server and getting a vibe check.</p>
-<p><img src="../images/zef_evals_666.png" /></p>
+<p><img src="../images/zef_evals_666.png" alt="a transcript of a Discord conversation log:
+Konstantine: aight, I don't expect this Zefbot to be an improvement, but let's try leaving him up anyway
+zefbot: 666, aight, let's do it
+SKUNCC: 666
+Konstantine: 666?
+SKUNCC: 666
+zefbot: 666
+zefbot: hehe
+zefbot: 666" /></p>
 <p>This injects some much-needed levity into our lives, but is not a principled way to evaluate a model.</p>
 <p>Recall that this project began with <a href="https://www.ksadov.com/posts/2024-02-16-rag.html">two criteria for success</a>:</p>
 <ol type="1">
@@ -76,7 +84,10 @@
 }
 ...</code></pre>
 <p>Zef brings up some valid concerns about this setup:</p>
-<p><img src="../images/zef_evals_questions.png" /></p>
+<p><img src="../images/zef_evals_questions.png" alt="a screenshot of two Signal messages:
+will these questions be asked in order? i wonder if the way i respond changes as i continue to answer
+or what if i answer differently in a different mental state?
+" /></p>
 <p>Something nice to have in evaluation metrics is “ease of evaluation.” For instance, <a href="https://arxiv.org/abs/2009.03300">MMLU</a> takes the form of a multiple-choice test so that models can be simply scored by % correct. We could try to present Zefbots with a similar multiple-choice test of Zef facts, but remember: Zefbots are designed to simulate <em>Zef’s</em> behavior. How would you react if your friend sent you a multiple choice question on the topic of “what are your sister’s names?” You’d probably assume that they’re doing a bit, and answer with something correspondingly ridiculous.</p>
 <p>To test whether Zefbot’s answers will manifest as “authentic Zeffitude”, we want the questions to be phrased to reflect the messages that Zefbot will actually encounter in its future conversations with my friend group, and Zef’s baseline answers to reflect what he’d say if he was naturally asked these questions.</p>
 <p>I pruned the more ridiculous questions (is “fried shrimp emoji” a question? At least of one of my friends thinks it is) from the final dataset. Since I’d be sending questions to an LLM for analysis, I also pruned all questions that would trigger a refusal in a standard instruction-tuned LLM. This included “who is the best Evangelion girl?”, which is apparently has enough connotations of both IP violation and sexism(?) that Claude 3 refuses to touch it. I was left with 116 questions in total.</p>
@@ -221,7 +232,24 @@ Question: What is your Myers-Briggs type?</p>
 <p>By numbers alone, it <em>seems</em> like Mistral-7B with a deterministic decoding strategy wins. But I’m wary of trusting this result due to other penalties imposed by using a deterministic decoding strategy in practice (chiefly, more repetition). I also have priors that, since Llama-3-8B was released afteer Mistral-7B and was trained on far more tokens, it should perform better in general. Lacking obvious evidence that Llama is worse, that’s the one I’ll be sticking with for now.</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>The biggest gain here was just getting a list of standard inputs that I could use to spot-check different RAG pipelines. I recommend something like this for any text generation project that you expect to iterate on: the overhead of creating an eval is worth the effort you’ll spend trying to puzzle out how different setups compare against each other in nonstandardized settings.</p>
-<p>Incidentally, I also got some pretty good <a href="https://twitter.com/cherrvak/status/1787916739520643401">poetry</a> out of this exercise.</p>
+<p>Incidentally, I also got some pretty good poetry out of this exercise:</p>
+<p><img src="../images/zefbot_eval_poetry_0.jpeg" alt="screenshot of a json entry:
+&quot;response_2&quot;: &quot;I think it's a world that's been hollowed out by the gods, and the gods are trying to fill it back up&quot;," /></p>
+<p><img src="../images/zefbot_eval_poetry_1.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I think I'd prefer to live forever in a human form, but with no access to heaven. I would be forced to live forever in a human form, and in that time I'd get really wise. And if I find out that life isn't worth living or something and wanna die really bad then that's worth the risk, I think. I could still keep living for the sake of others. Even if I don't want to.&quot;,&quot;" /></p>
+<p><img src="../images/zefbot_eval_poetry_2.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I'm a determinist. I don't believe in free will, so it's all just a question of how much you believe you're in control of your life. I'm not. I can't even control myself. I'm a bundle of reflexes and impulses, and I can't even control my impulses. I can't even control my body. I'm just a thing that does things. I'm a robot. I'm a puppet. I'm a meat puppet.&quot;" /></p>
+<p><img src="../images/zefbot_eval_poetry_3.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I don't know, I guess I'm still Christian. I don't believe in the historical Jesus, but I believe in the Christ.&quot;" /></p>
+<p><img src="../images/zefbot_eval_poetry_4.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;i think it's possible to create a just world, but i think it's impossible to create a world where everyone is happy.&quot;," /></p>
+<p><img src="../images/zefbot_eval_poetry_5.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;i think it's hard to live a mundane life because it's hard to live a life.&quot;" /></p>
+<p><img src="../images/zefbot_eval_poetry_6.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;The idea of a true afterlife, as in heaven or hell, is probably one of the most depressing concepts imaginable.&quot;" /></p>
+<p><img src="../images/zefbot_eval_poetry_7.jpeg" alt="a screenshot of a json entry:
+&quot;response_2&quot;: &quot;I feel like I'm a planet and the sun is my girlfriend and the moon is my mom and the asteroids are my friends and the stars are my god and the comets are my demons and the black holes are my void and the dark matter is my soul and the quasars are my wisdom and the supernovas are my death and the meteors are my dreams and the nebulae are my thoughts and the galaxies are my universe and the multiverse is my everything and the omn&quot;,
+" /></p>
     </section>
 </article>
     </main>
