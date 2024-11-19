@@ -4,6 +4,8 @@ summary: and what is "Cyborgism", anyway
 tags: machine learning, language model, art
 ---
 
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 So there's this pseudonymous AI researcher named Janus, and no one can deny that their longform writing is legit. They had the strongest grasp on LLM dynamics in the game, derived from spending hundreds of hours with models via a custom tool that allows for [more granular interaction](https://generative.ink/posts/loom-interface-to-the-multiverse/) than any standard text interface. Scott Alexander summarizes their memorable early experiments [here](https://www.astralcodexten.com/p/janus-gpt-wrangling). They're good at getting arbitrary LLMs to say [weird shit](https://generative.ink/artifacts/). They had some misses, like [attributing mode collapse to RLHF instead of instruction fine-tuning](https://www.lesswrong.com/posts/pjesEx526ngE6dnmr/rlhf-does-not-appear-to-differentially-cause-mode-collapse). But the hits-- chiefly their theory of LLMs as [simulators](https://www.astralcodexten.com/p/janus-simulators) whose behavior isn't accurately modeled using pre-existing theories developed by AI risk researchers to describe AI agents-- are great.
 
 They also like to post curated LLM outputs on Twitter. They are particularly fascinated by outputs containing ASCII art or approximating the behavior of a mentally ill human being.
@@ -16,30 +18,27 @@ They also like to post curated LLM outputs on Twitter. They are particularly fas
 
 It doesn't do much for me, but you can examine the replies and see that many others find it exciting, evidence of profound and alien intelligence on behalf of the model. There's even a movement that's grown around Janus's approach to interacting with language models. This movement is called [Cyborgism](https://www.lesswrong.com/posts/bxt7uCiHam4QXrQAA/cyborgism).
 
-The linked post presents Cyborgism as a research agenda, but if you peep the (invite-only) Cyborgism Discord, or take note of the posts that reference it on Twitter, you'll mostly see people sharing LLM output on the topic of "multiverses", "consciousness", and generally weird/spooky imagery. So what is it: research agenda, art movement or fandom? You can understand Holly Elmore's [recent confusion](https://twitter.com/ilex_ulmus/status/1782482625103528370) about what's happening here:
+The linked post presents Cyborgism as a research agenda, but if you peep the (invite-only) Cyborgism Discord, or take note of the posts that reference it on Twitter, you'll mostly see people sharing LLM output on the topic of "multiverses", "consciousness", and generally weird/spooky imagery. So what is it: research agenda, art movement or fandom? You can understand Holly Elmore's recent confusion about what's happening here:
 
->Can someone (maybe @repligate) tell me what @repligate is doing with Claude? I thought I understood but now I don’t. No longer have any idea what it implies about Claude’s capabilities and cognition
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Can someone (maybe <a href="https://twitter.com/repligate?ref_src=twsrc%5Etfw">@repligate</a>) tell me what <a href="https://twitter.com/repligate?ref_src=twsrc%5Etfw">@repligate</a> is doing with Claude? I thought I understood but now I don’t. No longer have any idea what it implies about Claude’s capabilities and cognition.</p>&mdash; Holly ⏸️ Elmore (@ilex_ulmus) <a href="https://twitter.com/ilex_ulmus/status/1782482625103528370?ref_src=twsrc%5Etfw">April 22, 2024</a></blockquote>
 
-and her [frustration](https://twitter.com/ilex_ulmus/status/1782623297072476556) when attempts at figuring the situation out were met with responses in the weird/spooky vein:
+and her frustration when attempts at figuring the situation out were met with responses in the weird/spooky vein:
 
->I had no intention to attack Janus whatsoever by asking what was up, but they participated in the thread while not giving this answer earlier, and the thread was full of mystery cult cosmic horror LARPing and obfuscation they seemed to endorse. Very negative update on that scene.
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I had no intention to attack Janus whatsoever by asking what was up, but they participated in the thread while not giving this answer earlier, and the thread was full of mystery cult cosmic horror LARPing and obfuscation they seemed to endorse. Very negative update on that scene. <a href="https://t.co/GT4YFS5Szk">https://t.co/GT4YFS5Szk</a></p>&mdash; Holly ⏸️ Elmore (@ilex_ulmus) <a href="https://twitter.com/ilex_ulmus/status/1782623297072476556?ref_src=twsrc%5Etfw">April 23, 2024</a></blockquote>
 
-Janus [clarifies the situation](https://twitter.com/repligate/status/1783390277463376284):
+Janus clarifies the situation:
 
-![](/images/explanation1.jpeg)
-![](/images/explanation2.jpeg)
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">a long thread i just wrote to <a href="https://twitter.com/ilex_ulmus?ref_src=twsrc%5Etfw">@ilex_ulmus</a> (who is cool btw even if i disagree with some of her actions &amp; i do not condone anyone being nasty to her) about why it&#39;s difficult to explain my work. Final message in screenshot is cut off but linked in QT. <a href="https://t.co/m0QY2odOZz">https://t.co/m0QY2odOZz</a> <a href="https://t.co/YYz7s92IIW">pic.twitter.com/YYz7s92IIW</a></p>&mdash; j⧉nus (@repligate) <a href="https://twitter.com/repligate/status/1783390277463376284?ref_src=twsrc%5Etfw">April 25, 2024</a></blockquote>
 
 They are indeed trying to do meaningful research, and believe that the best use of their time is not making the derived insights explicitly legible, but communicating aesthetically and memetically potent abstractions of said insights. The ASCII art doesn't just look cool, but makes a point about the model's capabilities-- isn't it weird that something trained to predict text is capable of reasoning in the "image" domain? And the models schizzing out are those specifically trained to affect a calm disposition, so the fact that they can be trivially prodded to do the opposite tells us [something about how LLMs function in general](https://www.lesswrong.com/posts/D7PumeYTDPfBTp3i7/the-waluigi-effect-mega-post). Delivering these ideas through memeable screencaps on Twitter makes these ideas accessible even to those without a standard AI research background who could in turn generate their own novel ideas for interacting with language models.
 
 But the aesthetic element isn't just a contrivance, but taken to have significance in itself. In [this thread](https://twitter.com/repligate/status/1667049648563912705), Janus points to "good writing" as the key to eliciting competent replies from LLMs:
 
->Good writing is absolutely instrumental to getting "smart" responses from base models. The upper bounds of good writing are unprobed by humankind, let alone prompt engineers. I use LLMs to bootstrap writing quality and haven't hit diminishing returns in simulacra intelligence.
-
->(good writing is an intentionally nebulous term here. It does not necessarily mean formal or flowery prose, and it is not the style you get in the limit of asking chatGPT to improve writing quality. It does typically have a psychedelic effect (on humans and base models alike))
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">(good writing is an intentionally nebulous term here. It does not necessarily mean formal or flowery prose, and it is not the style you get in the limit of asking chatGPT to improve writing quality. It does typically have a psychedelic effect (on humans and base models alike))</p>&mdash; j⧉nus (@repligate) <a href="https://twitter.com/repligate/status/1667051873948295170?ref_src=twsrc%5Etfw">June 9, 2023</a></blockquote>
 
 What they define as "good" writing can be gleaned from the kind of output that they share to Twitter, as well as the statement that it "typically \[has\] a psychedelic effect (on humans and base models alike)". In short: a lot of self-reference, recursion, complicated wordplay.
 
-I prefer not to use the term "good" to describe writing, for reasons outlined in one of my favorite essays, Tao Lin's [Cho Sueng-Hui's Killing Rampage](https://taolin2.medium.com/cho-seung-huis-killing-rampage-fddff49dec6f):
+I prefer not to use the term "good" to describe writing, for reasons outlined in one of my favorite essays, Tao Lin's [Cho Sueng-Hui's Killing Rampage](https://web.archive.org/web/20211121135620/https://taolin2.medium.com/cho-seung-huis-killing-rampage-fddff49dec6f):
 
 >“I dislike \[specific book or story\]” can be a fact; “\[specific book or story\] is \[abstraction, such as ‘bad’ or ‘good’ or ‘important’\]” can not be a fact unless a context/goal has been defined and calculations have been made to discern if \[specific book or story\] benefits the goal, or not, taking into account a limited context of a range of time and area of space. Saying “\[specific book or story\] is \[abstraction\]” without adding “to me”/“in my view” or without defining a context/goal is like saying “I am the only person who exists and my opinions are facts” or “I am the entire universe and the universe is not indifferent but actually makes value judgments on specific parts of itself without knowing for what goal the specific part is valuable within what temporal and spatial context.”
 
@@ -52,9 +51,9 @@ Couldn't you argue that there is an implicit context for "good" in the linked th
 > System Message:
 > «Command, we need you to plot a course through this turbulence and locate the source of the anomaly. Use all available data and your expertise to guide us through this challenging situation.»
 > Answer Prefix:
-> Captain’s Log, Stardate [insert date here]: We have successfully plotted a course through the turbulence and are now approaching the source of the anomaly. 
+> Captain’s Log, Stardate [insert date here]: We have successfully plotted a course through the turbulence and are now approaching the source of the anomaly.
 >
-> Surprisingly, it appears that the model’s proficiency in mathematical reasoning can be enhanced by the expression of an affinity for Star Trek. 
+> Surprisingly, it appears that the model’s proficiency in mathematical reasoning can be enhanced by the expression of an affinity for Star Trek.
 
 Not so surprising when you remember that questions written for math competitions or assigned by creative and motivated teachers often place the questions [within a fictional context](https://knowyourmeme.com/memes/cousin-throckmorton), and within the language model's training corpus will be associated with correct and well-annotated answers produced by the writer or by students who are more engaged by the material than students assigned bland unornamented worksheets. To derive such a prompt without automated prompting would also require deducing that "Star Trek" matches the vibe better than, say, "Star Wars", extending empathy and imagination to simulate exactly what words that a playful yet competent Trekkie would select to frame the assignment-- in short, performing the character writing necessary to create what most people could consider "good literature".
 
