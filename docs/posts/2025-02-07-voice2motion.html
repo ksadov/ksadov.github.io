@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ksadov - Speech to 3D avatar animation with voice2motion</title>
+    <link rel="stylesheet" href="../css/default.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../">ksadov</a>
+        </div>
+        <nav>
+            <a href="../">Home</a>
+            <a href="../archive.html">Archive</a>
+        </nav>
+    </header>
+
+    <main role="main">
+        <h1>Speech to 3D avatar animation with voice2motion</h1>
+        <article>
+    <section class="header post-header">
+        <section class="info">
+            Published on February  7, 2025
+            
+        </section>
+        
+        <img src="../images/voice2motion_demo.webp" alt="A screenshot of the Huggingface demo of the voice2motion network" />
+        
+        <section class="info">
+            
+            Tags: <a title="All pages tagged 'project'." href="../tags/project.html" rel="tag">project</a>, <a title="All pages tagged 'programming'." href="../tags/programming.html" rel="tag">programming</a>, <a title="All pages tagged 'machine learning'." href="../tags/machine%20learning.html" rel="tag">machine learning</a>
+            
+        </section>
+        <section class="info" id="series-info">
+            
+            
+            
+        </section>
+    </section>
+    <section class="post-body">
+        <p>Open-source has you well covered if you’re looking to create an interactive digital assistant or <a href="https://www.ksadov.com/posts/2024-05-16-aituber.html">AI VTuber</a>. You can handle dialog generation with any reasonably-sized LLM, speech audio generation with one of the models hovering around the top of <a href="https://huggingface.co/spaces/ttsds/benchmark">Huggingface’s TTS leaderboard</a> and display a humanoid avatar in a Unity app or Web browser using <a href="https://github.com/vrm-c/UniVRM">UniVRM</a> or <a href="https://github.com/pixiv/three-vrm">three-vrm</a> respectively. But when it comes to driving the avatar to move and emote in sync to the generated audio your options are limited, especially if you want your solution to worked in realtime with streamed audio.</p>
+<p><a href="https://github.com/ksadov/voice2motion">voice2motion</a> is an MIT-licensed codebase for training models that take in speech audio and outputs 3D avatar animation. The rest of this post explains the decisions that I made in implementing it and how I think it could be better.</p>
+<h1 id="background">Background</h1>
+<h2 id="animating-a-3d-avatar">Animating a 3D avatar</h2>
+<p>Your typical humanoid 3D model comes equipped with a posable armature. You can create animations by specifying a sequence of rotations for each bone in the armature and weighting vertices on the mesh to follow the bones. Animations created this way are transferable between models as long as those models have the same set of bones. If you define an animation on the skeleton given by the <a href="https://github.com/vrm-c/vrm-specification/blob/master/specification/0.0/README.md#vrm-extension-models-bone-mapping-jsonextensionsvrmhumanoid">VRM specification</a> it’ll work for any VRM model.</p>
+<figure>
+<img src="../images/voice2motion_armature.webp" />
+<figcaption>
+The armature of the VRM model used in the voice2motion demo. Along with the standard bones given in the VRM spec (Chest, UpperArm, etc.) you can see additional bones for controlling the movement of the clothing and hair.
+</figcaption>
+</figure>
+<p>The VRM spec doesn’t define face bones apart from eyes and jaw. To create expressions animators can use blendshapes (aka “shapekeys”): deformations defined directly on a mesh’s vertices. Unlike skeletal animations, these don’t transfer easily between meshes and must be defined on a per-mesh basis. But for purposes of cross-compatibility between different VR and AR apps contemporary 3D avatars commonly implement the set face blendshapes <a href="https://arkit-face-blendshapes.com/">described in the ARKit spec</a>, which breaks down expressions into 52 gestures like “jawOpen” and “eyeSquintRight”.</p>
+<figure>
+<img src="../images/voice2motion_blendshapes.webp" />
+<figcaption>
+Demo mesh with eyeBlinkLeft set to 1.0 and mouthSmileLeft set to 0.5. Blendshapes can be linearly interpolated and combined and combined to create smooth movement and complex expressions.
+</figcaption>
+</figure>
+<h2 id="attention-is-all-you-need">Attention is all you need</h2>
+<p>So a model’s pose and expression can be described with a sequence of 3-tuples for each bone’s rotation (<code>[pitch, yaw, roll]</code>) and scalar values for blendshape value. That’s a vector. And speech can be described with sequence of waveform amplitudes, or better yet <a href="https://en.wikipedia.org/wiki/Spectrogram">a sequence of frequencies</a>, or better yet <a href="https://huggingface.co/docs/transformers/en/model_doc/hubert">a learned encoding that efficiently compresses speech content</a>. That’s another vector. And in the past four years machine learning has gotten very, very good as learning mappings from vectors to vectors.</p>
+<p>The plan: take a standard <a href="https://en.wikipedia.org/wiki/Transformer">Transformer</a> decoder model and train it to output vectors representing a pose and expressions by feeding it encoded speech audio as well as its pose and expression predictions for previous timesteps. To make our lives easier we’ll begin by learning head pose, ignoring other bones in the armature.</p>
+<figure>
+<img src="https://raw.githubusercontent.com/dvgodoy/dl-visuals/refs/heads/main/Transformers/transf_decself.png" />
+<figcaption>
+<a href="https://github.com/dvgodoy/dl-visuals/blob/main/Transformers/transf_decself.png">source</a>
+</figcaption>
+</figure>
+<h1 id="data">Data</h1>
+<p>The proposed training scheme requires a dataset of paired speech and pose/expression data. The closest existing dataset would be <a href="https://github.com/camenduru/BEAT">BEAT</a>, but it’s not commercially licensed.</p>
+<p>Besides, transformers learn best when trained on lots and lots of data– BEAT is compiled from 3D motion-capture data in a studio setting, which isn’t a procedure that scales easily. But the internet abounds with standard 2D videos of people talking, and these videos can be run through Google’s <a href="https://github.com/google-ai-edge/mediapipe">MediaPipe</a> network to extract pose data and face blendshapes.</p>
+<p>I was going to use the test/train split of the <a href="https://looking-to-listen.github.io/avspeech/">AVSpeech dataset</a> to create my own dataset’s test/train split but I got IP banned from YouTube halfway through scraping and revised my split to aggregate whatever I did manage to download. The pretrained checkpoint that I uploaded to Huggingface is a combination of both AVSpeech splits plus the <a href="https://github.com/ksadov/TalkingHead-1KH">TalkingHead-1KH</a> dataset.</p>
+<p>In principle you should be able to run my preprocessing script on any videos containing a single visible speaker, which is great news if you happen to be sitting on a cache of saved Tiktok clips or something. It should also be theoretically possible to fine-tune my network on clips of a single speaker to capture their unique delivery, but I haven’t attempted this yet.</p>
+<h1 id="architecture">Architecture</h1>
+<p>It’s just <a href="https://github.com/ksadov/voice2motion/blob/main/src/model/simple.py">a Transformer decoder</a>. As you can tell from the <a href="https://github.com/ksadov/voice2motion/blob/main/configs/example.json">config</a>, the thing is pretty small: four layers, four heads, hidden dimension of 256.</p>
+<p>Small means fast: the network runs at 10x real time on streaming audio on my RTX 3090, with the bottleneck being the speed of the Hubert encoder. But small also means dumb. Ideally the network would learn that the sentence “hey, what’s that to the left” should be accompanied by the avatar looking to the left, but this level of semantic comprehension is improbable in a model with so few parameters.</p>
+<p>Transformers scale well. That’s why they’re such a big deal. Improving my network’s performance should be just a matter of</p>
+<p><img src="../images/stackmorelayers.webp" alt="A meme depicting a stick figure person presenting a line chart. The chart has two axes named LAYERS and a green line going up. The person is wearing a jester hat and a silly expression. They are yelling STACK MORE LAYERS
+" /></p>
+<p>but for some reason when I tried scaling up my network it didn’t yield visible improvement. Maybe because my dataset is too small.</p>
+<p>Another purported benefit of transformers is the ability to parallelize training for sequential inference by feeding in the whole target sequence at once and masking future entries in the sequence. When I do this the network over-relies on the ground-truth previous entries and doesn’t learn to utilize the encoded audio at all, so instead I need to get <a href="https://github.com/ksadov/voice2motion/blob/3b0435bf032ea01e31689da92929a06fa069a42b/src/model/simple.py#L179">autoregressive with it</a>– my published checkpoint uses ground-truth entries only 20% of the time during training.</p>
+<h1 id="how-it-could-be-better">How it could be better</h1>
+<p>Bigger dataset, mostly. I’m fairly confident that a bigger dataset would allow for a larger model and maybe relax the need for sequential training as well.</p>
+<p>It’d also be nice to extend the codebase to produce models that predict upper or even whole body movement. It is <a href="https://github.com/PantoMatrix/PantoMatrix?tab=readme-ov-file">empirically doable</a>, but not with commercial use or compatibility with 2D video datasets and common 3D avatar formats.</p>
+    </section>
+</article>
+    </main>
+
+    <footer>
+        Site proudly generated by
+        <a href="http://jaspervdj.be/hakyll">Hakyll</a>
+    </footer>
+</body>
+
+</html>
