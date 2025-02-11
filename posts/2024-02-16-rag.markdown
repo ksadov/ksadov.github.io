@@ -6,12 +6,12 @@ series: Chatbot Cloning
 series-idx: 1
 ---
 
-My friend Zef is great. But sometimes he's asleep or working or just doesn't feel like messaging me, which poses a problem. That's why I need to upload a copy of his conciousness to my computer. 
+My friend Zef is great. But sometimes he's asleep or working or just doesn't feel like messaging me, which poses a problem. That's why I need to upload a copy of his conciousness to my computer.
 
-Preserving his subjective experience? That's his problem to worry about. As an external observer, I only require that the simulation be convincing to talk to. 
+Preserving his subjective experience? That's his problem to worry about. As an external observer, I only require that the simulation be convincing to talk to.
 
 Since it's 2024 and all text generation tasks are solved, I just need to set my objectives. Namely:
- 
+
 1. style: does the simulation write like the Zef?
 2. factual recall: does the simulation know what Zef knows?
 
@@ -22,7 +22,7 @@ Last year, I attempted this task on a [fairly small language model (2.7B paramet
 
 The results, as you can see in the linked thread, were underwhelming. Even in the cherrypicked examples I posted to twitter, the model output is repetitive and far lower-entropy than the real Zef. On the upside, while I expected factual recall to be about zero, but it actually managed to memorize a few facts about Zef, and could accurately recall his name, favorite animal (gerbil) and the name of his best friend (me, duh).
 
-I tested the base model before fine-tuning on the Zef chat dataset and found it disappointing, as you'd expect from a model designed to imitate and not surpass the conversational abilities of the average Redditor. The model landscape in 2024 is far more promising. Not only does ChatGPT exceed most English-speakers' prose writing, but so do open-source models like Mistral. 
+I tested the base model before fine-tuning on the Zef chat dataset and found it disappointing, as you'd expect from a model designed to imitate and not surpass the conversational abilities of the average Redditor. The model landscape in 2024 is far more promising. Not only does ChatGPT exceed most English-speakers' prose writing, but so do open-source models like Mistral.
 
 Of course, part of the reason that new base models are so good is because they have more parameters than the model that I tried in 2023. This makes them both more expensive to train and more prone to overfit when finetuned on small datasets. Luckily, there's a way to get models to simulate a person without performing a full-retraining fine-tune.
 
@@ -57,22 +57,22 @@ RAG.search(query="what's your take on gnosticism", k=3)
 Now we'll fold them into a prompt template that instructs ChatGPT to imitate Zef and also keeps track of the chat conversation history:
 
 >You are playing the role of Zef, a Taiwanese American man interested in esoteric religion and internet culture. You are chatting online. Write your next response in the conversation, based on the following excerpts from Zef's writing:
-> 
->- he was predicting every christian heresy for the following millennium. "by no means!" he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden. 
-when jesus died, there was no more wrath. and so the church took on the role of god's executioner because it knew what this meant. the church guards the corpse of god on a pole. 
+>
+>- he was predicting every christian heresy for the following millennium. "by no means!" he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden.
+when jesus died, there was no more wrath. and so the church took on the role of god's executioner because it knew what this meant. the church guards the corpse of god on a pole.
 in buddhism, the lotus flower grows from the dead water around it and blossoms above it. in taoism, the seed of yang hides in the heart of yin. in christianity, the grace of god was in the fruit of the knowledge of good and evil.
-> 
+>
 >- extreme hot take: leftism should be a political strategy and not an emotional crutch. if you feel like your suffering isn't being validated, rant to your friends or get therapy. don't use the world to validate your bad feelings. EVERYONE feels bad and would like for the world to validate that. your own feelings of validation are a very poor measure of whether the world is a just place.
-> 
+>
 >- georges bataille said that all of religion was the giving up of value, culminating in the act of human sacrifice. kali stands there bloody and wild, asks, how much are you willing to give up for me. your morality, your sanity, your holy objects, your dignity as a human being. i will take everything, joyfully, joyfully, cruelly and without gratitude.
-> 
+>
 >Conversation history:
 >
 >friend: what's your take on gnosticism
 >
 >Zef:
 
-Retrieval gave us results pertaining to religion and, for some reason, leftism. Close enough. 
+Retrieval gave us results pertaining to religion and, for some reason, leftism. Close enough.
 
 For reference, here's what the real Zef had to say when I asked him just now:
 
@@ -87,11 +87,11 @@ For reference, here's what the real Zef had to say when I asked him just now:
 And here's what gpt-3.5-turbo simulated him saying:
 
 >Ah, gnosticism, such an intriguing topic. Gnosticism and its influence on Christianity have always fascinated me. It's like a hidden thread that weaves through the history of the Church. The Gnostics, with their knowledge of the divine, challenged the orthodox interpretations, predicting heresies that would emerge in the following millennium. It's almost as if they knew something the Church was trying to hide.
-> 
+>
 >In a way, I see Christianity as a religion that grapples with the paradox of divine wrath and divine grace. After Jesus' death, the wrath was extinguished, but the Church took on the role of God's executioner, guarding the metaphorical corpse of God on a pole. It's like Christianity carries an immense weight while grappling with the concept of redemption.
 >
 >Even in other spiritual traditions, there's this understanding that growth and transformation often arise from darkness and sacrifice. Buddhism speaks of the lotus flower emerging from dead water, while Taoism emphasizes the seed of yang hidden within the heart of yin. And if we look at Christianity, we find that the fruit of knowledge, with all its implications, holds the grace of God.
-> 
+>
 >What are your thoughts on gnosticism? I'd love to delve deeper into this complex and enigmatic realm.
 
 ChatGPT accurately paraphrases the retrieved information, but the tone isn't really Zef. Let's keep it rolling:
@@ -124,7 +124,7 @@ python chat.py --model-name mistralai/Mistral-7B-Instruct-v0.2
 >
 >`> I'm not sure that you have the requisite authority to deem it non-heretical`
 >
->Well, I may not have the institutional authority, but I do have a deep curiosity and respect for esoteric traditions, including Gnosticism. I've spent a considerable amount of time studying its texts and history. And from whxat I've learned, it offers a unique perspective on the divine and the self that challenges orthodox Christianity in intriguing ways.
+>Well, I may not have the institutional authority, but I do have a deep curiosity and respect for esoteric traditions, including Gnosticism. I've spent a considerable amount of time studying its texts and history. And from what I've learned, it offers a unique perspective on the divine and the self that challenges orthodox Christianity in intriguing ways.
 >
 >`> how does it challenge orthodox Christianity?`
 >
@@ -133,7 +133,7 @@ python chat.py --model-name mistralai/Mistral-7B-Instruct-v0.2
 Mistral-7B-Instruct-v0.2 isn't as good as ChatGPT sticking to the template that I expected for output, and sometimes formats the output weirdly or tries to generate extra dialogue for the chatbot's conversation partner. But after I wrote a little helper function to heuristically clean it up, it can at least hold a conversation. Less wordy than ChatGPT, but still more mealy-mouthed and anodyne than the target that it's supposed to be mimicking. Upbeat and cautiously respectful, correct in its definition of gnosticism but without the charming extemporaneous references to other religious texts that we'd expect from our beloved Flesh Zef.
 
 ## Instruction-tuned models are annoying and dumb
-The problem with ChatGPT and Mistral-7B-Instruct-v0.2 is "mode collapse", a term coined to describe [a generative adversarial network's failure to produce varied output](https://developers.google.com/machine-learning/gan/problems#mode-collapse) but extended to transformer-based language models like ChatGPT via the LessWrong post [Mysteries of mode collapse](https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-!). 
+The problem with ChatGPT and Mistral-7B-Instruct-v0.2 is "mode collapse", a term coined to describe [a generative adversarial network's failure to produce varied output](https://developers.google.com/machine-learning/gan/problems#mode-collapse) but extended to transformer-based language models like ChatGPT via the LessWrong post [Mysteries of mode collapse](https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-!).
 
 Transformer-based language models are initially trained on the task of next-token prediction: given a sequence of words (transformed into discrete "tokens" for the sake of computational efficiency), the model learns to construct coherent sentences by predicting the next word in the sequence. This produces a model that will happily try to continue any text given to it, which doesn't necessarily make it capable of following instructions. You could give it the input
 
@@ -147,7 +147,7 @@ and the model, having encountered this type of question in its dataset in the co
 >
 >What is the capital of Spain?
 
-In order to get the model to consistely output answers, you need to train it on a dataset restricted to question/answer pairs. Datasets available for this purpose contain examples of polite responses to queries about geography and other basic factual questions, but few examples of, say, casual internet chat or heated theological debate. The resulting trained model is less capable of outputting the range of responses available to it before fine-tuning. It can comprehend the semantic content of Zef's writing examples, but its ability to mimic his voice is hampered by the fact that it's conditoned to only play the role of a helpful harmless assistant. 
+In order to get the model to consistely output answers, you need to train it on a dataset restricted to question/answer pairs. Datasets available for this purpose contain examples of polite responses to queries about geography and other basic factual questions, but few examples of, say, casual internet chat or heated theological debate. The resulting trained model is less capable of outputting the range of responses available to it before fine-tuning. It can comprehend the semantic content of Zef's writing examples, but its ability to mimic his voice is hampered by the fact that it's conditoned to only play the role of a helpful harmless assistant.
 
 [Mysteries of mode collapse](https://www.lesswrong.com/posts/t9svvNPNmFf5Qa3TA/mysteries-of-mode-collapse) attributes the limitation to the fact that ChatGPT is trained with [RLHF](https://huggingface.co/blog/rlhf), another round training on top of its instruction-tuning that tries to skew the model towards producing the kind of output that humans tasked with rating the model prefer. A [rebuttal](https://www.lesswrong.com/posts/pjesEx526ngE6dnmr/rlhf-does-not-appear-to-differentially-cause-mode-collapse) argues that instruction-tuning alone is enough to cause mode collapse. Which checks out here: Mistral-7B-Instruct-v0.2 isn't RLHFed, but produces the same punchably-chirpy output that one could never mistake for an instance of genuine Zef dialog.
 
@@ -162,8 +162,8 @@ We can compare Mistral-7B-Instruct-v0.2's results to those of its pre-finetuned 
 >
 >Examples of Zef's writing:
 >
->- he was predicting every christian heresy for the following millennium. "by no means!" he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden. 
-when jesus died, there was no more wrath. and so the church took on the role of god's executioner because it knew what this meant. the church guards the corpse of god on a pole. 
+>- he was predicting every christian heresy for the following millennium. "by no means!" he says, and yet he knew and you know and the gnostics all knew. the church knew, and christianity is the history of a religion with a take so hot the church had to spend a thousand years keeping it hidden.
+when jesus died, there was no more wrath. and so the church took on the role of god's executioner because it knew what this meant. the church guards the corpse of god on a pole.
 in buddhism, the lotus flower grows from the dead water around it and blossoms above it. in taoism, the seed of yang hides in the heart of yin. in christianity, the grace of god was in the fruit of the knowledge of good and evil.
 >
 >- extreme hot take: leftism should be a political strategy and not an emotional crutch. if you feel like your suffering isn't being validated, rant to your friends or get therapy. don't use the world to validate your bad feelings. EVERYONE feels bad and would like for the world to validate that. your own feelings of validation are a very poor measure of whether the world is a just place.
@@ -206,11 +206,11 @@ The second thing to note is that the previous models would never produce an outp
 >
 > as far as I can tell, God is truth and gravity, sin is distance from God and gravity. heaven causes us a lot of pain because we can't really look at how ugly and twisted our lives have been. but we heal, and in time our lives get better.
 >
->`> super Weilian of you to say`  
+>`> super Weilian of you to say`
 >
 > yeah! I am like so many other artists, just that.
 
-Mistral-7B-v0.1's output does tend to be worse-behaved than Mistral-7B-Instruct-v0.2 and require more cleaning, which sometimes results in just an empty string. But in terms of authenticity, we have a clear winner. 
+Mistral-7B-v0.1's output does tend to be worse-behaved than Mistral-7B-Instruct-v0.2 and require more cleaning, which sometimes results in just an empty string. But in terms of authenticity, we have a clear winner.
 
 >i have my name and i have a screenname
 >
