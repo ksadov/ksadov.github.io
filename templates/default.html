@@ -8,6 +8,22 @@
     <title>ksadov - $title$</title>
     <link rel="stylesheet" href="/css/default.css" />
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="$title$" />
+    <meta property="og:type" content="$if(og-type)$$og-type$$else$website$endif$" />
+    <meta property="og:url" content="$if(url)$$url$$else$https://ksadov.com$url$$endif$" />
+    <meta property="og:image"
+        content="$if(header-img)$$header-img$$else$https://ksadov.com/images/default-preview.webp$endif$" />
+    <meta property="og:description" content="$if(summary)$$summary$$else$Personal webite of ksadov$endif$" />
+    <meta property="og:site_name" content="ksadov" />
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="$title$" />
+    <meta name="twitter:description" content="$if(summary)$$summary$$else$Personal website of ksadov$endif$" />
+    <meta name="twitter:image"
+        content="$if(header-img)$$header-img$$else$https://ksadov.com/images/default-preview.webp$endif$" />
 </head>
 
 <body>

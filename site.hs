@@ -27,7 +27,7 @@ main = hakyllWith config $ do
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
-    
+
     -- build up tags
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
@@ -47,7 +47,7 @@ main = hakyllWith config $ do
 
     -- build up series
     series <- buildSeries "posts/*" (fromCapture "series/*.html")
-    
+
     tagsRules series $ \sr pattern -> do
         let title = "Posts in the series \"" ++ sr ++ "\""
         route idRoute
@@ -105,6 +105,7 @@ postCtx :: Context String
 postCtx =
     transformedMetadataField "series-idx" "series-idx" (id) `mappend`
     dateField "date" "%B %e, %Y" `mappend`
+    constField "og-type" "article" `mappend`
     defaultContext
 
 -- | Creates a new field based on the item's metadata. If the metadata
@@ -134,7 +135,7 @@ getSeries = getTagsByField "series"
 buildSeries :: Pattern -> (String -> Identifier) -> Rules Tags
 buildSeries pattern makeId =
     buildTagsWith getSeries pattern makeId
-    
+
 seriesField :: String     -- ^ Destination key
           -> Tags       -- ^ Tags
           -> Context a  -- ^ Context
@@ -144,14 +145,14 @@ postCtxWithSeries :: Tags -> Context String
 postCtxWithSeries tags = tagsField "series" tags `mappend` postCtx
 
 postCtxWithMeta :: Tags -> Tags -> Context String
-postCtxWithMeta tags series = 
+postCtxWithMeta tags series =
     tagsField "tags" tags `mappend`
     seriesField "series" series `mappend`
     postCtx
 
 -- this parses the series-idx out of an item
 seriesIdx :: MonadMetadata m => Item a -> m Int
-seriesIdx i = do 
+seriesIdx i = do
     mStr <- getMetadataField (itemIdentifier i) "series-idx"
     return $ (fromMaybe 0 $ mStr >>= readMaybe)
 
