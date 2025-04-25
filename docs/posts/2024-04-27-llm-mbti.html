@@ -136,7 +136,7 @@ Type:</p>
 <img src="../images/mbti_plot_accuracy_claude-3-opus-20240229_brief.png" />
 <img src="../images/mbti_plot_accuracy_gpt-3.5-turbo_brief.png" />
 <img src="../images/mbti_plot_accuracy_gpt-4_brief.png" /></p>
-<p>There’s visible correlation, which looks a little stronger for the larger models (GPT-4 and Claude Opus). Increasing the output length doesn’t seem to affect correlation much for GPT 3.5.</p>
+<p>There’s visible correlation, which looks a little stronger for the larger models (GPT-4 and Claude Opus). Increasing the output length doesn’t seem to affect correlation much Claude Haiku.</p>
 <h1 id="llm-certainty-about-mbti-types">LLM Certainty about MBTI types</h1>
 <p>When an LLM assigns “INTP” to a submission, what is the probability that it could have assigned some other type instead? Is there really some strong “INTP” signal that it’s picking up on, or it it just guessing?</p>
 <p>OpenAI’s models offer the ability to evaluate the model’s “certainty” about each token by returning the log softmax, which corresponds to the natural log of the token’s expected probability. The first token encodes the 2-3 letters of the four-letter guess, and thus offers a reasonable proxy for the model’s certainty about its MBTI assignment as a whole. By taking the average of <strong>e</strong> to the power of the first token logit value, we see that GPT-4 assigns its first token guess relative probability 0.87, and GPT-3.5 assigns it 0.7</p>

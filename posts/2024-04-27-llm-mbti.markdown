@@ -119,7 +119,7 @@ Here's model guesses scored against human guesses:
 ![](/images/mbti_plot_accuracy_gpt-3.5-turbo_brief.png)
 ![](/images/mbti_plot_accuracy_gpt-4_brief.png)
 
-There's visible correlation, which looks a little stronger for the larger models (GPT-4 and Claude Opus). Increasing the output length doesn't seem to affect correlation much for GPT 3.5.
+There's visible correlation, which looks a little stronger for the larger models (GPT-4 and Claude Opus). Increasing the output length doesn't seem to affect correlation much Claude Haiku.
 
 # LLM Certainty about MBTI types
 When an LLM assigns "INTP" to a submission, what is the probability that it could have assigned some other type instead? Is there really some strong "INTP" signal that it's picking up on, or it it just guessing?
