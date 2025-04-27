@@ -10,9 +10,9 @@ tags: project, programming, machine learning, mechanistic interpretability
 
 I've been working on audio model interpretability as part of this year's [Mozilla Builders cohort](https://future.mozilla.org/builders/2024_cohort/). This post discusses the motivations behind my research, features that I've discovered by inspecting intermediate activations in [Whisper `tiny`](https://huggingface.co/openai/whisper-tiny), features discovered with sparse autoencoders and extending the work to larger Whisper models. You can find source code and instructions for replicating my work [on Github](https://github.com/ksadov/whisper-interp), and pretrained checkpoints and training logs on [Huggingface](https://huggingface.co/collections/cherrvak/whisper-sparse-autoencoders-673bbfc58f51fde3c5b23754).
 
-**TL;DR**
-* MLP neurons in Whisper `tiny` correspond well to interpretable features while also exhibiting polysemanticity, a result that can be checked at the [hosted demo](https://feature-demo.ksadov.com/)
-* L1-regularized and Top-K sparse autoencoders find interpretable features in the smallest and largest models in the Whisper family.
+# TL;DR
+- MLP neurons in Whisper `tiny` correspond well to interpretable features while also exhibiting polysemanticity, a result that can be checked at the [hosted demo](https://feature-demo.ksadov.com/)
+- L1-regularized and Top-K sparse autoencoders find interpretable features in the smallest and largest models in the Whisper family.
 
 Readers familiar with mechanistic interpretability and SAEs and solely interested in this work's novel results should read sections [Analyzing MLP activations](#analyzing-mlp-activations) and [Analyzing L1-regularized autoencoder for Whisper `tiny`](#analyzing-l1-regularized-autoencoder-for-whisper-tiny) through [Looking for background noise features](#looking-for-background-features)
 
